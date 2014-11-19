@@ -18,6 +18,12 @@ public:
 private slots:
     void on_quitButton_clicked();
 
+    void on_newButton_clicked();
+
+    void on_startButton_clicked();
+
+    void on_deleteButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

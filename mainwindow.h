@@ -24,6 +24,8 @@ private slots:
 
     void on_deleteButton_clicked();
 
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
 };

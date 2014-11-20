@@ -10,6 +10,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QInputDialog>
+#include <QSound>
 
 Player playerObject;
 
@@ -18,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QSound::play("C:/Users/Nelson/Downloads/Plants_vs._Zombies_(Main_Theme).wav");
 
     if (Player::validPlayerFile())
     {

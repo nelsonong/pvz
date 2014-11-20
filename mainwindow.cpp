@@ -24,54 +24,49 @@ MainWindow::MainWindow(QWidget *parent) :
       ui->comboBox->addItem(Player::playerName(i));
     }
 
-    /*
     // Set ui elements for most recent player.
-    ui->nameLabel->setText(Player::playerName(Player::playerListSize()));   // Set name to most recent player.
-    ui->levelLabel->setText(Player::playerName(Player::playerListSize()));  // Set level to most recent player.
-    ui->comboBox->setCurrentIndex(Player::playerListSize());    // Set combo box to most recent player.
-    */
+    ui->nameLabel->setText(Player::playerName(0));   // Set name to most recent player.
+    ui->levelLabel->setText(Player::playerLevel(0));  // Set level to most recent player.
+    ui->comboBox->setCurrentIndex(0);    // Set combo box to most recent player.
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
+    // Set ui elements for selected player.
+    ui->nameLabel->setText(Player::playerName(index));   // Set name to selected player.
+    ui->levelLabel->setText(Player::playerLevel(index));  // Set level to selected player.
 
 }
 
 void MainWindow::on_newButton_clicked()
-{
-    QFile save_file("C:/Qt/Tools/QtCreator/bin/PvZ/pvz_players.csv");
-    if (save_file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
-    {
-        QTextStream text(&save_file);
+{   
+    // Get player info.
+    QString timestamp = QDateTime::currentDateTime().toString("dd.MM.yyyy");    // Get current date.
+    QString name = QInputDialog::getText(this, "Get Name", "What's your name? ", QLineEdit::Normal, "");
+    QString level = QString::number(0);
+    Player::addPlayer(timestamp, name, level);
 
-        // Get player info.
-        QString timestamp = QDateTime::currentDateTime().toString("dd.MM.yyyy");    // Get current date.
-        QString name = QInputDialog::getText(this, "Get Name", "What's your name? ", QLineEdit::Normal, "");
-        QString level = QString::number(0);
-
-        // Save player info.
-        text << timestamp << ":" << name << ":" << level << "\n";   // Add player info to pvz_players.csv.
-        Player::addPlayer(timestamp, name, level);  // Add player info to playerList.
-
-        // Change ui elements.
-        ui->nameLabel->setText(name);   // Set nameLabel to inputted name.
-        ui->levelLabel->setText("Level: "); // Set levelLabel to level (0 because new player).
-
-        ui->comboBox->addItem(name, Player::playerListSize());  // Add name to combo box.
-        ui->comboBox->setCurrentIndex(Player::playerListSize());    // Set combo box to name.
-
-        save_file.close();
-    }
+    // Change ui elements.
+    ui->comboBox->insertItem(0, name);  // Insert new name to beginning of combo box.
+    ui->comboBox->setCurrentIndex(0);   // Set combo box to name.
+    ui->nameLabel->setText(name);   // Set nameLabel to inputted name.
+    ui->levelLabel->setText("Level: " + level); // Set levelLabel to level (0 because new player).
 }
 
 void MainWindow::on_deleteButton_clicked()
 {
-
+    Player::deletePlayer(ui->comboBox->currentIndex());
+    ui->comboBox->removeItem(ui->comboBox->currentIndex());
 }
 
 void MainWindow::on_startButton_clicked()
 {
+    Player::makeMostRecent(ui->comboBox->currentIndex());   // Move selected player in pvz_players.csv to the top (most recent).
 
+    // Change ui elements.
+    ui->comboBox->removeItem(ui->comboBox->currentIndex()); // Remove selected item.
+    ui->comboBox->insertItem(0, Player::playerName(0)); // Insert it back at the top.
+    ui->comboBox->setCurrentIndex(0);   // Set combo box to top.
 }
 
 void MainWindow::on_quitButton_clicked()

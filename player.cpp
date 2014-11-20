@@ -25,11 +25,36 @@ void Player::fillPlayerList()
 
 void Player::addPlayer(QString timestamp, QString name, QString level)
 {
-    QStringList temp;
-    temp.append(timestamp);
-    temp.append(name);
-    temp.append(level);
-    playerList.push_back(temp);
+    QStringList player;
+    player.append(timestamp);
+    player.append(name);
+    player.append(level);
+    playerList.insert(playerList.begin(), player);
+
+    QFile save_file("C:/Qt/Tools/QtCreator/bin/PvZ/pvz_players.csv");
+    if (save_file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
+    {
+        QTextStream text(&save_file);
+
+        // Save player info.
+        text << timestamp << ":" << name << ":0\n"; // Add player info to pvz_players.csv.
+        Player::addPlayer(timestamp, name, 0);  // Add player info to playerList.
+
+        save_file.close();
+    }
+}
+
+void Player::deletePlayer(int index)
+{
+    playerList.erase(playerList.begin() + index);
+    updatePlayersFile();
+}
+
+void Player::makeMostRecent(int index)
+{
+    playerList.insert(playerList.begin(), playerList.at(index));
+    playerList.erase(playerList.begin() + index + 1);
+    updatePlayersFile();
 }
 
 QString Player::playerDate(int player)
@@ -42,12 +67,29 @@ QString Player::playerName(int player)
     return playerList.at(player)[1];
 }
 
-int Player::playerLevel(int player)
+QString Player::playerLevel(int player)
 {
-    return (playerList.at(player)[2]).toInt();
+    return playerList.at(player)[2];
 }
 
 int Player::playerListSize()
 {
     return playerList.size();
+}
+
+void Player::updatePlayersFile()
+{
+    QFile save_file("C:/Qt/Tools/QtCreator/bin/PvZ/pvz_players.csv");
+    if (save_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+    {
+        QTextStream text(&save_file);
+
+        // Rewrite pvz_players.csv with player sent to bottom.
+        for (int i = 0; i < playerListSize(); i++)
+        {
+            text << playerDate(i) << ":" << playerName(i) << ":" << playerLevel(i) << "\n";
+        }
+
+        save_file.close();
+    }
 }

@@ -13,6 +13,8 @@ class Player
 public:
     Player();
     void fillPlayerList();
+    static void clearPlayerList();
+    static bool validPlayerFile();
     static void addPlayer(QString timestamp, QString name, QString level);
     static void deletePlayer(int index);
     static void makeMostRecent(int index);

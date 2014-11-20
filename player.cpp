@@ -23,6 +23,40 @@ void Player::fillPlayerList()
     }
 }
 
+void Player::clearPlayerList()
+{
+    playerList.clear();
+    updatePlayersFile();
+}
+
+bool Player::validPlayerFile()
+{
+    if (playerList.empty())
+        return 0;
+
+    for (int player = 0; player < playerListSize(); player++)
+    {
+        for (int nameChar = 0; nameChar < playerName(player).size(); nameChar++)
+        {
+            if (!playerName(player).at(nameChar).isLetterOrNumber())
+                return 0;
+        }
+    }
+
+    for (int player = 0; player < playerListSize(); player++)
+    {
+        for (int levelChar = 0; levelChar < playerLevel(player).size(); levelChar++)
+        {
+            if (!playerLevel(player).at(levelChar).isDigit())
+                return 0;
+            else if (playerLevel(player).toInt() < 0 || playerLevel(player).toInt() > 100)
+                return 0;
+        }
+    }
+
+    return 1;
+}
+
 void Player::addPlayer(QString timestamp, QString name, QString level)
 {
     QStringList player;
@@ -30,18 +64,7 @@ void Player::addPlayer(QString timestamp, QString name, QString level)
     player.append(name);
     player.append(level);
     playerList.insert(playerList.begin(), player);
-
-    QFile save_file("C:/Qt/Tools/QtCreator/bin/PvZ/pvz_players.csv");
-    if (save_file.open(QIODevice::WriteOnly | QIODevice::Append | QIODevice::Text))
-    {
-        QTextStream text(&save_file);
-
-        // Save player info.
-        text << timestamp << ":" << name << ":0\n"; // Add player info to pvz_players.csv.
-        Player::addPlayer(timestamp, name, 0);  // Add player info to playerList.
-
-        save_file.close();
-    }
+    updatePlayersFile();
 }
 
 void Player::deletePlayer(int index)

@@ -2,16 +2,6 @@
 #include "ui_mainwindow.h"
 #include "player.h"
 
-#include <iostream>
-#include <vector>
-#include <QFile>
-#include <QTextStream>
-#include <QStringList>
-#include <QDateTime>
-#include <QDebug>
-#include <QInputDialog>
-#include <QSound>
-
 Player playerObject;
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -20,9 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QSound::play("C:/Users/Nelson/Downloads/Plants_vs._Zombies_(Main_Theme).wav");
-
-    if (Player::validPlayerFile())
+    if (Player::validPlayerFile())  // If player file is valid, set settings for most recent player.
     {
         for (int i = 0; i < Player::playerListSize(); i++)
         {
@@ -34,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->levelLabel->setText(Player::playerLevel(0));  // Set level to most recent player.
         ui->comboBox->setCurrentIndex(0);    // Set comboBox to most recent player.
     }
-    else
+    else    // If invalid player file, clear file and only make new button available.
     {
         Player::clearPlayerList();  // Discard current file.
 
@@ -47,6 +35,22 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->deleteButton->setEnabled(false);
         ui->restartButton->setEnabled(false);
     }
+
+    // Show PvZ logo until start is pressed.
+    QPixmap *logo = new QPixmap(":/Images/Pvz_logo_stacked_rgb.png");
+    scene = new QGraphicsScene(this); // scene holds all objects in the scene.
+    scene->addPixmap(logo->scaledToWidth(ui->graphicsView->width()/1.5));
+    ui->graphicsView->setScene(scene);
+
+    // Disable all plant buttons.
+    ui->peaShooterButton->setEnabled(false);
+    ui->sunFlowerButton->setEnabled(false);
+    ui->cherryBombButton->setEnabled(false);
+    ui->wallNutButton->setEnabled(false);
+    ui->potatoMineButton->setEnabled(false);
+    ui->snowPeaButton->setEnabled(false);
+    ui->chomperButton->setEnabled(false);
+    ui->repeaterButton->setEnabled(false);
 }
 
 void MainWindow::on_comboBox_currentIndexChanged(int index)
@@ -54,7 +58,6 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     // Set ui elements for selected player.
     ui->nameLabel->setText(Player::playerName(index));   // Set name to selected player.
     ui->levelLabel->setText(Player::playerLevel(index));  // Set level to selected player.
-
 }
 
 void MainWindow::on_newButton_clicked()
@@ -108,6 +111,25 @@ void MainWindow::on_startButton_clicked()
     ui->comboBox->setCurrentIndex(0);   // Set combo box to top.
     ui->nameLabel->setText(Player::playerName(0));   // Set nameLabel to inputted name.
     ui->levelLabel->setText(Player::playerLevel(0)); // Set levelLabel to level (0 because new player).
+
+    // Enable buttons in case they were disabled before.
+    ui->startButton->setEnabled(false);
+    ui->newButton->setEnabled(false);
+    ui->deleteButton->setEnabled(false);
+    ui->restartButton->setEnabled(false);
+
+    QSound::play("C:/Users/Nelson/Downloads/Plants_vs._Zombies_(Main_Theme).wav");    // Play Plants vs. Zombies main theme.
+
+
+    // Enable all plant buttons.
+    ui->peaShooterButton->setEnabled(true);
+    ui->sunFlowerButton->setEnabled(true);
+    ui->cherryBombButton->setEnabled(true);
+    ui->wallNutButton->setEnabled(true);
+    ui->potatoMineButton->setEnabled(true);
+    ui->snowPeaButton->setEnabled(true);
+    ui->chomperButton->setEnabled(true);
+    ui->repeaterButton->setEnabled(true);
 }
 
 void MainWindow::on_quitButton_clicked()

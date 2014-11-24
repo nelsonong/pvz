@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Music"/>
+    <qresource prefix="/Images">
+        <file>Frontyard.jpg</file>
+        <file>Logo.png</file>
+    </qresource>
+</RCC>

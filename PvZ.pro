@@ -17,11 +17,14 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    player.cpp
+    player.cpp \
+    gamescreen.cpp
 
 HEADERS  += mainwindow.h \
-    player.h
+    player.h \
+    gamescreen.h
 
 FORMS    += mainwindow.ui
 
-RESOURCES +=
+RESOURCES += \
+    Resources.qrc

@@ -2,6 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <iostream>
+#include <vector>
+#include <QFile>
+#include <QTextStream>
+#include <QStringList>
+#include <QDateTime>
+#include <QDebug>
+#include <QInputDialog>
+#include <QSound>
+#include <QGraphicsScene>
+#include <QTimer>
+#include "gamescreen.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,8 +39,13 @@ private slots:
 
     void on_comboBox_currentIndexChanged(int index);
 
+    void updateMousePos();
+
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *scene;
+    GameScreen *gameScreen;
+
 };
 
 #endif // MAINWINDOW_H

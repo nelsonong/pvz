@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     // Show PvZ logo until start is pressed.
-    QPixmap *logo = new QPixmap(":/Images/Pvz_logo_stacked_rgb.png");
+    QPixmap *logo = new QPixmap(":/Images/Logo.png");
     scene = new QGraphicsScene(this); // scene holds all objects in the scene.
     scene->addPixmap(logo->scaledToWidth(ui->graphicsView->width()/1.5));
     ui->graphicsView->setScene(scene);
@@ -58,6 +58,16 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     // Set ui elements for selected player.
     ui->nameLabel->setText(Player::playerName(index));   // Set name to selected player.
     ui->levelLabel->setText(Player::playerLevel(index));  // Set level to selected player.
+}
+
+void MainWindow::addImage()
+{
+    QPixmap peaShooter(":/Images/Peashooter.png");
+    peaShooter = peaShooter.scaledToWidth(40);
+    QGraphicsPixmapItem *pm = scene->addPixmap(peaShooter);
+    pm->setPos(gameScreen->mousePos);
+
+    //gameScreen->setScene(scene);
 }
 
 void MainWindow::on_newButton_clicked()
@@ -124,13 +134,18 @@ void MainWindow::on_startButton_clicked()
     gameScreen = new GameScreen(ui->graphicsView);
     gameScreen->setFixedSize(ui->graphicsView->size());
 
+    // Make scene and make dimensions same as graphicsView.
     scene = new QGraphicsScene(gameScreen);
-    scene->setSceneRect(0, 0, gameScreen->width()-4, gameScreen->height()-5);
-    QPixmap frontyard("C:/Users/Nelson/Downloads/Frontyard.jpg");
+    scene->setSceneRect(0, 0, gameScreen->width()-2, gameScreen->height()-2);
 
+    // Add frontyard image to scene.
+    QPixmap frontyard(":/Images/Frontyard.jpg");
     frontyard = frontyard.scaledToWidth(gameScreen->width()-4);
     scene->addPixmap(frontyard);
 
+    connect(gameScreen,SIGNAL(click()),this,SLOT(addImage()));
+
+    // Set scene and display.
     gameScreen->setScene(scene);
     gameScreen->show();
 

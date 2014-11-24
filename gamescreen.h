@@ -16,6 +16,9 @@ public:
 private:
     void mousePressEvent(QMouseEvent *e);
 
+signals:
+    void click();
+
 public slots:
 
 };

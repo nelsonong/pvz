@@ -13,6 +13,7 @@
 #include <QSound>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <QGraphicsPixmapItem>
 #include "gamescreen.h"
 
 namespace Ui {
@@ -39,7 +40,7 @@ private slots:
 
     void on_comboBox_currentIndexChanged(int index);
 
-    void updateMousePos();
+    void addImage();
 
 private:
     Ui::MainWindow *ui;

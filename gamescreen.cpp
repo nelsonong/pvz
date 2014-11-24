@@ -9,4 +9,6 @@ GameScreen::GameScreen(QWidget *parent) :
 void GameScreen::mousePressEvent(QMouseEvent *e)
 {
     qDebug() << e->pos();
+    mousePos = e->pos();
+    click();
 }

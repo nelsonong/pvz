@@ -3,5 +3,6 @@
     <qresource prefix="/Images">
         <file>Frontyard.jpg</file>
         <file>Logo.png</file>
+        <file>Peashooter.png</file>
     </qresource>
 </RCC>

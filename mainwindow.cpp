@@ -120,6 +120,19 @@ void MainWindow::on_startButton_clicked()
 
     QSound::play("C:/Users/Nelson/Downloads/Plants_vs._Zombies_(Main_Theme).wav");    // Play Plants vs. Zombies main theme.
 
+    // Show frontyard image and send signal to start game.
+    gameScreen = new GameScreen(ui->graphicsView);
+    gameScreen->setFixedSize(ui->graphicsView->size());
+
+    scene = new QGraphicsScene(gameScreen);
+    scene->setSceneRect(0, 0, gameScreen->width()-4, gameScreen->height()-5);
+    QPixmap frontyard("C:/Users/Nelson/Downloads/Frontyard.jpg");
+
+    frontyard = frontyard.scaledToWidth(gameScreen->width()-4);
+    scene->addPixmap(frontyard);
+
+    gameScreen->setScene(scene);
+    gameScreen->show();
 
     // Enable all plant buttons.
     ui->peaShooterButton->setEnabled(true);

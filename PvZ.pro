@@ -18,11 +18,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp \
     player.cpp \
-    gamescreen.cpp
+    gamescreen.cpp \
+    sun.cpp
 
 HEADERS  += mainwindow.h \
     player.h \
-    gamescreen.h
+    gamescreen.h \
+    sun.h
 
 FORMS    += mainwindow.ui
 

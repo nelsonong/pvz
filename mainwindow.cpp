@@ -60,14 +60,124 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     ui->levelLabel->setText(Player::playerLevel(index));  // Set level to selected player.
 }
 
-void MainWindow::addImage()
+void MainWindow::addImage11()
 {
-    QPixmap peaShooter(":/Images/Peashooter.png");
-    peaShooter = peaShooter.scaledToWidth(40);
-    QGraphicsPixmapItem *pm = scene->addPixmap(peaShooter);
-    pm->setPos(gameScreen->mousePos);
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,95);
+    disconnect(gameScreen,SIGNAL(click11()),this,SLOT(addImage11()));
+}
 
-    //gameScreen->setScene(scene);
+void MainWindow::addImage12()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,175);
+    disconnect(gameScreen,SIGNAL(click12()),this,SLOT(addImage12()));
+}
+
+void MainWindow::addImage13()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,250);
+    disconnect(gameScreen,SIGNAL(click13()),this,SLOT(addImage13()));
+}
+
+void MainWindow::addImage14()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,325);
+    disconnect(gameScreen,SIGNAL(click14()),this,SLOT(addImage14()));
+}
+
+void MainWindow::addImage15()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,405);
+    disconnect(gameScreen,SIGNAL(click15()),this,SLOT(addImage15()));
+}
+
+void MainWindow::addImage21()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(127,95);
+    disconnect(gameScreen,SIGNAL(click21()),this,SLOT(addImage21()));
+}
+
+void MainWindow::addImage22()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(127,175);
+    disconnect(gameScreen,SIGNAL(click22()),this,SLOT(addImage22()));
+}
+
+void MainWindow::addImage23()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(125,250);
+    disconnect(gameScreen,SIGNAL(click23()),this,SLOT(addImage23()));
+}
+
+void MainWindow::addImage24()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(125,325);
+    disconnect(gameScreen,SIGNAL(click24()),this,SLOT(addImage24()));
+}
+
+void MainWindow::addImage25()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(125,405);
+    disconnect(gameScreen,SIGNAL(click25()),this,SLOT(addImage25()));
+}
+
+void MainWindow::addImage31()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,95);
+    disconnect(gameScreen,SIGNAL(click31()),this,SLOT(addImage31()));
+}
+
+void MainWindow::addImage32()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,175);
+    disconnect(gameScreen,SIGNAL(click32()),this,SLOT(addImage32()));
+}
+
+void MainWindow::addImage33()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,250);
+    disconnect(gameScreen,SIGNAL(click33()),this,SLOT(addImage33()));
+}
+
+void MainWindow::addImage34()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,325);
+    disconnect(gameScreen,SIGNAL(click34()),this,SLOT(addImage34()));
+}
+
+void MainWindow::addImage35()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,405);
+    disconnect(gameScreen,SIGNAL(click35()),this,SLOT(addImage35()));
 }
 
 void MainWindow::on_newButton_clicked()
@@ -139,11 +249,29 @@ void MainWindow::on_startButton_clicked()
     scene->setSceneRect(0, 0, gameScreen->width()-2, gameScreen->height()-2);
 
     // Add frontyard image to scene.
-    QPixmap frontyard(":/Images/Frontyard.jpg");
-    frontyard = frontyard.scaledToWidth(gameScreen->width()-4);
-    scene->addPixmap(frontyard);
+    QPixmap *frontyard = new QPixmap(":/Images/Frontyard.jpg");
+    scene->addPixmap(frontyard->scaledToWidth(gameScreen->width()-4));
 
-    connect(gameScreen,SIGNAL(click()),this,SLOT(addImage()));
+    sunObject = new Sun(gameScreen);
+    sunObject->setSceneRect(0,0,20,20);
+    //sunObject->setScene(sunObject->scene);
+    sunObject->show();
+
+    connect(gameScreen,SIGNAL(click11()),this,SLOT(addImage11()));
+    connect(gameScreen,SIGNAL(click12()),this,SLOT(addImage12()));
+    connect(gameScreen,SIGNAL(click13()),this,SLOT(addImage13()));
+    connect(gameScreen,SIGNAL(click14()),this,SLOT(addImage14()));
+    connect(gameScreen,SIGNAL(click15()),this,SLOT(addImage15()));
+    connect(gameScreen,SIGNAL(click21()),this,SLOT(addImage21()));
+    connect(gameScreen,SIGNAL(click22()),this,SLOT(addImage22()));
+    connect(gameScreen,SIGNAL(click23()),this,SLOT(addImage23()));
+    connect(gameScreen,SIGNAL(click24()),this,SLOT(addImage24()));
+    connect(gameScreen,SIGNAL(click25()),this,SLOT(addImage25()));
+    connect(gameScreen,SIGNAL(click31()),this,SLOT(addImage31()));
+    connect(gameScreen,SIGNAL(click32()),this,SLOT(addImage32()));
+    connect(gameScreen,SIGNAL(click33()),this,SLOT(addImage33()));
+    connect(gameScreen,SIGNAL(click34()),this,SLOT(addImage34()));
+    connect(gameScreen,SIGNAL(click35()),this,SLOT(addImage35()));
 
     // Set scene and display.
     gameScreen->setScene(scene);
@@ -168,4 +296,44 @@ void MainWindow::on_quitButton_clicked()
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_peaShooterButton_clicked()
+{
+    plant = new QPixmap(":/Images/Peashooter.png");
+}
+
+void MainWindow::on_sunFlowerButton_clicked()
+{
+    plant = new QPixmap(":/Images/Sunflower.png");
+}
+
+void MainWindow::on_cherryBombButton_clicked()
+{
+    plant = new QPixmap(":/Images/Cherrybomb.png");
+}
+
+void MainWindow::on_wallNutButton_clicked()
+{
+    plant = new QPixmap(":/Images/Wallnut.png");
+}
+
+void MainWindow::on_potatoMineButton_clicked()
+{
+    plant = new QPixmap(":/Images/Potatomine.png");
+}
+
+void MainWindow::on_snowPeaButton_clicked()
+{
+    plant = new QPixmap(":/Images/Snowpea.png");
+}
+
+void MainWindow::on_chomperButton_clicked()
+{
+    plant = new QPixmap(":/Images/Chomper.png");
+}
+
+void MainWindow::on_repeaterButton_clicked()
+{
+    plant = new QPixmap(":/Images/Repeater.png");
 }

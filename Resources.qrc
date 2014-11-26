@@ -1,8 +1,16 @@
 <RCC>
     <qresource prefix="/Music"/>
     <qresource prefix="/Images">
+        <file>Cherrybomb.png</file>
+        <file>Chomper.png</file>
+        <file>Peashooter.png</file>
+        <file>Potatomine.png</file>
+        <file>Snowpea.png</file>
+        <file>Wallnut.png</file>
         <file>Frontyard.jpg</file>
         <file>Logo.png</file>
-        <file>Peashooter.png</file>
+        <file>Sun.png</file>
+        <file>Repeater.png</file>
+        <file>Sunflower.png</file>
     </qresource>
 </RCC>

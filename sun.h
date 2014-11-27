@@ -1,38 +1,29 @@
-#ifndef SUN_H
-#define SUN_H
+#ifndef Sun_H
+#define Sun_H
 
-#include <QGraphicsView>
+#include <QGraphicsItem>
+#include <QPainter>
 #include <QMouseEvent>
-#include <QGraphicsPixmapItem>
-#include <QPixmap>
-#include <QTimer>
-#include <QPoint>
+#include <QtGlobal>
+#include <QDebug>
 
-class Sun : public QGraphicsView
+class Sun : public QGraphicsItem
 {
-    Q_OBJECT
 public:
-    explicit Sun(QWidget *parent = 0);
-    QGraphicsPixmapItem *sun;
-    QGraphicsScene *scene;
-    QPixmap *newSun;
+    Sun();
+    static bool sunClicked;
+    int sunPoints;
 
 private:
-    QPoint sunPos;
+    QPixmap sunPixmap;
     int xPos;
     int yPos;
-    QTimer *moveTimer;
-    QTimer *createTimer;
-    QTimer *destroyTimer;
-    void mousePressEvent(QMouseEvent *e);
-
-signals:
-
-public slots:
-    void moveSun();
-    void createSun();
-    void destroySun();
-
+    int pixelsMoved;
+    void move();
+    void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
+    QRectF boundingRect() const;
+    void advance(int phase);
+    void mousePressEvent(QGraphicsSceneMouseEvent *e);
 };
 
-#endif // SUN_H
+#endif // Sun_H

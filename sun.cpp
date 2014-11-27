@@ -1,56 +1,41 @@
-#include "sun.h"
+#include "Sun.h"
 
-Sun::Sun(QWidget *parent) :
-    QGraphicsView(parent)
+bool Sun::sunClicked = false;
+Sun::Sun() : xPos(qrand()%560 + 20), yPos(0), pixelsMoved(qrand()%19 + 8)
 {
-    this->setSceneRect(0,0,50,50);
-    //scene->setSceneRect(0,0,50,50);
-    newSun = new QPixmap(":/Images/Sun.png");
-    //QGraphicsPixmapItem *pm =
-            //scene->addPixmap(*newSun);
-
-    /*
-    // Don't forget to softcode.
-    sunPos.setX(0);
-    sunPos.setY(rand()%630);
-
-    pm->setPos(sunPos);
-    this->setScene(scene);
-*/
-    // Every 1 second change position.
-    moveTimer = new QTimer;
-    connect(moveTimer, SIGNAL(timeout()), this, SLOT(moveSun()));
-    moveTimer->start(1000);
-
-    // Every 10 seconds create sun.
-    createTimer = new QTimer;
-    connect(createTimer, SIGNAL(timeout()), this, SLOT(moveSun()));
-    createTimer->start(10000);
-
-    // Every 7.5 seconds destroy sun.
-    destroyTimer = new QTimer;
-    connect(destroyTimer, SIGNAL(timeout()), this, SLOT(destroySun()));
-    destroyTimer->start(7500);
+    this->setPos(xPos,yPos);        // Set initial position to be random along the top.
+    sunPixmap = QPixmap(":/Images/Sun.png");
 }
 
-void Sun::mousePressEvent(QMouseEvent *e)
+void Sun::move()
 {
-    e->pos();
+    if (pixelsMoved > 0)        // Once pixelsMoved has completely decelerated to 0, stop decelerating.
+    {
+        yPos += pixelsMoved;    // Initial pixelsMoved gets decelerated from original random amount.
+        pixelsMoved--;          // Decelerate by 1px every advance() call.
+        this->setPos(xPos,yPos);
+    }
 }
 
-void Sun::moveSun()
+void Sun::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    static int x = 0;
-    sunPos.setX(x);
-    x += 100;
+    painter->drawPixmap(boundingRect(),sunPixmap, boundingRect());
 }
 
-void Sun::createSun()
+QRectF Sun::boundingRect() const
 {
-    newSun = new QPixmap(":/Images/Sun.png");
+    return QRectF(0,0,62,62);   // Set boundingRect() to image size.
 }
 
-void Sun::destroySun()
+void Sun::advance(int phase)
 {
-    delete newSun;
+    if(!phase) return;  // Only call advance() once.
+    move();
+}
+
+void Sun::mousePressEvent(QGraphicsSceneMouseEvent *)
+{
+    sunClicked = true;  // If sun has been clicked, don't automatically delete (produces errors).
+    sunPoints += 25;
+    delete this;
 }

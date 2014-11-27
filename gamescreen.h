@@ -11,7 +11,9 @@ class GameScreen : public QGraphicsView
 
 public:
     explicit GameScreen(QWidget *parent = 0);
-    QPoint mousePos;
+    bool buttonPressed;
+    int xPoints[10];
+    int yPoints[6];
 
 private:
     void mousePressEvent(QMouseEvent *e);
@@ -32,6 +34,11 @@ signals:
     void click33();
     void click34();
     void click35();
+    void click41();
+    void click42();
+    void click43();
+    void click44();
+    void click45();
 
 public slots:
 

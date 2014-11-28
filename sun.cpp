@@ -1,6 +1,7 @@
 #include "Sun.h"
 
 bool Sun::sunClicked = false;
+int Sun::sunPoints = 0;
 Sun::Sun() : xPos(qrand()%560 + 20), yPos(0), pixelsMoved(qrand()%19 + 8)
 {
     this->setPos(xPos,yPos);        // Set initial position to be random along the top.
@@ -33,7 +34,7 @@ void Sun::advance(int phase)
     move();
 }
 
-void Sun::mousePressEvent(QGraphicsSceneMouseEvent *)
+void Sun::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
     sunClicked = true;  // If sun has been clicked, don't automatically delete (produces errors).
     sunPoints += 25;

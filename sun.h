@@ -12,7 +12,7 @@ class Sun : public QGraphicsItem
 public:
     Sun();
     static bool sunClicked;
-    int sunPoints;
+    static int sunPoints;
 
 private:
     QPixmap sunPixmap;

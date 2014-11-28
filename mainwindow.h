@@ -14,8 +14,10 @@
 #include <QGraphicsScene>
 #include <QTimer>
 #include <QGraphicsPixmapItem>
+
+#include "player.h"
 #include "gamescreen.h"
-#include "Sun.h"
+#include "sun.h"
 
 namespace Ui {
 class MainWindow;
@@ -27,20 +29,30 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
-    void updateComboBox();
     ~MainWindow();
 
 private slots:
+    // Button functions.
     void on_quitButton_clicked();
-
     void on_newButton_clicked();
-
     void on_startButton_clicked();
-
     void on_deleteButton_clicked();
-
     void on_comboBox_currentIndexChanged(int index);
+    void on_peaShooterButton_clicked();
+    void on_sunFlowerButton_clicked();
+    void on_cherryBombButton_clicked();
+    void on_wallNutButton_clicked();
+    void on_potatoMineButton_clicked();
+    void on_snowPeaButton_clicked();
+    void on_chomperButton_clicked();
+    void on_repeaterButton_clicked();
 
+    // Sun functions.
+    void createSun();
+    void destroySun();
+    void updateSunPoints();
+
+    // Add plant functions.
     void addImage11();
     void addImage12();
     void addImage13();
@@ -87,35 +99,24 @@ private slots:
     void addImage94();
     void addImage95();
 
-    void on_peaShooterButton_clicked();
-
-    void on_sunFlowerButton_clicked();
-
-    void on_cherryBombButton_clicked();
-
-    void on_wallNutButton_clicked();
-
-    void on_potatoMineButton_clicked();
-
-    void on_snowPeaButton_clicked();
-
-    void on_chomperButton_clicked();
-
-    void on_repeaterButton_clicked();
-
-    void createSun();
-
-    void destroySun();
-
 private:
+    // UI variables.
     Ui::MainWindow *ui;
-    QGraphicsScene *scene;
     GameScreen *gameScreen;
+    QGraphicsScene *scene;
+
+    // Objects to be put in UI.
     QPixmap *plant;
     Sun *sun;
+
+    // Timers.
     QTimer *moveTimer;
     QTimer *createTimer;
     QTimer *destroyTimer;
+    QTimer *updateSunPointsTimer;
+
+    std::string plantPressed;
+    bool imageAdded;
 };
 
 #endif // MAINWINDOW_H

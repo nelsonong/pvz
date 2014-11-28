@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "player.h"
-#include <QDebug>
 
 Player playerObject;
 
@@ -10,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    imageAdded = 0;
 
     if (Player::validPlayerFile())  // If player file is valid, set settings for most recent player.
     {
@@ -37,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->restartButton->setEnabled(false);
     }
 
+    ui->sunPointsLabel->setText("0");
+
     // Show PvZ logo until start is pressed.
     QPixmap *logo = new QPixmap(":/Images/Logo.png");
     scene = new QGraphicsScene(this); // scene holds all objects in the scene.
@@ -59,366 +60,6 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
     // Set ui elements for selected player.
     ui->nameLabel->setText(Player::playerName(index));   // Set name to selected player.
     ui->levelLabel->setText(Player::playerLevel(index));  // Set level to selected player.
-}
-
-void MainWindow::addImage11()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(60,95);
-    disconnect(gameScreen,SIGNAL(click11()),this,SLOT(addImage11()));
-}
-
-void MainWindow::addImage12()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(60,175);
-    disconnect(gameScreen,SIGNAL(click12()),this,SLOT(addImage12()));
-}
-
-void MainWindow::addImage13()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(60,250);
-    disconnect(gameScreen,SIGNAL(click13()),this,SLOT(addImage13()));
-}
-
-void MainWindow::addImage14()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(60,325);
-    disconnect(gameScreen,SIGNAL(click14()),this,SLOT(addImage14()));
-}
-
-void MainWindow::addImage15()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(60,405);
-    disconnect(gameScreen,SIGNAL(click15()),this,SLOT(addImage15()));
-}
-
-void MainWindow::addImage21()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(127,95);
-    disconnect(gameScreen,SIGNAL(click21()),this,SLOT(addImage21()));
-}
-
-void MainWindow::addImage22()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(127,175);
-    disconnect(gameScreen,SIGNAL(click22()),this,SLOT(addImage22()));
-}
-
-void MainWindow::addImage23()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(125,250);
-    disconnect(gameScreen,SIGNAL(click23()),this,SLOT(addImage23()));
-}
-
-void MainWindow::addImage24()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(125,325);
-    disconnect(gameScreen,SIGNAL(click24()),this,SLOT(addImage24()));
-}
-
-void MainWindow::addImage25()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(125,405);
-    disconnect(gameScreen,SIGNAL(click25()),this,SLOT(addImage25()));
-}
-
-void MainWindow::addImage31()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(185,95);
-    disconnect(gameScreen,SIGNAL(click31()),this,SLOT(addImage31()));
-}
-
-void MainWindow::addImage32()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(185,175);
-    disconnect(gameScreen,SIGNAL(click32()),this,SLOT(addImage32()));
-}
-
-void MainWindow::addImage33()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(185,250);
-    disconnect(gameScreen,SIGNAL(click33()),this,SLOT(addImage33()));
-}
-
-void MainWindow::addImage34()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(185,325);
-    disconnect(gameScreen,SIGNAL(click34()),this,SLOT(addImage34()));
-}
-
-void MainWindow::addImage35()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(185,405);
-    disconnect(gameScreen,SIGNAL(click35()),this,SLOT(addImage35()));
-}
-
-void MainWindow::addImage41()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,95);
-    disconnect(gameScreen,SIGNAL(click41()),this,SLOT(addImage41()));
-}
-
-void MainWindow::addImage42()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,175);
-    disconnect(gameScreen,SIGNAL(click42()),this,SLOT(addImage42()));
-}
-
-void MainWindow::addImage43()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,250);
-    disconnect(gameScreen,SIGNAL(click43()),this,SLOT(addImage43()));
-}
-
-void MainWindow::addImage44()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,325);
-    disconnect(gameScreen,SIGNAL(click44()),this,SLOT(addImage44()));
-}
-
-void MainWindow::addImage45()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage51()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage52()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage53()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage54()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage55()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage61()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage62()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage63()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage64()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage65()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage71()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage72()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage73()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage74()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage75()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage81()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage82()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage83()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage84()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage85()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage91()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage92()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage93()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage94()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
-}
-
-void MainWindow::addImage95()
-{
-    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
-    pm->setOffset(-25,-25);
-    pm->setPos(247,405);
-    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
 }
 
 void MainWindow::on_newButton_clicked()
@@ -554,7 +195,11 @@ void MainWindow::on_startButton_clicked()
     destroyTimer = new QTimer;
     connect(destroyTimer, SIGNAL(timeout()), this, SLOT(destroySun()));
 
-    //createSun();
+    createSun();    // Take this out after.
+
+    updateSunPointsTimer = new QTimer;
+    connect(updateSunPointsTimer, SIGNAL(timeout()), this, SLOT(updateSunPoints()));
+    updateSunPointsTimer->start(10);
 
     // Enable all plant buttons.
     ui->peaShooterButton->setEnabled(true);
@@ -581,48 +226,56 @@ void MainWindow::on_peaShooterButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Peashooter.png");
+    plantPressed = "peashooter";
 }
 
 void MainWindow::on_sunFlowerButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Sunflower.png");
+    plantPressed = "sunflower";
 }
 
 void MainWindow::on_cherryBombButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Cherrybomb.png");
+    plantPressed = "cherrybomb";
 }
 
 void MainWindow::on_wallNutButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Wallnut.png");
+    plantPressed = "wallnut";
 }
 
 void MainWindow::on_potatoMineButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Potatomine.png");
+    plantPressed = "potatomine";
 }
 
 void MainWindow::on_snowPeaButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Snowpea.png");
+    plantPressed = "snowpea";
 }
 
 void MainWindow::on_chomperButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Chomper.png");
+    plantPressed = "chomper";
 }
 
 void MainWindow::on_repeaterButton_clicked()
 {
     gameScreen->buttonPressed = 1;
     plant = new QPixmap(":/Images/Repeater.png");
+    plantPressed = "repeater";
 }
 
 void MainWindow::createSun()
@@ -638,4 +291,448 @@ void MainWindow::destroySun()
     if (sun->sunClicked == false)
         delete sun;
     sun->sunClicked = false;
+}
+
+void MainWindow::updateSunPoints()
+{
+    if ((plantPressed == "peashooter") && (imageAdded))
+    {
+        sun->sunPoints -= 100;
+    }
+    else if (plantPressed == "sunflower" && imageAdded)
+    {
+        sun->sunPoints -= 50;
+    }
+    else if (plantPressed == "cherrybomb" && imageAdded)
+    {
+        sun->sunPoints -= 150;
+    }
+    else if (plantPressed == "wallnut" && imageAdded == 1)
+    {
+        sun->sunPoints -= 50;
+    }
+    else if (plantPressed == "potatomine" && imageAdded == 1)
+    {
+        sun->sunPoints -= 25;
+    }
+    else if (plantPressed == "snowpea" && imageAdded == 1)
+    {
+        sun->sunPoints -= 175;
+    }
+    else if (plantPressed == "repeater" && imageAdded == 1)
+    {
+        sun->sunPoints -= 150;
+    }
+    else if (plantPressed == "chomper" && imageAdded == 1)
+    {
+        sun->sunPoints -= 200;
+    }
+    imageAdded = 0;
+    plantPressed = "0";
+    ui->sunPointsLabel->setText(QString::number(sun->sunPoints));
+}
+
+void MainWindow::addImage11()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,95);
+    disconnect(gameScreen,SIGNAL(click11()),this,SLOT(addImage11()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage12()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,175);
+    disconnect(gameScreen,SIGNAL(click12()),this,SLOT(addImage12()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage13()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,250);
+    disconnect(gameScreen,SIGNAL(click13()),this,SLOT(addImage13()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage14()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,325);
+    disconnect(gameScreen,SIGNAL(click14()),this,SLOT(addImage14()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage15()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(60,405);
+    disconnect(gameScreen,SIGNAL(click15()),this,SLOT(addImage15()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage21()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(127,95);
+    disconnect(gameScreen,SIGNAL(click21()),this,SLOT(addImage21()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage22()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(127,175);
+    disconnect(gameScreen,SIGNAL(click22()),this,SLOT(addImage22()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage23()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(125,250);
+    disconnect(gameScreen,SIGNAL(click23()),this,SLOT(addImage23()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage24()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(125,325);
+    disconnect(gameScreen,SIGNAL(click24()),this,SLOT(addImage24()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage25()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(125,405);
+    disconnect(gameScreen,SIGNAL(click25()),this,SLOT(addImage25()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage31()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,95);
+    disconnect(gameScreen,SIGNAL(click31()),this,SLOT(addImage31()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage32()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,175);
+    disconnect(gameScreen,SIGNAL(click32()),this,SLOT(addImage32()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage33()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,250);
+    disconnect(gameScreen,SIGNAL(click33()),this,SLOT(addImage33()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage34()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,325);
+    disconnect(gameScreen,SIGNAL(click34()),this,SLOT(addImage34()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage35()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(185,405);
+    disconnect(gameScreen,SIGNAL(click35()),this,SLOT(addImage35()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage41()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,95);
+    disconnect(gameScreen,SIGNAL(click41()),this,SLOT(addImage41()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage42()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,175);
+    disconnect(gameScreen,SIGNAL(click42()),this,SLOT(addImage42()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage43()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,250);
+    disconnect(gameScreen,SIGNAL(click43()),this,SLOT(addImage43()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage44()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,325);
+    disconnect(gameScreen,SIGNAL(click44()),this,SLOT(addImage44()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage45()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage51()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage52()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage53()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage54()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage55()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage61()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage62()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage63()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage64()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage65()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage71()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage72()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage73()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage74()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage75()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage81()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage82()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage83()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage84()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage85()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage91()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage92()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage93()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage94()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
+}
+
+void MainWindow::addImage95()
+{
+    QGraphicsPixmapItem *pm = scene->addPixmap(plant->scaledToWidth(50));
+    pm->setOffset(-25,-25);
+    pm->setPos(247,405);
+    disconnect(gameScreen,SIGNAL(click45()),this,SLOT(addImage45()));
+    imageAdded = 1;
 }

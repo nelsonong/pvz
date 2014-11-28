@@ -14,13 +14,11 @@ GameScreen::GameScreen(QWidget *parent) :
     {
         yPoints[i] = ypoints[i];
     }
-
-    this->setMouseTracking(true);
 }
 
 void GameScreen::mousePressEvent(QMouseEvent *e)
 {
-    if (buttonPressed == 1)
+    if (buttonPressed)
     {
         if (e->x() >= xPoints[0] && e->x() < xPoints[1] && e->y() >= yPoints[0] && e->y() < yPoints[1])
             click11();
@@ -62,8 +60,6 @@ void GameScreen::mousePressEvent(QMouseEvent *e)
             click44();
         else if (e->x() >= xPoints[3] && e->x() < xPoints[4] && e->y() >= yPoints[4] && e->y() < yPoints[5])
             click45();
+        buttonPressed = 0;
     }
-    QGraphicsView::mousePressEvent(e);
-
-    qDebug() << e->pos();
 }

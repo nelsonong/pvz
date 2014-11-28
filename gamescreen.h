@@ -12,13 +12,14 @@ class GameScreen : public QGraphicsView
 public:
     explicit GameScreen(QWidget *parent = 0);
     bool buttonPressed;
-    int xPoints[10];
-    int yPoints[6];
+    int xPoints[10];    // To hold grid x-positions.
+    int yPoints[6];     // To hold grid y-positions.
 
 private:
     void mousePressEvent(QMouseEvent *e);
 
 signals:
+    // Emits signal to indicate which grid position clicked.
     void click11();
     void click12();
     void click13();

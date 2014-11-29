@@ -18,6 +18,8 @@
 #include "player.h"
 #include "gamescreen.h"
 #include "sun.h"
+#include "peashooter.h"
+#include "sunflower.h"
 
 namespace Ui {
 class MainWindow;
@@ -49,55 +51,13 @@ private slots:
 
     // Sun functions.
     void createSun();
+    void createSunFlowerSun();
     void destroySun();
+    void destroySunFlowerSun();
     void updateSunPoints();
 
     // Add plant functions.
-    void addImage11();
-    void addImage12();
-    void addImage13();
-    void addImage14();
-    void addImage15();
-    void addImage21();
-    void addImage22();
-    void addImage23();
-    void addImage24();
-    void addImage25();
-    void addImage31();
-    void addImage32();
-    void addImage33();
-    void addImage34();
-    void addImage35();
-    void addImage41();
-    void addImage42();
-    void addImage43();
-    void addImage44();
-    void addImage45();
-    void addImage51();
-    void addImage52();
-    void addImage53();
-    void addImage54();
-    void addImage55();
-    void addImage61();
-    void addImage62();
-    void addImage63();
-    void addImage64();
-    void addImage65();
-    void addImage71();
-    void addImage72();
-    void addImage73();
-    void addImage74();
-    void addImage75();
-    void addImage81();
-    void addImage82();
-    void addImage83();
-    void addImage84();
-    void addImage85();
-    void addImage91();
-    void addImage92();
-    void addImage93();
-    void addImage94();
-    void addImage95();
+    void addImage();
 
 private:
     // UI variables.
@@ -108,6 +68,10 @@ private:
     // Objects to be put in UI.
     QPixmap *plant;
     Sun *sun;
+    Sun *sunFlowerSun;
+    std::vector<Plant*> plantObjects;
+    PeaShooter *peaShooter;
+    SunFlower *sunFlower;
 
     // Timers.
     QTimer *moveTimer;
@@ -115,7 +79,8 @@ private:
     QTimer *destroyTimer;
     QTimer *updateSunPointsTimer;
 
-    std::string plantPressed;
+    QString plantClicked;
+    bool buttonClicked;
     bool imageAdded;
 };
 

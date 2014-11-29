@@ -6,13 +6,20 @@
 #include <QMouseEvent>
 #include <QtGlobal>
 #include <QDebug>
+#include <vector>
+#include <QPoint>
+#include <QTimer>
 
 class Sun : public QGraphicsItem
 {
 public:
     Sun();
+    Sun(QPoint);
     static bool sunClicked;
     static int sunPoints;
+    void destroySun();
+    QTimer *createTimer;
+    QTimer *destroyTimer;
 
 private:
     QPixmap sunPixmap;
@@ -24,6 +31,7 @@ private:
     QRectF boundingRect() const;
     void advance(int phase);
     void mousePressEvent(QGraphicsSceneMouseEvent *e);
+
 };
 
 #endif // Sun_H

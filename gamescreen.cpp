@@ -3,63 +3,34 @@
 GameScreen::GameScreen(QWidget *parent) :
     QGraphicsView(parent)
 {
-    int xpoints[] = {20,95,155,215,280,345,405,470,530,605};
+    int x[] = {20,95,155,215,280,345,405,470,530,605};
+    int y[] = {50,135,210,290,365,445};
     for (int i = 0; i < 10; i++)
     {
-        xPoints[i] = xpoints[i];
-    }
-
-    int ypoints[] = {50,135,210,290,365,445};
-    for (int i = 0; i < 6; i++)
-    {
-        yPoints[i] = ypoints[i];
+        for (int j = 0; j < 6; j++)
+        {
+            grid[i][j] = QPoint(x[i],y[j]);
+        }
     }
 }
 
 void GameScreen::mousePressEvent(QMouseEvent *e)
 {
-    if (buttonPressed)
+    getGridPoint(e);
+    click();
+}
+
+QPoint GameScreen::getGridPoint(QMouseEvent *e)
+{
+    for (int i = 0; i < 9; i++)
     {
-        if (e->x() >= xPoints[0] && e->x() < xPoints[1] && e->y() >= yPoints[0] && e->y() < yPoints[1])
-            click11();
-        else if (e->x() >= xPoints[0] && e->x() < xPoints[1] && e->y() >= yPoints[1] && e->y() < yPoints[2])
-            click12();
-        else if (e->x() >= xPoints[0] && e->x() < xPoints[1] && e->y() >= yPoints[2] && e->y() < yPoints[3])
-            click13();
-        else if (e->x() >= xPoints[0] && e->x() < xPoints[1] && e->y() >= yPoints[3] && e->y() < yPoints[4])
-            click14();
-        else if (e->x() >= xPoints[0] && e->x() < xPoints[1] && e->y() >= yPoints[4] && e->y() < yPoints[5])
-            click15();
-        else if (e->x() >= xPoints[1] && e->x() < xPoints[2] && e->y() >= yPoints[0] && e->y() < yPoints[1])
-            click21();
-        else if (e->x() >= xPoints[1] && e->x() < xPoints[2] && e->y() >= yPoints[1] && e->y() < yPoints[2])
-            click22();
-        else if (e->x() >= xPoints[1] && e->x() < xPoints[2] && e->y() >= yPoints[2] && e->y() < yPoints[3])
-            click23();
-        else if (e->x() >= xPoints[1] && e->x() < xPoints[2] && e->y() >= yPoints[3] && e->y() < yPoints[4])
-            click24();
-        else if (e->x() >= xPoints[1] && e->x() < xPoints[2] && e->y() >= yPoints[4] && e->y() < yPoints[5])
-            click25();
-        else if (e->x() >= xPoints[2] && e->x() < xPoints[3] && e->y() >= yPoints[0] && e->y() < yPoints[1])
-            click31();
-        else if (e->x() >= xPoints[2] && e->x() < xPoints[3] && e->y() >= yPoints[1] && e->y() < yPoints[2])
-            click32();
-        else if (e->x() >= xPoints[2] && e->x() < xPoints[3] && e->y() >= yPoints[2] && e->y() < yPoints[3])
-            click33();
-        else if (e->x() >= xPoints[2] && e->x() < xPoints[3] && e->y() >= yPoints[3] && e->y() < yPoints[4])
-            click34();
-        else if (e->x() >= xPoints[2] && e->x() < xPoints[3] && e->y() >= yPoints[4] && e->y() < yPoints[5])
-            click35();
-        else if (e->x() >= xPoints[3] && e->x() < xPoints[4] && e->y() >= yPoints[0] && e->y() < yPoints[1])
-            click41();
-        else if (e->x() >= xPoints[3] && e->x() < xPoints[4] && e->y() >= yPoints[1] && e->y() < yPoints[2])
-            click42();
-        else if (e->x() >= xPoints[3] && e->x() < xPoints[4] && e->y() >= yPoints[2] && e->y() < yPoints[3])
-            click43();
-        else if (e->x() >= xPoints[3] && e->x() < xPoints[4] && e->y() >= yPoints[3] && e->y() < yPoints[4])
-            click44();
-        else if (e->x() >= xPoints[3] && e->x() < xPoints[4] && e->y() >= yPoints[4] && e->y() < yPoints[5])
-            click45();
-        buttonPressed = 0;
+        for (int j = 0; j < 5; j++)
+        {
+            if (e->x() >= grid[i][j].x() && e->x() < grid[i+1][j].x() && e->y() >= grid[i][j].y() && e->y() < grid[i][j+1].y())
+            {
+                currentGridPoint = grid[i][j];
+                return grid[i][j];
+            }
+        }
     }
 }

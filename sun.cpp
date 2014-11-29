@@ -2,10 +2,24 @@
 
 bool Sun::sunClicked = false;
 int Sun::sunPoints = 0;
+
 Sun::Sun() : xPos(qrand()%560 + 20), yPos(0), pixelsMoved(qrand()%19 + 8)
 {
     this->setPos(xPos,yPos);        // Set initial position to be random along the top.
     sunPixmap = QPixmap(":/Images/Sun.png");
+}
+
+Sun::Sun(QPoint sunFlowerPos) : xPos(sunFlowerPos.x()), yPos(sunFlowerPos.y())
+{
+    createTimer = new QTimer;
+    destroyTimer = new QTimer;
+    this->setPos(sunFlowerPos);
+    sunPixmap = QPixmap(":/Images/Sun.png");
+}
+
+void Sun::destroySun()
+{
+    delete this;
 }
 
 void Sun::move()
@@ -20,7 +34,7 @@ void Sun::move()
 
 void Sun::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(),sunPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), sunPixmap, boundingRect());
 }
 
 QRectF Sun::boundingRect() const

@@ -19,12 +19,20 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     player.cpp \
     gamescreen.cpp \
-    sun.cpp
+    sun.cpp \
+    zombie.cpp \
+    plant.cpp \
+    peashooter.cpp \
+    sunflower.cpp
 
 HEADERS  += mainwindow.h \
     player.h \
     gamescreen.h \
-    sun.h
+    sun.h \
+    zombie.h \
+    plant.h \
+    peashooter.h \
+    sunflower.h
 
 FORMS    += mainwindow.ui
 

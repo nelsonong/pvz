@@ -2,6 +2,7 @@
 #define PLANT_H
 
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QPainter>
 
 class Plant : public QGraphicsItem
@@ -24,7 +25,7 @@ public:
 
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
-    virtual void advance(int phase);
+    void advance(int);
 };
 
 #endif // PLANT_H

@@ -1,37 +1,47 @@
-#ifndef Sun_H
-#define Sun_H
+#ifndef SUN_H
+#define SUN_H
 
 #include <QGraphicsItem>
+#include <QGraphicsScene>
 #include <QPainter>
 #include <QMouseEvent>
 #include <QtGlobal>
 #include <QDebug>
 #include <vector>
 #include <QPoint>
-#include <QTimer>
+#include <QTime>
 
 class Sun : public QGraphicsItem
 {
 public:
-    Sun();
-    Sun(QPoint);
-    static bool sunClicked;
-    static int sunPoints;
-    void destroySun();
-    QTimer *createTimer;
-    QTimer *destroyTimer;
+    Sun();                  // Sun type 1 (falling sun).
+    Sun(QPoint point);      // Sun type 2 (sunflower sun).
+
+    // Variables.
+    static bool sunClicked; // Makes sure sun isn't deleted twice after clicked.
+    static int sunPoints;   // Monitors sun points gained.
+
+    // Functions
+    void destroySun();      // Destroy sun within object.
 
 private:
+    // Variables
     QPixmap sunPixmap;
-    int xPos;
-    int yPos;
-    int pixelsMoved;
-    void move();
+    int xPos;               // Falling sun's random x-position.
+    int yPos;               // Falling sun's moving y-position.
+    int sunType;            // Falling sun(type-1) or sunflower sun(type-2).
+    int increment;          // Amount of pixels to move sun by every timeout() call (1px/60ms).
+    bool timeStarted;
+    QTime *destroyTimer;    // Destroy sunflower sun every 7.5s.
+
+    // Functions
+    void move();            // Move falling sun.
+
+    // Virtual derived functions.
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
-    void advance(int phase);
+    void advance(int phase);    // Moves falling sun and destroys sunflower sun.
     void mousePressEvent(QGraphicsSceneMouseEvent *e);
-
 };
 
-#endif // Sun_H
+#endif // SUN_H

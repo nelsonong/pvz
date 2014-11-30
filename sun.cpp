@@ -1,20 +1,22 @@
-#include "Sun.h"
+#include "sun.h"
 
 bool Sun::sunClicked = false;
 int Sun::sunPoints = 0;
 
-Sun::Sun() : xPos(qrand()%560 + 20), yPos(0), pixelsMoved(qrand()%19 + 8)
+Sun::Sun() : xPos(qrand()%560 + 20), yPos(0), sunType(1), increment(qrand()%19 + 8), timeStarted(0)
 {
-    this->setPos(xPos,yPos);        // Set initial position to be random along the top.
+    this->setPos(xPos,yPos);        // Set initial position to be random along the top of graphicsView.
     sunPixmap = QPixmap(":/Images/Sun.png");
+    destroyTimer = new QTime;
 }
 
-Sun::Sun(QPoint sunFlowerPos) : xPos(sunFlowerPos.x()), yPos(sunFlowerPos.y())
+Sun::Sun(QPoint sunFlowerPos) : sunType(2)
 {
-    createTimer = new QTimer;
-    destroyTimer = new QTimer;
     this->setPos(sunFlowerPos);
     sunPixmap = QPixmap(":/Images/Sun.png");
+    destroyTimer = new QTime;
+    destroyTimer->start();
+    qDebug() << "sun made";
 }
 
 void Sun::destroySun()
@@ -24,10 +26,10 @@ void Sun::destroySun()
 
 void Sun::move()
 {
-    if (pixelsMoved > 0)        // Once pixelsMoved has completely decelerated to 0, stop decelerating.
+    if (increment > 0)        // Once increment has completely decelerated to 0, stop decelerating.
     {
-        yPos += pixelsMoved;    // Initial pixelsMoved gets decelerated from original random amount.
-        pixelsMoved--;          // Decelerate by 1px every advance() call.
+        yPos += increment;    // Initial increment gets decelerated from original random amount.
+        increment--;          // Decelerate by 1px every advance() call.
         this->setPos(xPos,yPos);
     }
 }
@@ -45,12 +47,28 @@ QRectF Sun::boundingRect() const
 void Sun::advance(int phase)
 {
     if(!phase) return;  // Only call advance() once.
-    move();
+
+    // If this is a falling sun, make it fall.
+    if (sunType == 1)
+        move();
+
+    if ((increment == 0) && (!timeStarted))
+    {
+        // Destroy falling suns.
+        destroyTimer->start();
+        timeStarted++;
+    }
+
+    // If this is a sunflower's sun, delete after 7.5s.
+    if (destroyTimer->elapsed() >= 7500)
+        delete this;
 }
 
 void Sun::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
+    QGraphicsItem::mousePressEvent(e);
     sunClicked = true;  // If sun has been clicked, don't automatically delete (produces errors).
     sunPoints += 25;
     delete this;
 }
+

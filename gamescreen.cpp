@@ -12,10 +12,13 @@ GameScreen::GameScreen(QWidget *parent) :
             grid[i][j] = QPoint(x[i],y[j]);
         }
     }
+
+    setMouseTracking(true);
 }
 
 void GameScreen::mousePressEvent(QMouseEvent *e)
 {
+    QGraphicsView::mousePressEvent(e);
     getGridPoint(e);
     click();
 }
@@ -33,4 +36,5 @@ QPoint GameScreen::getGridPoint(QMouseEvent *e)
             }
         }
     }
+    return QPoint(0,0);
 }

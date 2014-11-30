@@ -23,7 +23,13 @@ SOURCES += main.cpp\
     zombie.cpp \
     plant.cpp \
     peashooter.cpp \
-    sunflower.cpp
+    sunflower.cpp \
+    flag.cpp \
+    conehead.cpp \
+    buckethead.cpp \
+    newspaper.cpp \
+    regular.cpp \
+    bullet.cpp
 
 HEADERS  += mainwindow.h \
     player.h \
@@ -32,7 +38,13 @@ HEADERS  += mainwindow.h \
     zombie.h \
     plant.h \
     peashooter.h \
-    sunflower.h
+    sunflower.h \
+    flag.h \
+    conehead.h \
+    buckethead.h \
+    newspaper.h \
+    regular.h \
+    bullet.h
 
 FORMS    += mainwindow.ui
 

@@ -9,7 +9,7 @@ static std::vector<QStringList> playerList;
 
 void Player::fillPlayerList()
 {
-    QFile save_file("C:/Qt/Tools/QtCreator/bin/PvZ/pvz_players.csv");
+    QFile save_file(":/CSVs/pvz_players.csv");
     if (save_file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream text(&save_file);
@@ -102,7 +102,7 @@ int Player::playerListSize()
 
 void Player::updatePlayersFile()
 {
-    QFile save_file("C:/Qt/Tools/QtCreator/bin/PvZ/pvz_players.csv");
+    QFile save_file(":/CSVs/pvz_players.csv");
     if (save_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
     {
         QTextStream text(&save_file);

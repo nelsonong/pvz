@@ -2,18 +2,29 @@
 
 SunFlower::SunFlower()
 {
-    plantObject.life = 4;
-    plantObject.range = 0;
-    plantObject.damage = 0;
-    plantObject.rate = 24;
-    plantObject.splash = 0;
-    plantObject.slow = 0;
-    plantObject.bomb = 0;
-    plantObject.seeding = 7.5;
-    plantObject.sun = 1;
-    plantObject.need = 0;
+
+}
+
+SunFlower::SunFlower(QPoint gridPoint)
+{
+    point = gridPoint;
+
+    this->life = 4;
+    this->range = 0;
+    this->damage = 0;
+    this->rate = 24;
+    this->splash = 0;
+    this->slow = 0;
+    this->bomb = 0;
+    this->seeding = 7.5;
+    this->sun = 1;
+    this->need = 0;
 
     sunFlowerPixmap = (QPixmap(":/Images/Sunflower.png")).scaledToWidth(50);
+    this->setPos(gridPoint);
+
+    createTimer = new QTime;
+    createTimer->start();
 }
 
 void SunFlower::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -28,5 +39,12 @@ QRectF SunFlower::boundingRect() const
 
 void SunFlower::advance(int phase)
 {
+    if(!phase) return;
 
+    if (createTimer->elapsed() >= 24000)
+    {
+        createTimer->restart();
+        sunItem = new Sun(point);
+        scene()->addItem(sunItem);
+    }
 }

@@ -13,7 +13,6 @@ class GameScreen : public QGraphicsView
 
 public:
     explicit GameScreen(QWidget *parent = 0);
-    bool buttonPressed;
     QPoint grid[10][6];    // To hold grid positions.
     QPoint currentGridPoint;
 
@@ -21,7 +20,6 @@ public:
 private:
     void mousePressEvent(QMouseEvent *e);
     QPoint getGridPoint(QMouseEvent *e);
-    PeaShooter *peaShooter;
 
 signals:
     // Emits signal to indicate which grid position clicked.

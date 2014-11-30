@@ -17,9 +17,10 @@ public:
     Flag();
     Flag(QPoint startPos);
     ~Flag();
+    bool slow;
 
 private:
-    QPixmap flagPixmap;
+    QPixmap *flagPixmap;
     int xPos;
     int yPos;
     int increment;

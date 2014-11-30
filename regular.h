@@ -17,10 +17,10 @@ public:
     Regular();
     Regular(QPoint startPos);
     ~Regular();
+    bool slow;
 
 private:
-    Zombie zombieObject;
-    QPixmap regularPixmap;
+    QPixmap *regularPixmap;
     int xPos;
     int yPos;
     int increment;

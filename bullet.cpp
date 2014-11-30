@@ -9,7 +9,10 @@ Bullet::Bullet(Plant *plant) : xPos(plant->x()), yPos(plant->y())
     this->plant = plant;
     this->setPos(plant->pos());
     bulletPixmap = QPixmap(":/Images/Bullet.png");
-    damage = plant->damage; // ***** peashooter or plants damage??? *****
+    damage = plant->damage;
+
+    if (plant->slow == 1)
+        this->slow = 1;
 }
 
 Bullet::~Bullet()

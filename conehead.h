@@ -17,9 +17,10 @@ public:
     Conehead();
     Conehead(QPoint startPos);
     ~Conehead();
+    bool slow;
 
 private:
-    QPixmap coneheadPixmap;
+    QPixmap *coneheadPixmap;
     int xPos;
     int yPos;
     int increment;

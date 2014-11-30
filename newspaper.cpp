@@ -12,7 +12,8 @@ Newspaper::Newspaper(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), 
     this->speed = 5;
 
     this->setPos(startPos);
-    newspaperPixmap = (QPixmap(":/Images/Newspaper.png")).scaledToHeight(50);
+    newspaperPixmap = new QPixmap(":/Images/Newspaper.png");
+    newspaperPixmap->scaledToHeight(50);
 }
 
 Newspaper::~Newspaper()
@@ -32,7 +33,7 @@ void Newspaper::move()
 
 void Newspaper::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), newspaperPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *newspaperPixmap, boundingRect());
 }
 
 QRectF Newspaper::boundingRect() const
@@ -45,15 +46,26 @@ void Newspaper::advance(int phase)
     if (!phase) return;
     move();
 
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), newspaperPixmap.width(), newspaperPixmap.height());
+    collisionRect = new QGraphicsRectItem(this->x(), this->y(), newspaperPixmap->width(), newspaperPixmap->height());
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
     for (int i = 0; i < (int)list.size(); i++)
     {
         Bullet *item = dynamic_cast<Bullet *>(list.at(i));
         if (item)
         {
-            this->life--;
+            this->life -= item->damage;
+            if (item->slow && !this->slow)
+            {
+                this->speed /= 2;
+                this->slow++;
+            }
         }
+    }
+
+    if (this->life <= 10)
+    {
+        delete newspaperPixmap;
+        newspaperPixmap = new QPixmap(":/Images/Regular.png");
     }
 
     if (this->life <= 0)

@@ -13,7 +13,8 @@ Regular::Regular(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), incr
     this->speed = 5.0;
 
     this->setPos(startPos);
-    regularPixmap = (QPixmap(":/Images/Regular.png")).scaledToHeight(50);
+    regularPixmap = new QPixmap(":/Images/Regular.png");
+    regularPixmap->scaledToHeight(50);
 }
 
 Regular::~Regular()
@@ -33,7 +34,7 @@ void Regular::move()
 
 void Regular::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), regularPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *regularPixmap, boundingRect());
 }
 
 QRectF Regular::boundingRect() const
@@ -46,7 +47,7 @@ void Regular::advance(int phase)
     if (!phase) return;
     move();
 
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), regularPixmap.width(), regularPixmap.height());
+    collisionRect = new QGraphicsRectItem(this->x(), this->y(), regularPixmap->width(), regularPixmap->height());
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
     for (int i = 0; i < (int)list.size(); i++)
     {
@@ -54,6 +55,11 @@ void Regular::advance(int phase)
         if (item)
         {
             this->life -= item->damage;
+            if (item->slow && !this->slow)
+            {
+                this->speed /= 2;
+                this->slow++;
+            }
         }
     }
 

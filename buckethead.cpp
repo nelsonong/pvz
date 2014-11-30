@@ -12,7 +12,8 @@ Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
     this->speed = 5;
 
     this->setPos(startPos);
-    bucketheadPixmap = (QPixmap(":/Images/Buckethead.png")).scaledToHeight(50);
+    bucketheadPixmap = new QPixmap(":/Images/Buckethead.png");
+    bucketheadPixmap->scaledToHeight(50);
 }
 
 Buckethead::~Buckethead()
@@ -32,7 +33,7 @@ void Buckethead::move()
 
 void Buckethead::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), bucketheadPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *bucketheadPixmap, boundingRect());
 }
 
 QRectF Buckethead::boundingRect() const
@@ -45,15 +46,26 @@ void Buckethead::advance(int phase)
     if (!phase) return;
     move();
 
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), bucketheadPixmap.width(), bucketheadPixmap.height());
+    collisionRect = new QGraphicsRectItem(this->x(), this->y(), bucketheadPixmap->width(), bucketheadPixmap->height());
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
     for (int i = 0; i < (int)list.size(); i++)
     {
         Bullet *item = dynamic_cast<Bullet *>(list.at(i));
         if (item)
         {
-            this->life--;
+            this->life -= item->damage;
+            if (item->slow && !this->slow)
+            {
+                this->speed /= 2;
+                this->slow++;
+            }
         }
+    }
+
+    if (this->life <= 10)
+    {
+        delete bucketheadPixmap;
+        bucketheadPixmap = new QPixmap(":/Images/Regular.png");
     }
 
     if (this->life <= 0)

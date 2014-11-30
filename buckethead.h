@@ -17,9 +17,10 @@ public:
     Buckethead();
     Buckethead(QPoint startPos);
     ~Buckethead();
+    bool slow;
 
 private:
-    QPixmap bucketheadPixmap;
+    QPixmap *bucketheadPixmap;
     int xPos;
     int yPos;
     int increment;

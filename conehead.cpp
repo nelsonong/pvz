@@ -12,7 +12,8 @@ Conehead::Conehead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), in
     this->speed = 5;
 
     this->setPos(startPos);
-    coneheadPixmap = (QPixmap(":/Images/Conehead.png")).scaledToHeight(50);
+    coneheadPixmap = new QPixmap(":/Images/Conehead.png");
+    coneheadPixmap->scaledToHeight(50);
 }
 
 Conehead::~Conehead()
@@ -32,7 +33,7 @@ void Conehead::move()
 
 void Conehead::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), coneheadPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *coneheadPixmap, boundingRect());
 }
 
 QRectF Conehead::boundingRect() const
@@ -45,15 +46,26 @@ void Conehead::advance(int phase)
     if (!phase) return;
     move();
 
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), coneheadPixmap.width(), coneheadPixmap.height());
+    collisionRect = new QGraphicsRectItem(this->x(), this->y(), coneheadPixmap->width(), coneheadPixmap->height());
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
     for (int i = 0; i < (int)list.size(); i++)
     {
         Bullet *item = dynamic_cast<Bullet *>(list.at(i));
         if (item)
         {
-            this->life--;
+            this->life -= item->damage;
+            if (item->slow && !this->slow)
+            {
+                this->speed /= 2;
+                this->slow++;
+            }
         }
+    }
+
+    if (this->life <= 10)
+    {
+        delete coneheadPixmap;
+        coneheadPixmap = new QPixmap(":/Images/Regular.png");
     }
 
     if (this->life <= 0)

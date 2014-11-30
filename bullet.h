@@ -22,6 +22,7 @@ public:
     // Functions
     void destroyBullet();      // Destroy bullet within object.
     int damage;
+    bool slow;
 
 private:
     // Variables

@@ -17,9 +17,10 @@ public:
     Newspaper();
     Newspaper(QPoint startPos);
     ~Newspaper();
+    bool slow;
 
 private:
-    QPixmap newspaperPixmap;
+    QPixmap *newspaperPixmap;
     int xPos;
     int yPos;
     int increment;

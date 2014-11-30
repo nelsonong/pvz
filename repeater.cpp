@@ -21,13 +21,10 @@ Repeater::Repeater(QPoint repeaterPos)
 
     repeaterPixmap = new QPixmap(":/Images/Repeater.png");
     *repeaterPixmap = repeaterPixmap->scaledToWidth(50);
-    collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, screenLength);
+    collisionLine = new QGraphicsLineItem(this->x() + 25, this->y()+25, screenLength, this->y()+25);
 
     createBullet = new QTime;
     createBullet->start();
-
-    zombieAttack = new QTime;
-    zombieAttack->start();
 }
 
 Repeater::~Repeater()
@@ -35,7 +32,6 @@ Repeater::~Repeater()
     delete repeaterPixmap;
     delete collisionLine;
     delete createBullet;
-    delete zombieAttack;
 }
 
 void Repeater::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)

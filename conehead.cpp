@@ -4,29 +4,51 @@ Conehead::Conehead()
 {
 }
 
-Conehead::Conehead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), increment(50)
+Conehead::Conehead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 {
     this->life = 28;
     this->attack = 1;
     this->rate = 0.5;
     this->speed = 5;
+    this->slowed = 0;
 
     this->setPos(startPos);
     coneheadPixmap = new QPixmap(":/Images/Conehead.png");
     *coneheadPixmap = coneheadPixmap->scaledToHeight(50);
+
+    this->zombieAttack = new QTime;
+    this->zombieAttack->start();
+
+    collisionRect = new QGraphicsRectItem(this->x(), this->y(), coneheadPixmap->width(), coneheadPixmap->height());
 }
 
 Conehead::~Conehead()
 {
+    delete this->zombieAttack;
     delete collisionRect;
 }
 
 void Conehead::move()
 {
-    if (!(this->collidesWithItem(this)) && (xPos != 0))
+    if (xPos != 0)
     {
+        QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+        for (int i = 0; i < list.size(); i++)
+        {
+            Plant *item = dynamic_cast<Plant *>(list.at(i));
+            if (item)
+            {
+                item->life -= this->attack;
+                return;
+            }
+        }
+
         xPos -= this->speed;
         this->setPos(xPos,yPos);
+    }
+    else
+    {
+       Zombie::brainsEaten = true;
     }
 }
 
@@ -44,22 +66,6 @@ void Conehead::advance(int phase)
 {
     if (!phase) return;
     move();
-
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), coneheadPixmap->width(), coneheadPixmap->height());
-    QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
-    for (int i = 0; i < (int)list.size(); i++)
-    {
-        Bullet *item = dynamic_cast<Bullet *>(list.at(i));
-        if (item)
-        {
-            this->life -= item->damage;
-            if (item->slow && !this->slow)
-            {
-                this->speed /= 2;
-                this->slow++;
-            }
-        }
-    }
 
     if (this->life <= 10)
     {

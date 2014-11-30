@@ -18,14 +18,12 @@ public:
     Regular();
     Regular(QPoint startPos);
     ~Regular();
-    bool slow;
 
 private:
     QPixmap *regularPixmap;
     int xPos;
     int yPos;
     void move();
-    QGraphicsRectItem *collisionRect;
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

@@ -56,6 +56,12 @@ void Bullet::advance(int phase)
         Zombie *item = dynamic_cast<Zombie *>(list.at(i));
         if (item)
         {
+            item->life -= this->damage;
+            if (this->slow == 1 && item->slowed == 0)
+            {
+                item->speed /= 2;
+                item->slowed++;
+            }
             delete this;
         }
     }

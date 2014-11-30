@@ -24,16 +24,12 @@ PotatoMine::PotatoMine(QPoint potatoMinePos)
 
     zombieBomb = new QTime;
     zombieBomb->start();
-
-    zombieAttack = new QTime;
-    zombieAttack->start();
 }
 
 PotatoMine::~PotatoMine()
 {
     delete potatoMinePixmap;
     delete zombieBomb;
-    delete zombieAttack;
 }
 
 void PotatoMine::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -60,20 +56,6 @@ void PotatoMine::advance(int phase)
             {
                 delete item;
                 delete this;
-            }
-        }
-    }
-
-    list = scene()->collidingItems(this);
-    for (int i = 0; i < (int)list.size(); i++)
-    {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
-        {
-            if (zombieAttack->elapsed() >= item->rate*1000)
-            {
-                this->life -= item->attack;
-                zombieAttack->restart();
             }
         }
     }

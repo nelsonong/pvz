@@ -17,15 +17,12 @@ public:
     Flag();
     Flag(QPoint startPos);
     ~Flag();
-    bool slow;
 
 private:
     QPixmap *flagPixmap;
     int xPos;
     int yPos;
-    int increment;
     void move();
-    QGraphicsRectItem *collisionRect;
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

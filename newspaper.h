@@ -17,15 +17,12 @@ public:
     Newspaper();
     Newspaper(QPoint startPos);
     ~Newspaper();
-    bool slow;
 
 private:
     QPixmap *newspaperPixmap;
     int xPos;
     int yPos;
-    int increment;
     void move();
-    QGraphicsRectItem *collisionRect;
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

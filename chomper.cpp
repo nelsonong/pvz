@@ -25,9 +25,6 @@ Chomper::Chomper(QPoint chomperPos) : rectangleLength(120)
 
     eatZombie = new QTime;
     eatZombie->start();
-
-    zombieAttack = new QTime;
-    eatZombie->start();
 }
 
 Chomper::~Chomper()
@@ -35,7 +32,6 @@ Chomper::~Chomper()
     delete chomperPixmap;
     delete collisionLine;
     delete eatZombie;
-    delete zombieAttack;
 }
 
 void Chomper::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)

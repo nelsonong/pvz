@@ -4,29 +4,52 @@ Buckethead::Buckethead()
 {
 }
 
-Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), increment(50)
+Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 {
-    this->life = 65;
-    this->attack = 1;
-    this->rate = 0.5;
-    this->speed = 5;
+    life = 65;
+    attack = 1;
+    rate = 0.5;
+    speed = 5;
+    slowed = 0;
 
     this->setPos(startPos);
     bucketheadPixmap = new QPixmap(":/Images/Buckethead.png");
     *bucketheadPixmap = bucketheadPixmap->scaledToHeight(50);
+
+    zombieAttack = new QTime;
+    zombieAttack->start();
+
+    collisionRect = new QGraphicsRectItem(this->x(), this->y(), bucketheadPixmap->width(), bucketheadPixmap->height());
 }
 
 Buckethead::~Buckethead()
 {
-    delete collisionRect;
+    delete this->zombieAttack;
+    delete this->collisionRect;
 }
 
 void Buckethead::move()
 {
-    if (!(this->collidesWithItem(this)) && (xPos != 0))
+    if (xPos != 0)
     {
+        collisionRect->setRect(this->x(),this->y(),bucketheadPixmap->width(),bucketheadPixmap->height());
+        QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+        for (int i = 0; i < list.size(); i++)
+        {
+            Plant *item = dynamic_cast<Plant *>(list.at(i));
+            if (item)
+            {
+                item->life -= this->attack;
+                return;
+            }
+        }
+
         xPos -= this->speed;
         this->setPos(xPos,yPos);
+    }
+    else
+    {
+       Zombie::brainsEaten = true;
     }
 }
 
@@ -44,22 +67,6 @@ void Buckethead::advance(int phase)
 {
     if (!phase) return;
     move();
-
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), bucketheadPixmap->width(), bucketheadPixmap->height());
-    QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
-    for (int i = 0; i < (int)list.size(); i++)
-    {
-        Bullet *item = dynamic_cast<Bullet *>(list.at(i));
-        if (item)
-        {
-            this->life -= item->damage;
-            if (item->slow && !this->slow)
-            {
-                this->speed /= 2;
-                this->slow++;
-            }
-        }
-    }
 
     if (this->life <= 10)
     {

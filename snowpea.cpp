@@ -21,13 +21,10 @@ SnowPea::SnowPea(QPoint snowPeaPos) : screenLength(631)
 
     snowPeaPixmap = new QPixmap(":/Images/Snowpea.png");
     *snowPeaPixmap = snowPeaPixmap->scaledToWidth(50);
-    collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, screenLength);
+    collisionLine = new QGraphicsLineItem(this->x() + 25, this->y()+25, screenLength, this->y()+25);
 
     createBullet = new QTime;
     createBullet->start();
-
-    zombieAttack = new QTime;
-    zombieAttack->start();
 }
 
 SnowPea::~SnowPea()
@@ -35,7 +32,6 @@ SnowPea::~SnowPea()
     delete snowPeaPixmap;
     delete collisionLine;
     delete createBullet;
-    delete zombieAttack;
 }
 
 void SnowPea::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -64,20 +60,6 @@ void SnowPea::advance(int phase)
                 scene()->addItem(bullet);
                 createBullet->restart();
                 return;
-            }
-        }
-    }
-
-    list = scene()->collidingItems(this);
-    for (int i = 0; i < (int)list.size(); i++)
-    {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
-        {
-            if (zombieAttack->elapsed() >= this->rate*1000)
-            {
-                this->life -= item->attack;
-                zombieAttack->restart();
             }
         }
     }

@@ -181,7 +181,7 @@ void MainWindow::on_startButton_clicked()
     // Move scene.
     moveTimer = new QTimer;
     connect(moveTimer, SIGNAL(timeout()), scene, SLOT(advance()));
-    moveTimer->start(60);
+    moveTimer->start(50);
 
     // Create falling suns.
     createTimer = new QTimer;

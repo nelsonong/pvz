@@ -2,8 +2,10 @@
 #define ZOMBIE_H
 
 #include <QGraphicsItem>
+#include <QGraphicsRectItem>
 #include <QPainter>
 #include <QPixmap>
+#include <QTime>
 
 class Zombie : public QGraphicsItem
 {
@@ -13,6 +15,11 @@ public:
     int attack;
     double rate;
     double speed;
+    bool slowed;
+    static bool brainsEaten;
+    QTime *zombieAttack;
+    QGraphicsRectItem *collisionRect;
+
 
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;

@@ -46,7 +46,7 @@ QRectF SunFlower::boundingRect() const
 
 void SunFlower::advance(int phase)
 {
-    if(!phase) return;
+    if (!phase) return;
 
     if (createTimer->elapsed() >= this->rate*1000)
     {
@@ -55,17 +55,5 @@ void SunFlower::advance(int phase)
         scene()->addItem(sunItem);
     }
 
-    QList<QGraphicsItem *> list = scene()->collidingItems(this);
-    for (int i = 0; i < (int)list.size(); i++)
-    {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
-        {
-            if (zombieAttack->elapsed() >= item->rate*1000)
-            {
-                this->life -= item->attack;
-                zombieAttack->restart();
-            }
-        }
-    }
+
 }

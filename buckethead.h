@@ -17,15 +17,12 @@ public:
     Buckethead();
     Buckethead(QPoint startPos);
     ~Buckethead();
-    bool slow;
 
 private:
     QPixmap *bucketheadPixmap;
     int xPos;
     int yPos;
-    int increment;
     void move();
-    QGraphicsRectItem *collisionRect;
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

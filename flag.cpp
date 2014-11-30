@@ -13,7 +13,7 @@ Flag::Flag(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), increment(
 
     this->setPos(startPos);
     flagPixmap = new QPixmap(":/Images/Flag.png");
-    flagPixmap->scaledToHeight(50);
+    *flagPixmap = flagPixmap->scaledToHeight(50);
 }
 
 Flag::~Flag()

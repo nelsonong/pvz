@@ -10,6 +10,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QPoint>
+#include <QDebug>
 
 class Regular : public Zombie
 {
@@ -23,7 +24,6 @@ private:
     QPixmap *regularPixmap;
     int xPos;
     int yPos;
-    int increment;
     void move();
     QGraphicsRectItem *collisionRect;
 

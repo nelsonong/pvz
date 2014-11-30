@@ -72,7 +72,7 @@ void PotatoMine::advance(int phase)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

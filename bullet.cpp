@@ -7,7 +7,7 @@ Bullet::Bullet()
 Bullet::Bullet(Plant *plant) : xPos(plant->x()), yPos(plant->y())
 {
     this->plant = plant;
-    this->setPos(plant->pos());
+    this->setPos(plant->x(),plant->y());
     bulletPixmap = QPixmap(":/Images/Bullet.png");
     damage = plant->damage;
 
@@ -18,7 +18,6 @@ Bullet::Bullet(Plant *plant) : xPos(plant->x()), yPos(plant->y())
 Bullet::~Bullet()
 {
     delete collisionRect;
-    delete plant;
 }
 
 void Bullet::destroyBullet()
@@ -30,7 +29,7 @@ void Bullet::move()
 {
     if (this->x() < 1000)        // Once increment has completely decelerated to 0, stop decelerating.
     {
-        xPos += increment;    // Initial increment gets decelerated from original random amount.
+        xPos += 3;    // Initial increment gets decelerated from original random amount.
         this->setPos(xPos,yPos);
     }
 }
@@ -60,9 +59,4 @@ void Bullet::advance(int phase)
             delete this;
         }
     }
-}
-
-void Bullet::mousePressEvent(QGraphicsSceneMouseEvent *)
-{
-
 }

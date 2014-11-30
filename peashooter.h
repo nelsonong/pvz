@@ -11,6 +11,7 @@
 #include <QList>
 #include <QPoint>
 #include <QTime>
+#include <QDebug>
 
 class PeaShooter : public Plant
 {

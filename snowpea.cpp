@@ -20,7 +20,7 @@ SnowPea::SnowPea(QPoint snowPeaPos) : screenLength(631)
     this->setPos(snowPeaPos);
 
     snowPeaPixmap = new QPixmap(":/Images/Snowpea.png");
-    snowPeaPixmap->scaledToWidth(50);
+    *snowPeaPixmap = snowPeaPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, screenLength);
 
     createBullet = new QTime;
@@ -76,7 +76,7 @@ void SnowPea::advance(int phase)
         {
             if (zombieAttack->elapsed() >= this->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

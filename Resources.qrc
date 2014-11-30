@@ -12,12 +12,12 @@
         <file>Sun.png</file>
         <file>Repeater.png</file>
         <file>Sunflower.png</file>
-        <file>Regularzombie.png</file>
         <file>Buckethead.png</file>
         <file>Conehead.png</file>
         <file>Flag.png</file>
         <file>Newspaper.png</file>
         <file>Bullet.png</file>
+        <file>Regular.png</file>
     </qresource>
     <qresource prefix="/CSVs">
         <file>pvz_levels.csv</file>

@@ -13,7 +13,7 @@ Conehead::Conehead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), in
 
     this->setPos(startPos);
     coneheadPixmap = new QPixmap(":/Images/Conehead.png");
-    coneheadPixmap->scaledToHeight(50);
+    *coneheadPixmap = coneheadPixmap->scaledToHeight(50);
 }
 
 Conehead::~Conehead()

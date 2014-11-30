@@ -40,7 +40,6 @@ private:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);    // Moves bullet until collision.
-    void mousePressEvent(QGraphicsSceneMouseEvent *);
 
 };
 

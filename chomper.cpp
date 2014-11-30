@@ -20,7 +20,7 @@ Chomper::Chomper(QPoint chomperPos) : rectangleLength(120)
     this->setPos(chomperPos);
 
     chomperPixmap = new QPixmap(":/Images/Chomper.png");
-    chomperPixmap->scaledToWidth(50);
+    *chomperPixmap = chomperPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, rectangleLength);
 
     eatZombie = new QTime;
@@ -73,7 +73,7 @@ void Chomper::advance(int phase)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

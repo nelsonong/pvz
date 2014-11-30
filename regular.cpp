@@ -5,16 +5,16 @@ Regular::Regular()
 
 }
 
-Regular::Regular(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), increment(50)
+Regular::Regular(QPoint startPos) : xPos(400), yPos(startPos.y())
 {
     this->life = 10;
     this->attack = 1;
     this->rate = 0.5;
     this->speed = 5.0;
 
-    this->setPos(startPos);
+    this->setPos(xPos, yPos);
     regularPixmap = new QPixmap(":/Images/Regular.png");
-    regularPixmap->scaledToHeight(50);
+    *regularPixmap = regularPixmap->scaledToHeight(50);
 }
 
 Regular::~Regular()
@@ -51,6 +51,7 @@ void Regular::advance(int phase)
     for (int i = 0; i < (int)list.size(); i++)
     {
         Bullet *item = dynamic_cast<Bullet *>(list.at(i));
+        qDebug() << item;
         if (item)
         {
             this->life -= item->damage;
@@ -61,6 +62,8 @@ void Regular::advance(int phase)
             }
         }
     }
+
+    //qDebug() << "My health is " << this->life;
 
     if (this->life <= 0)
         delete this;

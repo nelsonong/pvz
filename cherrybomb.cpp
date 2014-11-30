@@ -20,7 +20,7 @@ CherryBomb::CherryBomb(QPoint cherryBombPos)
     this->setPos(cherryBombPos);
 
     cherryBombPixmap = new QPixmap(":/Images/Cherrybomb.png");
-    cherryBombPixmap->scaledToWidth(50);
+    *cherryBombPixmap = cherryBombPixmap->scaledToWidth(50);
 
     zombieBomb = new QTime;
     zombieBomb->start();
@@ -72,7 +72,7 @@ void CherryBomb::advance(int phase)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

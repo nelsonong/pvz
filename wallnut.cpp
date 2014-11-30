@@ -20,7 +20,7 @@ WallNut::WallNut(QPoint wallNutPos)
     this->setPos(wallNutPos);
 
     wallNutPixmap = new QPixmap(":/Images/Wallnut.png");
-    wallNutPixmap->scaledToWidth(50);
+    *wallNutPixmap = wallNutPixmap->scaledToWidth(50);
 
     zombieAttack = new QTime;
     zombieAttack->start();
@@ -54,7 +54,7 @@ void WallNut::advance(int phase)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

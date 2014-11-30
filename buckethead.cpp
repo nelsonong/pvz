@@ -13,7 +13,7 @@ Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 
     this->setPos(startPos);
     bucketheadPixmap = new QPixmap(":/Images/Buckethead.png");
-    bucketheadPixmap->scaledToHeight(50);
+    *bucketheadPixmap = bucketheadPixmap->scaledToHeight(50);
 }
 
 Buckethead::~Buckethead()

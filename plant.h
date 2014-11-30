@@ -13,7 +13,7 @@ public:
     int life;
     int range;
     int damage;
-    int rate;
+    double rate;
     int splash;
     int slow;
     int bomb;

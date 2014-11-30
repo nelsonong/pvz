@@ -20,7 +20,7 @@ Repeater::Repeater(QPoint repeaterPos)
     this->setPos(repeaterPos);
 
     repeaterPixmap = new QPixmap(":/Images/Repeater.png");
-    repeaterPixmap->scaledToWidth(50);
+    *repeaterPixmap = repeaterPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, screenLength);
 
     createBullet = new QTime;
@@ -76,7 +76,7 @@ void Repeater::advance(int phase)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

@@ -1,5 +1,7 @@
 #include "gamescreen.h"
 
+QPoint GameScreen::grid[10][6];
+
 GameScreen::GameScreen(QWidget *parent) :
     QGraphicsView(parent)
 {

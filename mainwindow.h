@@ -27,6 +27,7 @@
 #include "snowpea.h"
 #include "chomper.h"
 #include "repeater.h"
+#include "regular.h"
 
 namespace Ui {
 class MainWindow;
@@ -81,17 +82,19 @@ private:
     GameScreen *gameScreen;
     QGraphicsScene *scene;
 
-    // Objects to be put in UI.
-    Sun *sun;
-    Sun *sunFlowerSun;
+    // Plant objects.
     PeaShooter *peaShooter;
     SunFlower *sunFlower;
+    Sun *sun;
     CherryBomb *cherryBomb;
     WallNut *wallNut;
     PotatoMine *potatoMine;
     SnowPea *snowPea;
     Chomper *chomper;
     Repeater *repeater;
+
+    // Zombie objects.
+    Regular *regular;
 
     // Timers.
     QTimer *moveTimer;

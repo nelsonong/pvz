@@ -5,6 +5,7 @@
 #include <QMouseEvent>
 #include <QDebug>
 #include <QPoint>
+#include <vector>
 #include "peashooter.h"
 
 class GameScreen : public QGraphicsView
@@ -13,7 +14,7 @@ class GameScreen : public QGraphicsView
 
 public:
     explicit GameScreen(QWidget *parent = 0);
-    QPoint grid[10][6];    // To hold grid positions.
+    static QPoint grid[10][6];    // To hold grid positions.
     QPoint currentGridPoint;
 
 

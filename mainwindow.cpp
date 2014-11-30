@@ -3,6 +3,14 @@
 
 Player playerObject;
 
+struct lawnGrid
+{
+    QPoint gridPoint;
+    bool repeaterEnabled;
+};
+
+std::vector <lawnGrid> lawn;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), imageAdded(0)
@@ -15,17 +23,19 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->cherryBombButton->setIcon(QIcon(QPixmap(":/Images/Cherrybomb.png")));
     ui->wallNutButton->setIcon(QIcon(QPixmap(":/Images/Wallnut.png")));
     ui->potatoMineButton->setIcon(QIcon(QPixmap(":/Images/Potatomine.png")));
+    ui->snowPeaButton->setIcon(QIcon(QPixmap(":/Images/Snowpea.png")));
     ui->chomperButton->setIcon(QIcon(QPixmap(":/Images/Chomper.png")));
     ui->repeaterButton->setIcon(QIcon(QPixmap(":/Images/Repeater.png")));
 
     // Set icon sizes.
-    ui->peaShooterButton->setIconSize(QSize(20,20));
-    ui->sunFlowerButton->setIconSize(QSize(20,20));
-    ui->cherryBombButton->setIconSize(QSize(20,20));
-    ui->wallNutButton->setIconSize(QSize(20,20));
-    ui->potatoMineButton->setIconSize(QSize(20,20));
-    ui->chomperButton->setIconSize(QSize(20,20));
-    ui->repeaterButton->setIconSize(QSize(20,20));
+    ui->peaShooterButton->setIconSize(QSize(30,30));
+    ui->sunFlowerButton->setIconSize(QSize(30,30));
+    ui->cherryBombButton->setIconSize(QSize(30,30));
+    ui->wallNutButton->setIconSize(QSize(30,30));
+    ui->potatoMineButton->setIconSize(QSize(30,30));
+    ui->snowPeaButton->setIconSize(QSize(30,30));
+    ui->chomperButton->setIconSize(QSize(30,30));
+    ui->repeaterButton->setIconSize(QSize(30,30));
 
     // Validate player file for unicode and alphanumerical.
     if (Player::validPlayerFile())  // If player file is valid, set settings for most recent player.
@@ -300,6 +310,9 @@ void MainWindow::addImage()
     {
         peaShooter = new PeaShooter(gameScreen->currentGridPoint);
         scene->addItem(peaShooter);
+
+        regular = new Regular(gameScreen->currentGridPoint);
+        scene->addItem(regular);
 
         imageAdded++;
     }

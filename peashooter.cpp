@@ -21,7 +21,7 @@ PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
     this->setPos(peaShooterPos);
 
     peaShooterPixmap = new QPixmap(":/Images/Peashooter.png");
-    peaShooterPixmap->scaledToWidth(50);
+    *peaShooterPixmap = peaShooterPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, screenLength);
 
     createBullet = new QTime;
@@ -54,13 +54,16 @@ void PeaShooter::advance(int phase)
     if (!phase) return;
 
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionLine);
-    for (int i = 0; i < (int)list.size(); i++)
+    for (int i = 0; i < list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
+        qDebug() << "there are colliding items" << this->rate*1000;
+        Zombie *item = dynamic_cast<Zombie *>(list[i]);
+        qDebug() << item;
+        if (!item)
         {
             if (createBullet->elapsed() >= this->rate*1000)
             {
+                qDebug() << "bullet created";
                 bullet = new Bullet(this);
                 scene()->addItem(bullet);
                 createBullet->restart();
@@ -70,14 +73,14 @@ void PeaShooter::advance(int phase)
     }
 
     list = scene()->collidingItems(this);
-    for (int i = 0; i < (int)list.size(); i++)
+    for (int i = 0; i < list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
+        Zombie *item = dynamic_cast<Zombie *>(list[i]);
         if (item)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

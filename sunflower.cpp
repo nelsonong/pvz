@@ -21,7 +21,7 @@ SunFlower::SunFlower(QPoint gridPoint)
     this->need = 0;
 
     sunFlowerPixmap = new QPixmap(":/Images/Sunflower.png");
-    sunFlowerPixmap->scaledToWidth(50);
+    *sunFlowerPixmap = sunFlowerPixmap->scaledToWidth(50);
     this->setPos(gridPoint);
 
     createTimer = new QTime;
@@ -63,7 +63,7 @@ void SunFlower::advance(int phase)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life--;
+                this->life -= item->attack;
                 zombieAttack->restart();
             }
         }

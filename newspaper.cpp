@@ -13,7 +13,7 @@ Newspaper::Newspaper(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y()), 
 
     this->setPos(startPos);
     newspaperPixmap = new QPixmap(":/Images/Newspaper.png");
-    newspaperPixmap->scaledToHeight(50);
+    *newspaperPixmap = newspaperPixmap->scaledToHeight(50);
 }
 
 Newspaper::~Newspaper()

@@ -16,7 +16,7 @@ public:
 
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
-    void advance(int);
+    void advance(int phase);
 };
 
 #endif // ZOMBIE_H

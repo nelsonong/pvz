@@ -1,5 +1,5 @@
-#ifndef PEASHOOTER_H
-#define PEASHOOTER_H
+#ifndef REPEATER_H
+#define REPEATER_H
 #include "plant.h"
 #include "zombie.h"
 #include "bullet.h"
@@ -12,13 +12,13 @@
 #include <QPoint>
 #include <QTime>
 
-class PeaShooter : public Plant
+class Repeater : public Plant
 {
 public:
-    PeaShooter();
-    PeaShooter(QPoint peaShooterPos);
-    ~PeaShooter();
-    QPixmap *peaShooterPixmap;
+    Repeater();
+    Repeater(QPoint repeaterPos);
+    ~Repeater();
+    QPixmap *repeaterPixmap;
     int screenLength;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
@@ -31,4 +31,4 @@ public:
     QTime *zombieAttack;
 };
 
-#endif // PEASHOOTER_H
+#endif // REPEATER_H

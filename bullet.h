@@ -37,7 +37,7 @@ private:
     void move();            // Move bullet.
 
     // Virtual derived functions.
-    void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);    // Moves bullet until collision.
     void mousePressEvent(QGraphicsSceneMouseEvent *);

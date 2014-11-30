@@ -29,7 +29,13 @@ SOURCES += main.cpp\
     buckethead.cpp \
     newspaper.cpp \
     regular.cpp \
-    bullet.cpp
+    bullet.cpp \
+    chomper.cpp \
+    potatomine.cpp \
+    repeater.cpp \
+    cherrybomb.cpp \
+    snowpea.cpp \
+    wallnut.cpp
 
 HEADERS  += mainwindow.h \
     player.h \
@@ -44,7 +50,13 @@ HEADERS  += mainwindow.h \
     buckethead.h \
     newspaper.h \
     regular.h \
-    bullet.h
+    bullet.h \
+    chomper.h \
+    potatomine.h \
+    repeater.h \
+    cherrybomb.h \
+    snowpea.h \
+    wallnut.h
 
 FORMS    += mainwindow.ui
 

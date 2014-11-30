@@ -6,6 +6,7 @@
 #include <vector>
 #include <QFile>
 #include <QTextStream>
+#include <QString>
 #include <QStringList>
 #include <QDateTime>
 #include <QDebug>
@@ -20,6 +21,12 @@
 #include "sun.h"
 #include "peashooter.h"
 #include "sunflower.h"
+#include "cherrybomb.h"
+#include "wallnut.h"
+#include "potatomine.h"
+#include "snowpea.h"
+#include "chomper.h"
+#include "repeater.h"
 
 namespace Ui {
 class MainWindow;
@@ -79,13 +86,19 @@ private:
     Sun *sunFlowerSun;
     PeaShooter *peaShooter;
     SunFlower *sunFlower;
+    CherryBomb *cherryBomb;
+    WallNut *wallNut;
+    PotatoMine *potatoMine;
+    SnowPea *snowPea;
+    Chomper *chomper;
+    Repeater *repeater;
 
     // Timers.
     QTimer *moveTimer;
     QTimer *createTimer;
     QTimer *updateSunPointsTimer;
 
-    int plantClicked;
+    QString plantClicked;
     bool buttonClicked;
     bool imageAdded;
 };

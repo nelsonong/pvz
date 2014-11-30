@@ -20,16 +20,23 @@ SunFlower::SunFlower(QPoint gridPoint)
     this->sun = 1;
     this->need = 0;
 
-    sunFlowerPixmap = (QPixmap(":/Images/Sunflower.png")).scaledToWidth(50);
+    sunFlowerPixmap = new QPixmap(":/Images/Sunflower.png");
+    sunFlowerPixmap->scaledToWidth(50);
     this->setPos(gridPoint);
 
     createTimer = new QTime;
     createTimer->start();
 }
 
+SunFlower::~SunFlower()
+{
+    delete sunFlowerPixmap;
+    delete createTimer;
+}
+
 void SunFlower::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), sunFlowerPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *sunFlowerPixmap, boundingRect());
 }
 
 QRectF SunFlower::boundingRect() const
@@ -41,10 +48,24 @@ void SunFlower::advance(int phase)
 {
     if(!phase) return;
 
-    if (createTimer->elapsed() >= 24000)
+    if (createTimer->elapsed() >= this->rate*1000)
     {
         createTimer->restart();
         sunItem = new Sun(point);
         scene()->addItem(sunItem);
+    }
+
+    QList<QGraphicsItem *> list = scene()->collidingItems(this);
+    for (int i = 0; i < (int)list.size(); i++)
+    {
+        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
+        if (item)
+        {
+            if (zombieAttack->elapsed() >= item->rate*1000)
+            {
+                this->life--;
+                zombieAttack->restart();
+            }
+        }
     }
 }

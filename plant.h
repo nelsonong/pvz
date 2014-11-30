@@ -9,6 +9,7 @@ class Plant : public QGraphicsItem
 {
 public:
     Plant();
+    int cost;
     int life;
     int range;
     int damage;

@@ -25,8 +25,7 @@ void Buckethead::move()
 {
     if (!(this->collidesWithItem(this)) && (xPos != 0))
     {
-        xPos += increment;
-        increment--;
+        xPos -= this->speed;
         this->setPos(xPos,yPos);
     }
 }

@@ -196,42 +196,42 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_peaShooterButton_clicked()
 {
-    plantClicked = 1;
+    plantClicked = "peashooter";
 }
 
 void MainWindow::on_sunFlowerButton_clicked()
 {
-    plantClicked = 2;
+    plantClicked = "sunflower";
 }
 
 void MainWindow::on_cherryBombButton_clicked()
 {
-    plantClicked = 3;
+    plantClicked = "cherrybomb";
 }
 
 void MainWindow::on_wallNutButton_clicked()
 {
-    plantClicked = 4;
+    plantClicked = "wallnut";
 }
 
 void MainWindow::on_potatoMineButton_clicked()
 {
-    plantClicked = 5;
+    plantClicked = "potatomine";
 }
 
 void MainWindow::on_snowPeaButton_clicked()
 {
-    plantClicked = 6;
+    plantClicked = "snowpea";
 }
 
 void MainWindow::on_chomperButton_clicked()
 {
-    plantClicked = 7;
+    plantClicked = "chomper";
 }
 
 void MainWindow::on_repeaterButton_clicked()
 {
-    plantClicked = 8;
+    plantClicked = "repeater";
 }
 
 void MainWindow::createSun()
@@ -242,52 +242,52 @@ void MainWindow::createSun()
 
 void MainWindow::updateSunPoints()
 {
-    if (plantClicked == 1 && imageAdded)
+    if (plantClicked == "peashooter" && imageAdded)
     {
         sun->sunPoints -= 100;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
-    else if (plantClicked == 2 && imageAdded)
+    else if (plantClicked == "sunflower" && imageAdded)
     {
         sun->sunPoints -= 50;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
-    else if (plantClicked == 3 && imageAdded)
+    else if (plantClicked == "cherrybomb" && imageAdded)
     {
         sun->sunPoints -= 150;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
-    else if (plantClicked == 4 && imageAdded)
+    else if (plantClicked == "wallnut" && imageAdded)
     {
         sun->sunPoints -= 50;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
-    else if (plantClicked == 5 && imageAdded)
+    else if (plantClicked == "potatomine" && imageAdded)
     {
         sun->sunPoints -= 25;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
-    else if (plantClicked == 6 && imageAdded)
+    else if (plantClicked == "snowpea" && imageAdded)
     {
         sun->sunPoints -= 175;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
-    else if (plantClicked == 7 && imageAdded)
+    else if (plantClicked == "chomper" && imageAdded)
     {
         sun->sunPoints -= 150;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
-    else if (plantClicked == 8 && imageAdded)
+    else if (plantClicked == "repeater" && imageAdded)
     {
         sun->sunPoints -= 200;
-        plantClicked = 0;
+        plantClicked = "0";
         imageAdded = 0;
     }
 
@@ -296,19 +296,60 @@ void MainWindow::updateSunPoints()
 
 void MainWindow::addImage()
 {
-    if ((plantClicked == 1) && (!imageAdded))
+    if ((plantClicked == "peashooter") && (!imageAdded))
     {
-        peaShooter = new PeaShooter;
-        peaShooter->setPos(gameScreen->currentGridPoint);
+        peaShooter = new PeaShooter(gameScreen->currentGridPoint);
         scene->addItem(peaShooter);
 
-        imageAdded = 1;
+        imageAdded++;
     }
-    else if ((plantClicked == 2) && (!imageAdded))
+    else if ((plantClicked == "sunflower") && (!imageAdded))
     {
         sunFlower = new SunFlower(gameScreen->currentGridPoint);
         scene->addItem(sunFlower);
 
-        imageAdded = 1;
+        imageAdded++;
+    }
+    else if ((plantClicked == "cherrybomb") && (!imageAdded))
+    {
+        cherryBomb = new CherryBomb(gameScreen->currentGridPoint);
+        scene->addItem(cherryBomb);
+
+        imageAdded++;
+    }
+    else if ((plantClicked == "wallnut") && (!imageAdded))
+    {
+        wallNut = new WallNut(gameScreen->currentGridPoint);
+        scene->addItem(wallNut);
+
+        imageAdded++;
+    }
+    else if ((plantClicked == "potatomine") && (!imageAdded))
+    {
+        potatoMine = new PotatoMine(gameScreen->currentGridPoint);
+        scene->addItem(potatoMine);
+
+        imageAdded++;
+    }
+    else if ((plantClicked == "snowpea") && (!imageAdded))
+    {
+        snowPea = new SnowPea(gameScreen->currentGridPoint);
+        scene->addItem(snowPea);
+
+        imageAdded++;
+    }
+    else if ((plantClicked == "chomper") && (!imageAdded))
+    {
+        chomper = new Chomper(gameScreen->currentGridPoint);
+        scene->addItem(chomper);
+
+        imageAdded++;
+    }
+    else if ((plantClicked == "repeater") && (!imageAdded))
+    {
+        repeater = new Repeater(gameScreen->currentGridPoint);
+        scene->addItem(repeater);
+
+        imageAdded++;
     }
 }

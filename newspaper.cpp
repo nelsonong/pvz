@@ -25,8 +25,7 @@ void Newspaper::move()
 {
     if (!(this->collidesWithItem(this)) && (xPos != 0))
     {
-        xPos += increment;
-        increment--;
+        xPos -= this->speed;
         this->setPos(xPos,yPos);
     }
 }
@@ -62,10 +61,11 @@ void Newspaper::advance(int phase)
         }
     }
 
-    if (this->life <= 10)
+    if (this->life <= 8)
     {
         delete newspaperPixmap;
         newspaperPixmap = new QPixmap(":/Images/Regular.png");
+        this->speed = 2;
     }
 
     if (this->life <= 0)

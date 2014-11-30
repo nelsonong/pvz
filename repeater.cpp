@@ -1,15 +1,14 @@
-#include "peashooter.h"
+#include "repeater.h"
 
-PeaShooter::PeaShooter()
+Repeater::Repeater()
 {
-
 }
 
-PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
+Repeater::Repeater(QPoint repeaterPos)
 {
     this->life = 4;
     this->range = 9999;
-    this->damage = 1;
+    this->damage = 2;
     this->rate = 1.5;
     this->splash = 0;
     this->slow = 0;
@@ -18,10 +17,10 @@ PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
     this->sun = 0;
     this->need = 0;
 
-    this->setPos(peaShooterPos);
+    this->setPos(repeaterPos);
 
-    peaShooterPixmap = new QPixmap(":/Images/Peashooter.png");
-    peaShooterPixmap->scaledToWidth(50);
+    repeaterPixmap = new QPixmap(":/Images/Repeater.png");
+    repeaterPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, screenLength);
 
     createBullet = new QTime;
@@ -31,25 +30,25 @@ PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
     zombieAttack->start();
 }
 
-PeaShooter::~PeaShooter()
+Repeater::~Repeater()
 {
-    delete peaShooterPixmap;
+    delete repeaterPixmap;
     delete collisionLine;
     delete createBullet;
     delete zombieAttack;
 }
 
-void PeaShooter::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void Repeater::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), *peaShooterPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *repeaterPixmap, boundingRect());
 }
 
-QRectF PeaShooter::boundingRect() const
+QRectF Repeater::boundingRect() const
 {
     return QRectF(0,0,50,50);   // Set boundingRect() to image size.
 }
 
-void PeaShooter::advance(int phase)
+void Repeater::advance(int phase)
 {
     if (!phase) return;
 

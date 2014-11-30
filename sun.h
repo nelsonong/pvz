@@ -16,6 +16,7 @@ class Sun : public QGraphicsItem
 public:
     Sun();                  // Sun type 1 (falling sun).
     Sun(QPoint point);      // Sun type 2 (sunflower sun).
+    ~Sun();
 
     // Variables.
     static bool sunClicked; // Makes sure sun isn't deleted twice after clicked.
@@ -26,7 +27,7 @@ public:
 
 private:
     // Variables
-    QPixmap sunPixmap;
+    QPixmap *sunPixmap;
     int xPos;               // Falling sun's random x-position.
     int yPos;               // Falling sun's moving y-position.
     int sunType;            // Falling sun(type-1) or sunflower sun(type-2).
@@ -38,7 +39,7 @@ private:
     void move();            // Move falling sun.
 
     // Virtual derived functions.
-    void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);    // Moves falling sun and destroys sunflower sun.
     void mousePressEvent(QGraphicsSceneMouseEvent *e);

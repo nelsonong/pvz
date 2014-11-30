@@ -1,8 +1,7 @@
-#ifndef PEASHOOTER_H
-#define PEASHOOTER_H
+#ifndef WALLNUT_H
+#define WALLNUT_H
 #include "plant.h"
 #include "zombie.h"
-#include "bullet.h"
 
 #include <QGraphicsItem>
 #include <QGraphicsLineItem>
@@ -12,23 +11,19 @@
 #include <QPoint>
 #include <QTime>
 
-class PeaShooter : public Plant
+class WallNut : public Plant
 {
 public:
-    PeaShooter();
-    PeaShooter(QPoint peaShooterPos);
-    ~PeaShooter();
-    QPixmap *peaShooterPixmap;
-    int screenLength;
+    WallNut();
+    WallNut(QPoint wallNutPos);
+    ~WallNut();
+    QPixmap *wallNutPixmap;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
-    QGraphicsLineItem *collisionLine;
     void advance(int phase);
 
-    Bullet *bullet;
-    QTime *createBullet;
     QTime *zombieAttack;
 };
 
-#endif // PEASHOOTER_H
+#endif // WALLNUT_H

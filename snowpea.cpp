@@ -1,27 +1,26 @@
-#include "peashooter.h"
+#include "snowpea.h"
 
-PeaShooter::PeaShooter()
+SnowPea::SnowPea()
 {
-
 }
 
-PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
+SnowPea::SnowPea(QPoint snowPeaPos) : screenLength(631)
 {
     this->life = 4;
     this->range = 9999;
     this->damage = 1;
     this->rate = 1.5;
     this->splash = 0;
-    this->slow = 0;
+    this->slow = 1;
     this->bomb = 0;
     this->seeding = 7.5;
     this->sun = 0;
     this->need = 0;
 
-    this->setPos(peaShooterPos);
+    this->setPos(snowPeaPos);
 
-    peaShooterPixmap = new QPixmap(":/Images/Peashooter.png");
-    peaShooterPixmap->scaledToWidth(50);
+    snowPeaPixmap = new QPixmap(":/Images/Snowpea.png");
+    snowPeaPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, screenLength);
 
     createBullet = new QTime;
@@ -31,25 +30,25 @@ PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
     zombieAttack->start();
 }
 
-PeaShooter::~PeaShooter()
+SnowPea::~SnowPea()
 {
-    delete peaShooterPixmap;
+    delete snowPeaPixmap;
     delete collisionLine;
     delete createBullet;
     delete zombieAttack;
 }
 
-void PeaShooter::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void SnowPea::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), *peaShooterPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *snowPeaPixmap, boundingRect());
 }
 
-QRectF PeaShooter::boundingRect() const
+QRectF SnowPea::boundingRect() const
 {
     return QRectF(0,0,50,50);   // Set boundingRect() to image size.
 }
 
-void PeaShooter::advance(int phase)
+void SnowPea::advance(int phase)
 {
     if (!phase) return;
 
@@ -75,7 +74,7 @@ void PeaShooter::advance(int phase)
         Zombie *item = dynamic_cast<Zombie *>(list.at(i));
         if (item)
         {
-            if (zombieAttack->elapsed() >= item->rate*1000)
+            if (zombieAttack->elapsed() >= this->rate*1000)
             {
                 this->life--;
                 zombieAttack->restart();

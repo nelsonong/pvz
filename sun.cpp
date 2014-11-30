@@ -6,17 +6,22 @@ int Sun::sunPoints = 0;
 Sun::Sun() : xPos(qrand()%560 + 20), yPos(0), sunType(1), increment(qrand()%19 + 8), timeStarted(0)
 {
     this->setPos(xPos,yPos);        // Set initial position to be random along the top of graphicsView.
-    sunPixmap = QPixmap(":/Images/Sun.png");
+    sunPixmap = new QPixmap(":/Images/Sun.png");
     destroyTimer = new QTime;
 }
 
 Sun::Sun(QPoint sunFlowerPos) : sunType(2)
 {
     this->setPos(sunFlowerPos);
-    sunPixmap = QPixmap(":/Images/Sun.png");
+    sunPixmap = new QPixmap(":/Images/Sun.png");
     destroyTimer = new QTime;
     destroyTimer->start();
-    qDebug() << "sun made";
+}
+
+Sun::~Sun()
+{
+    delete sunPixmap;
+    delete destroyTimer;
 }
 
 void Sun::destroySun()
@@ -36,7 +41,7 @@ void Sun::move()
 
 void Sun::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), sunPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *sunPixmap, boundingRect());
 }
 
 QRectF Sun::boundingRect() const

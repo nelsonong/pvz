@@ -1,11 +1,57 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+Player playerlist;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), imageAdded(0)
 {
     ui->setupUi(this);
+
+    qDebug() << "1";
+    // Load players from text file in order of most to least recent.
+    Player::loadPlayers();
+
+    qDebug() << "2";
+    // Validate player file (unicode/alphanumerical).
+    if (Player::validPlayerFile())
+    {
+        // If playerFile is valid, load most recent players into comboBox and labels.
+        for (int i = 0; i < Player::playerListSize(); i++)
+        {
+          ui->comboBox->addItem(Player::playerName(i));
+        }
+
+        // Set ui elements for most recent player.
+        ui->nameLabel->setText(Player::playerName(0));
+        ui->levelLabel->setText(Player::playerLevel(0));
+        ui->comboBox->setCurrentIndex(0);
+    }
+    else
+    {
+        // If file is invalid, discard current file.
+        Player::clearPlayers();
+
+        // Set blank ui elements.
+        ui->nameLabel->setText("");
+        ui->levelLabel->setText("");
+
+        // Only enable new button.
+        ui->startButton->setEnabled(false);
+        ui->deleteButton->setEnabled(false);
+        ui->restartButton->setEnabled(false);
+        ui->quitButton->setEnabled(false);
+    }
+
+
+    ui->sunPointsLabel->setText("0");
+
+    // Show PvZ logo until start is pressed.
+    QPixmap *logo = new QPixmap(":/Images/Logo.png");
+    scene = new QGraphicsScene(ui->graphicsView); // scene holds all objects in the scene.
+    scene->addPixmap(logo->scaledToWidth(ui->graphicsView->width()/1.5));
+    ui->graphicsView->setScene(scene);
 
     // Set button icons.
     ui->peaShooterButton->setIcon(QIcon(QPixmap(":/Images/Peashooter.png")));
@@ -37,42 +83,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->chomperButton->setToolTip("Chomper, Cost: 150");
     ui->repeaterButton->setToolTip("Repeater, Cost: 200");
 
-    // Validate player file for unicode and alphanumerical.
-    Player::orderPlayerList();
-    if (Player::validPlayerFile())  // If player file is valid, set settings for most recent player.
-    {
-        for (int i = 0; i < Player::playerListSize(); i++)
-        {
-          ui->comboBox->addItem(Player::playerName(i));     // Add existing players to comboBox.
-        }
-        // Set ui elements for most recent player.
-        ui->nameLabel->setText(Player::playerName(0));      // Set name to most recent player.
-        ui->levelLabel->setText(Player::playerLevel(0));    // Set level to most recent player.
-        ui->comboBox->setCurrentIndex(0);                   // Set comboBox to most recent player.
-    }
-    else    // If invalid player file, clear file and only make new button available.
-    {
-        //Player::clearPlayerList();  // Discard current file.
-
-        qDebug() << "invalid";
-        // Set ui elements for if no players exist.
-        ui->nameLabel->setText("");   // Delete player name.
-        ui->levelLabel->setText("");  // Delete player level.
-
-        // Disable buttons if no players.
-        ui->startButton->setEnabled(false);
-        ui->deleteButton->setEnabled(false);
-        ui->restartButton->setEnabled(false);
-    }
-
-    ui->sunPointsLabel->setText("0");
-
-    // Show PvZ logo until start is pressed.
-    QPixmap *logo = new QPixmap(":/Images/Logo.png");
-    scene = new QGraphicsScene(ui->graphicsView); // scene holds all objects in the scene.
-    scene->addPixmap(logo->scaledToWidth(ui->graphicsView->width()/1.5));
-    ui->graphicsView->setScene(scene);
-
     // Disable all plant buttons.
     ui->peaShooterButton->setEnabled(false);
     ui->sunFlowerButton->setEnabled(false);
@@ -92,7 +102,7 @@ void MainWindow::on_comboBox_currentIndexChanged(int index)
 }
 
 void MainWindow::on_newButton_clicked()
-{       
+{
     // Add player info.
     QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");    // Get current date.
     QString name = QInputDialog::getText(this, "Get Name", "What's your name? ", QLineEdit::Normal, "");
@@ -133,7 +143,7 @@ void MainWindow::on_deleteButton_clicked()
 
 void MainWindow::on_startButton_clicked()
 {
-    Player::makeMostRecent(ui->comboBox->currentIndex());   // Move selected player in pvz_players.csv to the top (most recent).
+    Player::makePlayerMostRecent(ui->comboBox->currentIndex());   // Move selected player in pvz_players.csv to the top (most recent).
 
     // Set ui elements to selected player.
     ui->comboBox->blockSignals(true);
@@ -221,41 +231,105 @@ MainWindow::~MainWindow()
 void MainWindow::on_peaShooterButton_clicked()
 {
     plantClicked = "peashooter";
+    ui->peaShooterButton->setFlat(false);
+    ui->sunFlowerButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }
 
 void MainWindow::on_sunFlowerButton_clicked()
 {
     plantClicked = "sunflower";
+    ui->sunFlowerButton->setFlat(false);
+    ui->peaShooterButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }
 
 void MainWindow::on_cherryBombButton_clicked()
 {
     plantClicked = "cherrybomb";
+    ui->cherryBombButton->setFlat(false);
+    ui->peaShooterButton->setFlat(true);
+    ui->sunFlowerButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }
 
 void MainWindow::on_wallNutButton_clicked()
 {
     plantClicked = "wallnut";
+    ui->wallNutButton->setFlat(false);
+    ui->peaShooterButton->setFlat(true);
+    ui->sunFlowerButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }
 
 void MainWindow::on_potatoMineButton_clicked()
 {
     plantClicked = "potatomine";
+    ui->potatoMineButton->setFlat(false);
+    ui->peaShooterButton->setFlat(true);
+    ui->sunFlowerButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }
 
 void MainWindow::on_snowPeaButton_clicked()
 {
     plantClicked = "snowpea";
+    ui->snowPeaButton->setFlat(false);
+    ui->peaShooterButton->setFlat(true);
+    ui->sunFlowerButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }
 
 void MainWindow::on_chomperButton_clicked()
 {
     plantClicked = "chomper";
+    ui->chomperButton->setFlat(false);
+    ui->peaShooterButton->setFlat(true);
+    ui->sunFlowerButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }
 
 void MainWindow::on_repeaterButton_clicked()
 {
     plantClicked = "repeater";
+    ui->repeaterButton->setFlat(false);
+    ui->peaShooterButton->setFlat(true);
+    ui->sunFlowerButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
 }
 
 void MainWindow::createSun()
@@ -419,4 +493,13 @@ void MainWindow::addImage()
 
         imageAdded++;
     }
+
+    ui->peaShooterButton->setFlat(true);
+    ui->sunFlowerButton->setFlat(true);
+    ui->cherryBombButton->setFlat(true);
+    ui->wallNutButton->setFlat(true);
+    ui->potatoMineButton->setFlat(true);
+    ui->snowPeaButton->setFlat(true);
+    ui->chomperButton->setFlat(true);
+    ui->repeaterButton->setFlat(true);
 }

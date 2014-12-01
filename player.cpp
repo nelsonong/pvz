@@ -1,5 +1,4 @@
 #include "player.h"
-#include <QDebug>
 
 std::vector<QStringList> playerList;
 
@@ -7,60 +6,37 @@ Player::Player()
 {
 }
 
-void Player::fillPlayerList()
+void Player::loadPlayers()
 {
     QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1.csv");
     if (save_file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream text(&save_file);
-
         while(!text.atEnd())
         {
             playerList.push_back(text.readLine().split(":")); // Fill playerList with info from pvz_player.csv.
         }
 
-        save_file.close();
-    }
-}
-
-void Player::orderPlayerList()
-{
-    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1.csv");
-    if (save_file.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        QTextStream text(&save_file);
-
-        while(!text.atEnd())
+        for (int i = 0; i < playerList.size()-1; i++)
         {
-            playerList.push_back(text.readLine().split(":")); // Fill playerList with info from pvz_player.csv.
-        }
-
-        if (playerList.size() > 0)
-        {
-            for (int i = 0; i < playerList.size()-1; i++)
+            int maxIndex = i;
+            QStringList max = playerList.at(i);
+            for (int j = i+1; j < playerList.size(); j++)
             {
-                QStringList max = playerList.at(i);
-                int maxIndex;
-                for (int j = i+1; j < playerList.size(); j++)
+                if (max[0].toInt() < playerList.at(j)[0].toInt())
                 {
-                    if (max[0].toInt() < playerList.at(j)[0].toInt())
-                    {
-                        max = playerList.at(j);
-                        maxIndex = j;
-                    }
+                    max = playerList.at(j);
+                    maxIndex = j;
                 }
-
-                QStringList temp = playerList.at(i);
-                playerList.at(i) = playerList.at(maxIndex);
-                playerList.at(maxIndex) = temp;
             }
-            updatePlayersFile();
+            std::swap(playerList[i],playerList[maxIndex]);
         }
-        save_file.close();
+        updatePlayersFile();
     }
+    save_file.close();
 }
 
-void Player::clearPlayerList()
+void Player::clearPlayers()
 {
     playerList.clear();
     updatePlayersFile();
@@ -78,6 +54,8 @@ bool Player::validPlayerFile()
         for (int nameChar = 0; nameChar < playerName(player).size(); nameChar++)
         {
             if (!playerName(player).at(nameChar).isLetterOrNumber())
+                return 0;
+            else if (playerName(player).size() > 10)
                 return 0;
         }
     }
@@ -112,7 +90,7 @@ void Player::deletePlayer(int index)
     updatePlayersFile();
 }
 
-void Player::makeMostRecent(int index)
+void Player::makePlayerMostRecent(int index)
 {
     playerList.insert(playerList.begin(), playerList.at(index));
     playerList.erase(playerList.begin() + index + 1);

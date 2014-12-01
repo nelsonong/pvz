@@ -1,5 +1,7 @@
 #include "peashooter.h"
 
+int Plant::seeding = 7.5;
+
 PeaShooter::PeaShooter()
 {
 

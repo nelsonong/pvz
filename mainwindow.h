@@ -76,15 +76,13 @@ private slots:
 
     void on_repeaterButton_clicked();
 
-    // Sun functions.
-    void createSun();
+    void createSun();           // Create a falling sun every 10s.
 
-    void updateSunPoints();
+    void updateSunPoints();     // Update sun points ever 10ms.
 
-    void updateButtons();
+    void updateButtons();       // Disable buttons when not enough suns.
 
-    // Add plant functions.
-    void addImage();
+    void addImage();            // Add plants.
 
 private:
     // UI objects.
@@ -117,7 +115,16 @@ private:
     QTimer *advanceTimer;
     QTimer *createSunTimer;
     QTimer *updateTimer;
+    QTimer *peaShooterCooldownTimer;
+    QTimer *sunFlowerCooldownTimer;
+    QTimer *cherryBombCoolDownTimer;
+    QTimer *wallNutCooldownTimer;
+    QTimer *potatoMineCooldownTimer;
+    QTimer *snowPeaCooldownTimer;
+    QTimer *chomperCooldownTimer;
+    QTimer *repeaterCooldownTimer;
 
+    // Boolean checkers.
     QString plantClicked;
     bool buttonClicked;
     bool imageAdded;

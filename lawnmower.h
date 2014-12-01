@@ -1,9 +1,6 @@
-#ifndef REGULAR_H
-#define REGULAR_H
+#ifndef LAWNMOWER_H
+#define LAWNMOWER_H
 #include "zombie.h"
-#include "plant.h"
-#include "bullet.h"
-#include "lawnmower.h"
 
 #include <QGraphicsItem>
 #include <QGraphicsRectItem>
@@ -11,20 +8,22 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QPoint>
-#include <QDebug>
 
-class Regular : public Zombie
+class LawnMower : public QGraphicsItem
 {
 public:
-    Regular();
-    Regular(QPoint startPos);
-    ~Regular();
+    LawnMower();
+    LawnMower(QPoint lawnMowerPos);
+    ~LawnMower();
+    bool move;
 
 private:
-    QPixmap *regularPixmap;
+    QPixmap *lawnMowerPixmap;
     int xPos;
     int yPos;
-    void move();
+    int screenLength;
+    int speed;
+    bool zombieContact;
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
@@ -32,4 +31,4 @@ private:
     void advance(int phase);
 };
 
-#endif // REGULAR_H
+#endif // LAWNMOWER_H

@@ -1,7 +1,7 @@
 #include "sun.h"
 
 bool Sun::sunClicked = false;
-int Sun::sunPoints = 0;
+int Sun::sunPoints = 100;
 
 Sun::Sun() : xPos(qrand()%560 + 20), yPos(0), sunType(1), increment(qrand()%19 + 8), timeStarted(0)
 {

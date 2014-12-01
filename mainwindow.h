@@ -27,7 +27,14 @@
 #include "snowpea.h"
 #include "chomper.h"
 #include "repeater.h"
+
 #include "regular.h"
+#include "flag.h"
+#include "conehead.h"
+#include "buckethead.h"
+#include "newspaper.h"
+
+#include "lawnmower.h"
 
 namespace Ui {
 class MainWindow;
@@ -95,6 +102,12 @@ private:
 
     // Zombie objects.
     Regular *regular;
+    Flag *flag;
+    Conehead *conhead;
+    Buckethead *buckethead;
+    Newspaper *newspaper;
+
+    LawnMower *lawnMower;
 
     // Timers.
     QTimer *moveTimer;

@@ -18,6 +18,7 @@
         <file>Newspaper.png</file>
         <file>Bullet.png</file>
         <file>Regular.png</file>
+        <file>Lawnmower.png</file>
     </qresource>
     <qresource prefix="/CSVs">
         <file>pvz_levels.csv</file>

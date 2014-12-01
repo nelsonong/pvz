@@ -6,16 +6,16 @@ SnowPea::SnowPea()
 
 SnowPea::SnowPea(QPoint snowPeaPos) : screenLength(631)
 {
-    this->life = 4;
-    this->range = 9999;
-    this->damage = 1;
-    this->rate = 1.5;
-    this->splash = 0;
-    this->slow = 1;
-    this->bomb = 0;
-    this->seeding = 7.5;
-    this->sun = 0;
-    this->need = 0;
+    life = 4;
+    range = 9999;
+    damage = 1;
+    rate = 1.5;
+    splash = 0;
+    slow = 1;
+    bomb = 0;
+    seeding = 7.5;
+    sun = 0;
+    need = 0;
 
     this->setPos(snowPeaPos);
 

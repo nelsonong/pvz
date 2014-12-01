@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     repeater.cpp \
     cherrybomb.cpp \
     snowpea.cpp \
-    wallnut.cpp
+    wallnut.cpp \
+    lawnmower.cpp
 
 HEADERS  += mainwindow.h \
     player.h \
@@ -56,7 +57,8 @@ HEADERS  += mainwindow.h \
     repeater.h \
     cherrybomb.h \
     snowpea.h \
-    wallnut.h
+    wallnut.h \
+    lawnmower.h
 
 FORMS    += mainwindow.ui
 

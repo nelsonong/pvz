@@ -13,6 +13,7 @@ class Player
 public:
     Player();
     void fillPlayerList();
+    static void orderPlayerList();
     static void clearPlayerList();
     static bool validPlayerFile();
     static void addPlayer(QString timestamp, QString name, QString level);

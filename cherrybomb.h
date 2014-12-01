@@ -18,6 +18,8 @@ public:
     CherryBomb(QPoint cherryBombPos);
     ~CherryBomb();
     QPixmap *cherryBombPixmap;
+    int squareWidth;
+    int squareHeight;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;

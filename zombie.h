@@ -17,8 +17,7 @@ public:
     double speed;
     bool slowed;
     static bool brainsEaten;
-    QTime *zombieAttack;
-    QGraphicsRectItem *collisionRect;
+    QTime *attackTimer;
 
 
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);

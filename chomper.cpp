@@ -6,16 +6,16 @@ Chomper::Chomper()
 
 Chomper::Chomper(QPoint chomperPos) : rectangleLength(120)
 {
-    this->life = 4;
-    this->range = 1;
-    this->damage = 150;
-    this->rate = 42;
-    this->splash = 0;
-    this->slow = 0;
-    this->bomb = 0;
-    this->seeding = 7.5;
-    this->sun = 0;
-    this->need = 0;
+    life = 4;
+    range = 1;
+    damage = 150;
+    rate = 42;
+    splash = 0;
+    slow = 0;
+    bomb = 0;
+    seeding = 7.5;
+    sun = 0;
+    need = 0;
 
     this->setPos(chomperPos);
 
@@ -54,7 +54,7 @@ void Chomper::advance(int phase)
         Zombie *item = dynamic_cast<Zombie *>(list.at(i));
         if (item)
         {
-            if (eatZombie->elapsed() >= this->rate*1000)
+            if (eatZombie->elapsed() >= rate*1000)
             {
                 delete item;
             }
@@ -69,12 +69,12 @@ void Chomper::advance(int phase)
         {
             if (zombieAttack->elapsed() >= item->rate*1000)
             {
-                this->life -= item->attack;
+                life -= item->attack;
                 zombieAttack->restart();
             }
         }
     }
 
-    if (this->life <= 0)
+    if (life <= 0)
         delete this;
 }

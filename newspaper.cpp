@@ -14,26 +14,22 @@ Newspaper::Newspaper(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 
     this->setPos(startPos);
     newspaperPixmap = new QPixmap(":/Images/Newspaper.png");
-    *newspaperPixmap = newspaperPixmap->scaledToHeight(50);
+    *newspaperPixmap = newspaperPixmap->scaledToHeight(70);
 
-    this->zombieAttack = new QTime;
-    this->zombieAttack->start();
-
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), newspaperPixmap->width(), newspaperPixmap->height());
+    this->attackTimer = new QTime;
+    this->attackTimer->start();
 }
 
 Newspaper::~Newspaper()
 {
-    delete this->zombieAttack;
-    delete collisionRect;
+    delete attackTimer;
 }
 
 void Newspaper::move()
 {
     if (xPos != 0)
     {
-        collisionRect->setRect(this->x(),this->y(),newspaperPixmap->width(),newspaperPixmap->height());
-        QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+        QList<QGraphicsItem *> list = scene()->collidingItems(this);
         for (int i = 0; i < list.size(); i++)
         {
             Plant *item = dynamic_cast<Plant *>(list.at(i));
@@ -60,7 +56,7 @@ void Newspaper::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidg
 
 QRectF Newspaper::boundingRect() const
 {
-    return QRectF(0,0,50,50);
+    return QRectF(0,0,60,70);
 }
 
 void Newspaper::advance(int phase)

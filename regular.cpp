@@ -5,43 +5,45 @@ Regular::Regular()
 
 }
 
-Regular::Regular(QPoint startPos) : xPos(400), yPos(startPos.y())
+Regular::Regular(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 {
-    this->life = 10;
-    this->attack = 1;
-    this->rate = 0.5;
-    this->speed = 1.0;
+    life = 10;
+    attack = 1;
+    rate = 0.5;
+    speed = 1.0;
 
     this->setPos(xPos, yPos);
     regularPixmap = new QPixmap(":/Images/Regular.png");
-    *regularPixmap = regularPixmap->scaledToHeight(50);
+    *regularPixmap = regularPixmap->scaledToHeight(70);
 
-    this->zombieAttack = new QTime;
-    this->zombieAttack->start();
-
-    this->collisionRect = new QGraphicsRectItem(this->x(), this->y(), regularPixmap->width(), regularPixmap->height());
+    attackTimer = new QTime;
+    attackTimer->start();
 }
 
 Regular::~Regular()
 {
-    delete this->zombieAttack;
-    delete this->collisionRect;
+    delete attackTimer;
 }
 
 void Regular::move()
 {
     if (xPos != 0)
     {
-        collisionRect->setRect(this->x(),this->y(),regularPixmap->width(),regularPixmap->height());
-        QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+        QList<QGraphicsItem *> list = scene()->collidingItems(this);
         for (int i = 0; i < list.size(); i++)
         {
-            Plant *item = dynamic_cast<Plant *>(list.at(i));
-            qDebug() << item;
+            Plant *item = dynamic_cast<Plant *>(list[i]);
             if (item)
             {
                item->life -= this->attack;
                return;
+            }
+
+            LawnMower *item2 = dynamic_cast<LawnMower *>(list[i]);
+            if (item2)
+            {
+                item2->move++;
+                delete this;
             }
         }
 
@@ -61,7 +63,7 @@ void Regular::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 
 QRectF Regular::boundingRect() const
 {
-    return QRectF(0,0,50,50);
+    return QRectF(0,0,60,70);
 }
 
 void Regular::advance(int phase)

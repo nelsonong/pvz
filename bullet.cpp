@@ -12,7 +12,7 @@ Bullet::Bullet(Plant *plant) : xPos(plant->x()), yPos(plant->y())
     damage = plant->damage;
 
     if (plant->slow == 1)
-        this->slow = 1;
+        slow = 1;
 }
 
 Bullet::~Bullet()
@@ -53,11 +53,11 @@ void Bullet::advance(int phase)
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
     for (int i = 0; i < (int)list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
+        Zombie *item = dynamic_cast<Zombie *>(list[i]);
         if (item)
         {
             item->life -= this->damage;
-            if (this->slow == 1 && item->slowed == 0)
+            if (slow == 1 && item->slowed == 0)
             {
                 item->speed /= 2;
                 item->slowed++;

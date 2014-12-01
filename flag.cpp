@@ -6,34 +6,30 @@ Flag::Flag()
 
 Flag::Flag(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 {
-    this->life = 10;
-    this->attack = 1;
-    this->rate = 0.5;
-    this->speed = 0.8;
-    this->slowed = 0;
+    life = 10;
+    attack = 1;
+    rate = 0.5;
+    speed = 0.8;
+    slowed = 0;
 
     this->setPos(startPos);
     flagPixmap = new QPixmap(":/Images/Flag.png");
     *flagPixmap = flagPixmap->scaledToHeight(50);
 
-    this->zombieAttack = new QTime;
-    this->zombieAttack->start();
-
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), flagPixmap->width(), flagPixmap->height());
+    attackTimer = new QTime;
+    attackTimer->start();
 }
 
 Flag::~Flag()
 {
-    delete this->zombieAttack;
-    delete this->collisionRect;
+    delete attackTimer;
 }
 
 void Flag::move()
 {
     if (xPos != 0)
     {
-        collisionRect->setRect(this->x(),this->y(),flagPixmap->width(),flagPixmap->height());
-        QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+        QList<QGraphicsItem *> list = scene()->collidingItems(this);
         for (int i = 0; i < list.size(); i++)
         {
             Plant *item = dynamic_cast<Plant *>(list.at(i));

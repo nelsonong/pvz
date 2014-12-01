@@ -6,44 +6,41 @@ Conehead::Conehead()
 
 Conehead::Conehead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 {
-    this->life = 28;
-    this->attack = 1;
-    this->rate = 0.5;
-    this->speed = 5;
-    this->slowed = 0;
+    life = 28;
+    attack = 1;
+    rate = 0.5;
+    speed = 5;
+    slowed = 0;
 
     this->setPos(startPos);
     coneheadPixmap = new QPixmap(":/Images/Conehead.png");
     *coneheadPixmap = coneheadPixmap->scaledToHeight(50);
 
-    this->zombieAttack = new QTime;
-    this->zombieAttack->start();
-
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), coneheadPixmap->width(), coneheadPixmap->height());
+    attackTimer = new QTime;
+    attackTimer->start();
 }
 
 Conehead::~Conehead()
 {
-    delete this->zombieAttack;
-    delete collisionRect;
+    delete attackTimer;;
 }
 
 void Conehead::move()
 {
     if (xPos != 0)
     {
-        QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+        QList<QGraphicsItem *> list = scene()->collidingItems(this);
         for (int i = 0; i < list.size(); i++)
         {
-            Plant *item = dynamic_cast<Plant *>(list.at(i));
+            Plant *item = dynamic_cast<Plant *>(list[i]);
             if (item)
             {
-                item->life -= this->attack;
+                item->life -= attack;
                 return;
             }
         }
 
-        xPos -= this->speed;
+        xPos -= speed;
         this->setPos(xPos,yPos);
     }
     else
@@ -67,12 +64,12 @@ void Conehead::advance(int phase)
     if (!phase) return;
     move();
 
-    if (this->life <= 10)
+    if (life <= 10)
     {
         delete coneheadPixmap;
         coneheadPixmap = new QPixmap(":/Images/Regular.png");
     }
 
-    if (this->life <= 0)
+    if (life <= 0)
         delete this;
 }

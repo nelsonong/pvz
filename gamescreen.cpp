@@ -1,13 +1,13 @@
 #include "gamescreen.h"
 
-QPoint GameScreen::grid[10][6];
+QPoint GameScreen::grid[11][6];
 
 GameScreen::GameScreen(QWidget *parent) :
     QGraphicsView(parent)
 {
-    int x[] = {20,95,155,215,280,345,405,470,530,605};
+    int x[] = {-20,20,95,155,215,280,345,405,470,530,605};
     int y[] = {50,135,210,290,365,445};
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 11; i++)
     {
         for (int j = 0; j < 6; j++)
         {
@@ -16,6 +16,48 @@ GameScreen::GameScreen(QWidget *parent) :
     }
 
     setMouseTracking(true);
+}
+
+GameScreen::~GameScreen()
+{
+
+}
+
+bool GameScreen::rectAvailable()
+{
+    QGraphicsRectItem *collisionRect = new QGraphicsRectItem(currentGridPoint.x(),currentGridPoint.y(),50,50);
+    QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+    for (int i = 0; i < list.size(); i++)
+    {
+        Plant *item = dynamic_cast<Plant *>(list[i]);
+        if (item)
+        {
+            delete collisionRect;
+            return false;
+        }
+    }
+
+    delete collisionRect;
+    return true;
+}
+
+bool GameScreen::peaShooterRect()
+{
+    QGraphicsRectItem *collisionRect = new QGraphicsRectItem(currentGridPoint.x(),currentGridPoint.y(),50,50);
+    QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+    for (int i = 0; i < list.size(); i++)
+    {
+        PeaShooter *item = dynamic_cast<PeaShooter *>(list.at(i));
+        if (item)
+        {
+            delete item;
+            delete collisionRect;
+            return true;
+        }
+    }
+
+    delete collisionRect;
+    return false;
 }
 
 void GameScreen::mousePressEvent(QMouseEvent *e)
@@ -27,7 +69,7 @@ void GameScreen::mousePressEvent(QMouseEvent *e)
 
 QPoint GameScreen::getGridPoint(QMouseEvent *e)
 {
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 5; j++)
         {

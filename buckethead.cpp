@@ -16,35 +16,31 @@ Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
     bucketheadPixmap = new QPixmap(":/Images/Buckethead.png");
     *bucketheadPixmap = bucketheadPixmap->scaledToHeight(50);
 
-    zombieAttack = new QTime;
-    zombieAttack->start();
-
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), bucketheadPixmap->width(), bucketheadPixmap->height());
+    attackTimer = new QTime;
+    attackTimer->start();
 }
 
 Buckethead::~Buckethead()
 {
-    delete this->zombieAttack;
-    delete this->collisionRect;
+    delete attackTimer;
 }
 
 void Buckethead::move()
 {
     if (xPos != 0)
     {
-        collisionRect->setRect(this->x(),this->y(),bucketheadPixmap->width(),bucketheadPixmap->height());
-        QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+        QList<QGraphicsItem *> list = scene()->collidingItems(this);
         for (int i = 0; i < list.size(); i++)
         {
             Plant *item = dynamic_cast<Plant *>(list.at(i));
             if (item)
             {
-                item->life -= this->attack;
+                item->life -= attack;
                 return;
             }
         }
 
-        xPos -= this->speed;
+        xPos -= speed;
         this->setPos(xPos,yPos);
     }
     else
@@ -68,12 +64,12 @@ void Buckethead::advance(int phase)
     if (!phase) return;
     move();
 
-    if (this->life <= 10)
+    if (life <= 10)
     {
         delete bucketheadPixmap;
         bucketheadPixmap = new QPixmap(":/Images/Regular.png");
     }
 
-    if (this->life <= 0)
+    if (life <= 0)
         delete this;
 }

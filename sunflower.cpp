@@ -9,16 +9,16 @@ SunFlower::SunFlower(QPoint gridPoint)
 {
     point = gridPoint;
 
-    this->life = 4;
-    this->range = 0;
-    this->damage = 0;
-    this->rate = 24;
-    this->splash = 0;
-    this->slow = 0;
-    this->bomb = 0;
-    this->seeding = 7.5;
-    this->sun = 1;
-    this->need = 0;
+    life = 4;
+    range = 0;
+    damage = 0;
+    rate = 24;
+    splash = 0;
+    slow = 0;
+    bomb = 0;
+    seeding = 7.5;
+    sun = 1;
+    need = 0;
 
     sunFlowerPixmap = new QPixmap(":/Images/Sunflower.png");
     *sunFlowerPixmap = sunFlowerPixmap->scaledToWidth(50);

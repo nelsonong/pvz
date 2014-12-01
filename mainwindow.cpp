@@ -103,7 +103,7 @@ void MainWindow::on_newButton_clicked()
 {
     QMessageBox::StandardButton reply;
     reply = QMessageBox::question(this, "Get Name", "Confirm new user?", QMessageBox::Ok|QMessageBox::Cancel);
-    if (reply == QMessageBox::Ok) {
+    if (reply == QMessageBox::Ok && Player::validPlayerName(ui->nameEdit->text())) {
         // Add player info.
         QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");    // Get current date.
         QString name = ui->nameEdit->text(); //QInputDialog::getText(this, "Get Name", "What's your name? ", QLineEdit::Normal, "");
@@ -159,7 +159,6 @@ void MainWindow::on_startButton_clicked()
     ui->startButton->setEnabled(false);
     ui->newButton->setEnabled(false);
     ui->deleteButton->setEnabled(false);
-    ui->restartButton->setEnabled(false);
 
     // Enable all plant buttons.
     ui->peaShooterButton->setEnabled(true);
@@ -232,7 +231,30 @@ void MainWindow::on_startButton_clicked()
 
 void MainWindow::on_quitButton_clicked()
 {
-    close();
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Quit", "Are you sure you want to quit?", QMessageBox::Ok|QMessageBox::Cancel);
+    if (reply == QMessageBox::Ok) {
+        delete scene;
+        delete gameScreen;
+        delete advanceTimer;
+        delete createSunTimer;
+        delete updateTimer;
+        delete peaShooterCooldownTimer;
+        delete sunFlowerCooldownTimer;
+        delete cherryBombCooldownTimer;
+        delete wallNutCooldownTimer;
+        delete potatoMineCooldownTimer;
+        delete snowPeaCooldownTimer;
+        delete chomperCooldownTimer;
+        delete repeaterCooldownTimer;
+
+        // Enable buttons in case they were disabled before.
+        ui->newButton->setEnabled(true);
+        ui->deleteButton->setEnabled(true);
+        ui->startButton->setEnabled(true);
+        ui->restartButton->setEnabled(false);
+        ui->quitButton->setEnabled(false);
+    }
 }
 
 MainWindow::~MainWindow()

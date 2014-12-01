@@ -74,6 +74,18 @@ bool Player::validPlayerFile()
     return 1;
 }
 
+bool Player::validPlayerName(QString name)
+{
+    for (int i = 0; i < name.size(); i++)
+    {
+        if (!name[i].isLetterOrNumber())
+            return 0;
+        else if (name.size() > 10)
+            return 0;
+    }
+    return 1;
+}
+
 void Player::addPlayer(QString timestamp, QString name, QString level)
 {
     QStringList player;

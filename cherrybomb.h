@@ -15,19 +15,20 @@ class CherryBomb : public Plant
 {
 public:
     CherryBomb();
-    CherryBomb(QPoint cherryBombPos);
+    CherryBomb(QPoint pos);
     ~CherryBomb();
-    QPixmap *cherryBombPixmap;
-    int squareWidth;
-    int squareHeight;
+
+private:
+    QPixmap *cherryBombPixmap;  // Holds image.
+    int gridWidth;              // One square's width.
+    int gridHeight;             // One square's height.
+    QTime *bombTimer;           // Executes bomb at certain time.
+    QGraphicsRectItem *collisionRect;   // Detect collision within 3x3 grid.
+    bool exploded;              // If plant collides with zombie, delete itself.
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);
-
-    QTime *zombieBomb;
-    QTime *zombieAttack;
-
 };
 
 #endif // CHERRYBOMB_H

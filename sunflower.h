@@ -19,14 +19,12 @@ public:
     ~SunFlower();
 
 private:
-    // Variables.
     QPoint point;
-    QPixmap *sunFlowerPixmap;
-    Sun *sunItem;
-    QTime *createTimer;
-    QTime *zombieAttack;
+    QPixmap *sunFlowerPixmap;       // Holds image.
+    Sun *sun;                       // Sun QGraphicsItem.
+    QTime *createSunTimer;          // Creates sun at specified intervals.
 
-    // Virtual derived functions.
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);

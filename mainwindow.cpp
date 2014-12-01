@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->potatoMineButton->setIconSize(QSize(30,30));
     ui->snowPeaButton->setIconSize(QSize(30,30));
     ui->chomperButton->setIconSize(QSize(30,30));
-    ui->repeaterButton->setIconSize(QSize(30,30));
+    ui->repeaterButton->setIconSize(QSize(35,30));
 
     // Validate player file for unicode and alphanumerical.
     if (Player::validPlayerFile())  // If player file is valid, set settings for most recent player.
@@ -173,33 +173,32 @@ void MainWindow::on_startButton_clicked()
     gameScreen->show();
 
     // Move scene.
-    moveTimer = new QTimer;
-    connect(moveTimer, SIGNAL(timeout()), scene, SLOT(advance()));
-    moveTimer->start(50);
+    advanceTimer = new QTimer;
+    connect(advanceTimer, SIGNAL(timeout()), scene, SLOT(advance()));
+    advanceTimer->start(50);
 
     // Create falling suns.
-    createTimer = new QTimer;
-    connect(createTimer, SIGNAL(timeout()), this, SLOT(createSun()));
-    createTimer->start(10000);
+    createSunTimer = new QTimer;
+    connect(createSunTimer, SIGNAL(timeout()), this, SLOT(createSun()));
+    createSunTimer->start(10000);
 
     // Update sun points.
-    updateSunPointsTimer = new QTimer;
-    connect(updateSunPointsTimer, SIGNAL(timeout()), this, SLOT(updateSunPoints()));
-    updateSunPointsTimer->start(10);
+    updateTimer = new QTimer;
+    connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateSunPoints()));
+    connect(updateTimer, SIGNAL(timeout()), this, SLOT(updateButtons()));
+    updateTimer->start(20);
 
     for (int i = 0; i < 5; i++)
     {
-        lawnMower = new LawnMower(GameScreen::grid[0][i]);
+        lawnMower = new LawnMower(gameScreen->grid[0][i]);
         scene->addItem(lawnMower);
     }
-//    LawnMower *lawnMower2 = new LawnMower(QPoint(-20,135));
-//    scene->addItem(lawnMower2);
-//    LawnMower *lawnMower3 = new LawnMower(QPoint(-20,210));
-//    scene->addItem(lawnMower3);
-//    LawnMower *lawnMower4 = new LawnMower(QPoint(-20,290));
-//    scene->addItem(lawnMower4);
-//    LawnMower *lawnMower5 = new LawnMower(QPoint(-20,365));
-//    scene->addItem(lawnMower5);
+
+    for (int i = 0; i < 3; i++)
+    {
+        regular = new Regular(gameScreen->grid[9][rand()%5]);
+        scene->addItem(regular);
+    }
 }
 
 void MainWindow::on_quitButton_clicked()
@@ -312,58 +311,101 @@ void MainWindow::updateSunPoints()
     ui->sunPointsLabel->setText(QString::number(sun->sunPoints));
 }
 
+void MainWindow::updateButtons()
+{
+    if (Sun::sunPoints < 100)
+        ui->peaShooterButton->setEnabled(false);
+    else
+        ui->peaShooterButton->setEnabled(true);
+
+    if (Sun::sunPoints < 50)
+        ui->sunFlowerButton->setEnabled(false);
+    else
+        ui->sunFlowerButton->setEnabled(true);
+
+    if (Sun::sunPoints < 150)
+        ui->cherryBombButton->setEnabled(false);
+    else
+        ui->cherryBombButton->setEnabled(true);
+
+    if (Sun::sunPoints < 50)
+        ui->wallNutButton->setEnabled(false);
+    else
+        ui->wallNutButton->setEnabled(true);
+
+    if (Sun::sunPoints < 25)
+        ui->potatoMineButton->setEnabled(false);
+    else
+        ui->potatoMineButton->setEnabled(true);
+
+    if (Sun::sunPoints < 175)
+        ui->snowPeaButton->setEnabled(false);
+    else
+        ui->snowPeaButton->setEnabled(true);
+
+    if (Sun::sunPoints < 150)
+        ui->chomperButton->setEnabled(false);
+    else
+        ui->chomperButton->setEnabled(true);
+
+    if (Sun::sunPoints < 200)
+        ui->repeaterButton->setEnabled(false);
+    else
+        ui->repeaterButton->setEnabled(true);
+}
+
 void MainWindow::addImage()
 {
-    if ((plantClicked == "peashooter") && (!imageAdded) && (gameScreen->rectAvailable()) && (Sun::sunPoints >= 100))
+    if ((plantClicked == "peashooter") && (!imageAdded) && (gameScreen->rectAvailable()))
     {
         peaShooter = new PeaShooter(gameScreen->currentGridPoint);
         scene->addItem(peaShooter);
 
         imageAdded++;
     }
-    else if ((plantClicked == "sunflower") && (!imageAdded) && (gameScreen->rectAvailable()) && (Sun::sunPoints >= 50))
+    else if ((plantClicked == "sunflower") && (!imageAdded) && (gameScreen->rectAvailable()))
     {
         sunFlower = new SunFlower(gameScreen->currentGridPoint);
         scene->addItem(sunFlower);
 
         imageAdded++;
     }
-    else if ((plantClicked == "cherrybomb") && (!imageAdded) && (gameScreen->rectAvailable()) && (Sun::sunPoints >= 150))
+    else if ((plantClicked == "cherrybomb") && (!imageAdded) && (gameScreen->rectAvailable()))
     {
         cherryBomb = new CherryBomb(gameScreen->currentGridPoint);
         scene->addItem(cherryBomb);
 
         imageAdded++;
     }
-    else if ((plantClicked == "wallnut") && (!imageAdded) && (gameScreen->rectAvailable()) && (Sun::sunPoints >= 50))
+    else if ((plantClicked == "wallnut") && (!imageAdded) && (gameScreen->rectAvailable()))
     {
         wallNut = new WallNut(gameScreen->currentGridPoint);
         scene->addItem(wallNut);
 
         imageAdded++;
     }
-    else if ((plantClicked == "potatomine") && (!imageAdded) && (gameScreen->rectAvailable()) && (Sun::sunPoints >= 25))
+    else if ((plantClicked == "potatomine") && (!imageAdded) && (gameScreen->rectAvailable()))
     {
         potatoMine = new PotatoMine(gameScreen->currentGridPoint);
         scene->addItem(potatoMine);
 
         imageAdded++;
     }
-    else if ((plantClicked == "snowpea") && (!imageAdded) && (gameScreen->rectAvailable()) && (Sun::sunPoints >= 175))
+    else if ((plantClicked == "snowpea") && (!imageAdded) && (gameScreen->rectAvailable()))
     {
         snowPea = new SnowPea(gameScreen->currentGridPoint);
         scene->addItem(snowPea);
 
         imageAdded++;
     }
-    else if ((plantClicked == "chomper") && (!imageAdded) && (gameScreen->rectAvailable()) && (Sun::sunPoints >= 150))
+    else if ((plantClicked == "chomper") && (!imageAdded) && (gameScreen->rectAvailable()))
     {
         chomper = new Chomper(gameScreen->currentGridPoint);
         scene->addItem(chomper);
 
         imageAdded++;
     }
-    else if ((plantClicked == "repeater") && (!imageAdded) && (gameScreen->peaShooterRect()) && (Sun::sunPoints >= 200))
+    else if ((plantClicked == "repeater") && (!imageAdded) && (gameScreen->peaShooterRect()))
     {
         repeater = new Repeater(gameScreen->currentGridPoint);
         scene->addItem(repeater);

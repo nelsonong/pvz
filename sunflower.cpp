@@ -9,6 +9,7 @@ SunFlower::SunFlower(QPoint gridPoint)
 {
     point = gridPoint;
 
+    cost = 50;
     life = 4;
     range = 0;
     damage = 0;
@@ -17,21 +18,21 @@ SunFlower::SunFlower(QPoint gridPoint)
     slow = 0;
     bomb = 0;
     seeding = 7.5;
-    sun = 1;
+    //sun = 1;
     need = 0;
 
     sunFlowerPixmap = new QPixmap(":/Images/Sunflower.png");
     *sunFlowerPixmap = sunFlowerPixmap->scaledToWidth(50);
     this->setPos(gridPoint);
 
-    createTimer = new QTime;
-    createTimer->start();
+    createSunTimer = new QTime;
+    createSunTimer->start();
 }
 
 SunFlower::~SunFlower()
 {
     delete sunFlowerPixmap;
-    delete createTimer;
+    delete createSunTimer;
 }
 
 void SunFlower::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -48,12 +49,14 @@ void SunFlower::advance(int phase)
 {
     if (!phase) return;
 
-    if (createTimer->elapsed() >= this->rate*1000)
+    if (createSunTimer->elapsed() >= this->rate*1000)
     {
-        createTimer->restart();
-        sunItem = new Sun(point);
-        scene()->addItem(sunItem);
+        createSunTimer->restart();
+        sun = new Sun(point);
+        scene()->addItem(sun);
     }
 
-
+    // When life goes to 0, plant dies.
+    if (life <= 0)
+        delete this;
 }

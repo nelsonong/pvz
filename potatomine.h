@@ -17,14 +17,16 @@ public:
     PotatoMine();
     PotatoMine(QPoint potatoMinePos);
     ~PotatoMine();
-    QPixmap *potatoMinePixmap;
 
+private:
+    QPixmap *potatoMinePixmap;      // Holds image.
+    QTime *bombTimer;               // Execute bomb after certain time.
+    bool exploded;                  // If plant collides with zombie, delete itself.
+
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);
-
-    QTime *zombieBomb;
-    QTime *zombieAttack;
 };
 
 #endif // POTATOMINE_H

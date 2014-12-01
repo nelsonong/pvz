@@ -7,6 +7,7 @@ PeaShooter::PeaShooter()
 
 PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
 {
+    cost = 100;
     life = 4;
     range = 9999;
     damage = 1;
@@ -24,15 +25,15 @@ PeaShooter::PeaShooter(QPoint peaShooterPos) : screenLength(631)
     *peaShooterPixmap = peaShooterPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y()+25, screenLength, this->y()+25);
 
-    createBullet = new QTime;
-    createBullet->start();
+    bulletTimer = new QTime;
+    bulletTimer->start();
 }
 
 PeaShooter::~PeaShooter()
 {
     delete peaShooterPixmap;
     delete collisionLine;
-    delete createBullet;
+    delete bulletTimer;
 }
 
 void PeaShooter::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -53,19 +54,20 @@ void PeaShooter::advance(int phase)
     for (int i = 0; i < list.size(); i++)
     {
         Zombie *item = dynamic_cast<Zombie *>(list[i]);
-        qDebug() << item;
         if (item)
         {
-            if (createBullet->elapsed() >= this->rate*1000)
+            if (bulletTimer->elapsed() >= this->rate*1000)
             {
-                bullet = new Bullet(this);
-                scene()->addItem(bullet);
-                createBullet->restart();
-                return;
+                bullet = new Bullet(this);  // Create new bullet.
+                scene()->addItem(bullet);   // Add bullet to scene.
+
+                bulletTimer->restart();     // Restart shooting interval.
+                return;                     // Only shoot first zombie.
             }
         }
     }
 
-    if (this->life <= 0)
+    // When life goes to 0, plant dies.
+    if (life <= 0)
         delete this;
 }

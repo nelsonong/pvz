@@ -4,11 +4,13 @@ LawnMower::LawnMower()
 {
 }
 
-LawnMower::LawnMower(QPoint lawnMowerPos) : screenLength(631), speed(5), move(0), zombieContact(0)
+LawnMower::LawnMower(QPoint lawnMowerPos) : screenLength(631), speed(5), move(0), zombieCollide(0)
 {
     this->setPos(lawnMowerPos);
+
     xPos = lawnMowerPos.x();
     yPos = lawnMowerPos.y();
+
     lawnMowerPixmap = new QPixmap(":/Images/Lawnmower.png");
     *lawnMowerPixmap = lawnMowerPixmap->scaledToHeight(50);
 }
@@ -38,12 +40,13 @@ void LawnMower::advance(int phase)
         Zombie *item = dynamic_cast<Zombie *>(list[i]);
         if (item)
         {
-            zombieContact++;
+            zombieCollide++;    // Zombie collides with lawn mower.
             delete item;
         }
     }
 
-    if (zombieContact)
+    // If zombie collides with lawn mower, move until end of screen.
+    if (zombieCollide)
     {
         if (xPos <= screenLength)
         {

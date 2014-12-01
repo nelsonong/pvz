@@ -17,16 +17,18 @@ public:
     Chomper();
     Chomper(QPoint chomperPos);
     ~Chomper();
-    QPixmap *chomperPixmap;
-    int rectangleLength;
 
+private:
+    QPixmap *chomperPixmap;             // Holds image.
+    int rectangleLength;                // Holds length (one square) for collision line.
+    QGraphicsLineItem *collisionLine;   // Detects collision with zombie one square away.
+
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
-    QGraphicsLineItem *collisionLine;
     void advance(int phase);
 
-    QTime *eatZombie;
-    QTime *zombieAttack;
+    QTime *eatTimer;
 };
 
 #endif // CHOMPER_H

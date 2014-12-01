@@ -6,6 +6,7 @@ SnowPea::SnowPea()
 
 SnowPea::SnowPea(QPoint snowPeaPos) : screenLength(631)
 {
+    cost = 175;
     life = 4;
     range = 9999;
     damage = 1;
@@ -23,15 +24,15 @@ SnowPea::SnowPea(QPoint snowPeaPos) : screenLength(631)
     *snowPeaPixmap = snowPeaPixmap->scaledToWidth(50);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y()+25, screenLength, this->y()+25);
 
-    createBullet = new QTime;
-    createBullet->start();
+    bulletTimer = new QTime;
+    bulletTimer->start();
 }
 
 SnowPea::~SnowPea()
 {
     delete snowPeaPixmap;
     delete collisionLine;
-    delete createBullet;
+    delete bulletTimer;
 }
 
 void SnowPea::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -54,16 +55,17 @@ void SnowPea::advance(int phase)
         Zombie *item = dynamic_cast<Zombie *>(list.at(i));
         if (item)
         {
-            if (createBullet->elapsed() >= this->rate*1000)
+            if (bulletTimer->elapsed() >= rate*1000)
             {
                 bullet = new Bullet(this);
                 scene()->addItem(bullet);
-                createBullet->restart();
+                bulletTimer->restart();
                 return;
             }
         }
     }
 
-    if (this->life <= 0)
+    // When life goes to 0, plant dies.
+    if (life <= 0)
         delete this;
 }

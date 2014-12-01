@@ -9,21 +9,22 @@ class Plant : public QGraphicsItem
 {
 public:
     Plant();
-    int cost;
-    int life;
-    int range;
-    int damage;
-    double rate;
-    int splash;
-    int slow;
-    int bomb;
-    int seeding;
-    int sun;
-    int need;
 
-    int xPos;
-    int yPos;
+    //  Plant stats.
+    int cost;           // Cost to seed plant.
+    int life;           // Hit points.
+    int range;          // Range within which its attack is executed.
+    int damage;         // Damage of attacks.
+    double rate;        // Attack interval.
+    int splash;         // Amount of n x n squares to destroy.
+    bool slow;          // If true, shoots bullets that slow zombies.
+    bool bomb;          // If true, destroys itself when attacking zombie.
+    int seeding;        // Amount of time between seed plant.
+    bool sun;           // If true, produces sun.
+    bool need;          // Needs another plant to be created.
 
+private:
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int);

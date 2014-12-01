@@ -18,27 +18,22 @@ public:
     Sun(QPoint point);      // Sun type 2 (sunflower sun).
     ~Sun();
 
-    // Variables.
     static bool sunClicked; // Makes sure sun isn't deleted twice after clicked.
     static int sunPoints;   // Monitors sun points gained.
 
-    // Functions
-    void destroySun();      // Destroy sun within object.
-
 private:
-    // Variables
-    QPixmap *sunPixmap;
-    int xPos;               // Falling sun's random x-position.
-    int yPos;               // Falling sun's moving y-position.
-    int sunType;            // Falling sun(type-1) or sunflower sun(type-2).
-    int increment;          // Amount of pixels to move sun by every timeout() call (1px/60ms).
-    bool timeStarted;
-    QTime *destroyTimer;    // Destroy sunflower sun every 7.5s.
+    QPixmap *sunPixmap;     // Holds image.
+    int xPos;               // Holds falling sun's x-position (random).
+    int yPos;               // Holds falling sun's y-position.
+    int yEndPos;            // Generates a random position between top and bottom screen.
+    int sunType;            // Holds sun type: falling sun = 1, sunflower sun = 2.
+    int speed;              // Amount of pixels to move sun by every timeout() call (1px/50ms).
+    bool timeStarted;       //
+    QTime *destroySunTimer;    // Destroy sunflower sun every 7.5s.
 
-    // Functions
     void move();            // Move falling sun.
 
-    // Virtual derived functions.
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);    // Moves falling sun and destroys sunflower sun.

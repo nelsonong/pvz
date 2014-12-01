@@ -17,13 +17,14 @@ public:
     WallNut();
     WallNut(QPoint wallNutPos);
     ~WallNut();
-    QPixmap *wallNutPixmap;
 
+private:
+    QPixmap *wallNutPixmap;     // Holds image.
+
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);
-
-    QTime *zombieAttack;
 };
 
 #endif // WALLNUT_H

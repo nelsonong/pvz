@@ -10,16 +10,17 @@
 class Zombie : public QGraphicsItem
 {
 public:
+    // Zombie stats.
     Zombie();
-    int life;
-    int attack;
-    double rate;
-    double speed;
-    bool slowed;
-    static bool brainsEaten;
-    QTime *attackTimer;
+    int life;                   // Amount of hit points.
+    int attack;                 // Damage inflicted on plants.
+    double rate;                // Rate of attack.
+    double speed;               // Speed, subjective to advanceTimer.
+    bool slowed;                // If slowed, speed /= 2.
+    static bool brainsEaten;    // If true, end game.
+    QTime *attackTimer;         // Attack plants at specified interval.
 
-
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
     void advance(int phase);

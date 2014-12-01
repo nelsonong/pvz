@@ -18,12 +18,12 @@ public:
     bool move;
 
 private:
-    QPixmap *lawnMowerPixmap;
-    int xPos;
-    int yPos;
-    int screenLength;
-    int speed;
-    bool zombieContact;
+    QPixmap *lawnMowerPixmap;       // Holds image.
+    int xPos;                       // Holds x-coordinate.
+    int yPos;                       // Holds y-coordinate.
+    int screenLength;               // Deletes lawn mower when out of screen length.
+    int speed;                      // Holds lawn mower speed.
+    bool zombieCollide;             // When zombie collides, move lawn mower.s
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

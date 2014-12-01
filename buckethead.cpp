@@ -9,12 +9,13 @@ Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
     life = 65;
     attack = 1;
     rate = 0.5;
-    speed = 5;
+    speed = 0.3;
     slowed = 0;
 
     this->setPos(startPos);
+
     bucketheadPixmap = new QPixmap(":/Images/Buckethead.png");
-    *bucketheadPixmap = bucketheadPixmap->scaledToHeight(50);
+    *bucketheadPixmap = bucketheadPixmap->scaledToHeight(70);
 
     attackTimer = new QTime;
     attackTimer->start();
@@ -22,21 +23,27 @@ Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
 
 Buckethead::~Buckethead()
 {
+    delete bucketheadPixmap;
     delete attackTimer;
 }
 
 void Buckethead::move()
 {
-    if (xPos != 0)
+    // If zombie position is not zero, keep moving.
+    if (xPos > 0)
     {
+        // If collision with plant, attack plant.
         QList<QGraphicsItem *> list = scene()->collidingItems(this);
         for (int i = 0; i < list.size(); i++)
         {
-            Plant *item = dynamic_cast<Plant *>(list.at(i));
-            if (item)
+            Plant *plant = dynamic_cast<Plant *>(list[i]);
+            if (plant)
             {
-                item->life -= attack;
-                return;
+                if (attackTimer->elapsed() >= rate*1000)
+                {
+                    plant->life -= attack;
+                    return;
+                }
             }
         }
 
@@ -56,20 +63,23 @@ void Buckethead::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 
 QRectF Buckethead::boundingRect() const
 {
-    return QRectF(0,0,50,50);
+    return QRectF(0,0,60,70);
 }
 
 void Buckethead::advance(int phase)
 {
     if (!phase) return;
-    move();
 
+    move(); // Move zombie.
+
+    // When life gets to 10, buckethead becomes regular.
     if (life <= 10)
     {
         delete bucketheadPixmap;
         bucketheadPixmap = new QPixmap(":/Images/Regular.png");
     }
 
+    // When life goes to 0, zombie dies.
     if (life <= 0)
         delete this;
 }

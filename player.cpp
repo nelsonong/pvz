@@ -9,6 +9,7 @@ Player::Player()
 
 static std::vector<QStringList> playerList;
 
+/*
 void Player::fillPlayerList()
 {
     QFile save_file(":/CSVs/pvz_players.csv");
@@ -24,6 +25,7 @@ void Player::fillPlayerList()
         save_file.close();
     }
 }
+*/
 
 void Player::orderPlayerList()
 {
@@ -37,8 +39,10 @@ void Player::orderPlayerList()
             playerList.push_back(text.readLine().split(":")); // Fill playerList with info from pvz_player.csv.
         }
 
+        qDebug() << "before";
         if (playerList.size() > 0)
         {
+            qDebug() << "Greater than 0";
             for (int i = 0; i < playerList.size()-1; i++)
             {
                 QStringList max = playerList.at(i);
@@ -47,6 +51,7 @@ void Player::orderPlayerList()
                 {
                     if (max[0].toInt() < playerList.at(j)[0].toInt())
                     {
+                        qDebug() << max[0];
                         max = playerList.at(j);
                         maxIndex = j;
                     }
@@ -56,14 +61,13 @@ void Player::orderPlayerList()
                 playerList.at(i) = playerList.at(maxIndex);
                 playerList.at(maxIndex) = temp;
             }
+
             for(int i=0;i<playerList.size();i++)
             {
                 qDebug()<<playerList.at(i)[0];
             }
             updatePlayersFile();
-
         }
-
         save_file.close();
     }
 }

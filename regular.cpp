@@ -27,27 +27,25 @@ Regular::~Regular()
 
 void Regular::move()
 {
-    if (xPos != 0)
+    // If zombie position is not zero, keep moving.
+    if (xPos > 0)
     {
+        // If collision with plant, attack plant.
         QList<QGraphicsItem *> list = scene()->collidingItems(this);
         for (int i = 0; i < list.size(); i++)
         {
-            Plant *item = dynamic_cast<Plant *>(list[i]);
-            if (item)
+            Plant *plant = dynamic_cast<Plant *>(list[i]);
+            if (plant)
             {
-               item->life -= this->attack;
-               return;
-            }
-
-            LawnMower *item2 = dynamic_cast<LawnMower *>(list[i]);
-            if (item2)
-            {
-                item2->move++;
-                delete this;
+                if (attackTimer->elapsed() >= rate*1000)
+                {
+                    plant->life -= attack;
+                    return;
+                }
             }
         }
 
-        xPos -= this->speed;
+        xPos -= speed;
         this->setPos(xPos,yPos);
     }
     else
@@ -69,8 +67,10 @@ QRectF Regular::boundingRect() const
 void Regular::advance(int phase)
 {
     if (!phase) return;
-    move();
 
-    if (this->life <= 0)
+    move(); // Move zombie.
+
+    // When life gets to 0, zombie dies.
+    if (life <= 0)
         delete this;
 }

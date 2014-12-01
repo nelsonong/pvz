@@ -19,10 +19,10 @@ public:
     ~Buckethead();
 
 private:
-    QPixmap *bucketheadPixmap;
-    int xPos;
-    int yPos;
-    void move();
+    QPixmap *bucketheadPixmap;  // Holds image.
+    double xPos;                   // Holds x-position.
+    double yPos;                   // Holds y-position.
+    void move();                // Moves zombie until collision with plants.
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

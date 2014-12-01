@@ -78,13 +78,16 @@ private slots:
 
     // Sun functions.
     void createSun();
+
     void updateSunPoints();
+
+    void updateButtons();
 
     // Add plant functions.
     void addImage();
 
 private:
-    // UI variables.
+    // UI objects.
     Ui::MainWindow *ui;
     GameScreen *gameScreen;
     QGraphicsScene *scene;
@@ -92,7 +95,6 @@ private:
     // Plant objects.
     PeaShooter *peaShooter;
     SunFlower *sunFlower;
-    Sun *sun;
     CherryBomb *cherryBomb;
     WallNut *wallNut;
     PotatoMine *potatoMine;
@@ -107,12 +109,14 @@ private:
     Buckethead *buckethead;
     Newspaper *newspaper;
 
+    // Micaellanious objects.
+    Sun *sun;
     LawnMower *lawnMower;
 
     // Timers.
-    QTimer *moveTimer;
-    QTimer *createTimer;
-    QTimer *updateSunPointsTimer;
+    QTimer *advanceTimer;
+    QTimer *createSunTimer;
+    QTimer *updateTimer;
 
     QString plantClicked;
     bool buttonClicked;

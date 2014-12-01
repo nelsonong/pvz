@@ -19,27 +19,21 @@ public:
     Bullet(Plant *);
     ~Bullet();
 
-    // Functions
-    void destroyBullet();      // Destroy bullet within object.
-    int damage;
-    bool slow;
+    void destroyBullet();       // Destroy bullet within object.
+    int damage;                 // Applies damage to colliding zombies.
+    bool slow;                  // Applies slow to colliding zombies.
 
 private:
-    // Variables
-    QPixmap bulletPixmap;
-    int xPos;
-    int yPos;
-    int increment;          // Amount of pixels to move sun by every timeout() call (1px/60ms).
-    QGraphicsRectItem *collisionRect;
-    Plant *plant;
+    QPixmap *bulletPixmap;      // Holds image.
+    int xPos;                   // Holds x-position.
+    int yPos;                   // Holds y-position.
+    int speed;                  // Amount of pixels to move sun by every timeout() call (1px/60ms).
+    void move();                // Move bullet until collision with zombie.
 
-    // Functions
-    void move();            // Move bullet.
-
-    // Virtual derived functions.
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
-    void advance(int phase);    // Moves bullet until collision.
+    void advance(int phase);
 
 };
 

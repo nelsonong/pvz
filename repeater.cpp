@@ -4,8 +4,9 @@ Repeater::Repeater()
 {
 }
 
-Repeater::Repeater(QPoint repeaterPos)
+Repeater::Repeater(QPoint repeaterPos) : screenLength(631)
 {
+    cost = 200;
     life = 4;
     range = 9999;
     damage = 2;
@@ -20,18 +21,18 @@ Repeater::Repeater(QPoint repeaterPos)
     this->setPos(repeaterPos);
 
     repeaterPixmap = new QPixmap(":/Images/Repeater.png");
-    *repeaterPixmap = repeaterPixmap->scaledToWidth(50);
+    *repeaterPixmap = repeaterPixmap->scaledToHeight(58);
     collisionLine = new QGraphicsLineItem(this->x() + 25, this->y()+25, screenLength, this->y()+25);
 
-    createBullet = new QTime;
-    createBullet->start();
+    bulletTimer = new QTime;
+    bulletTimer->start();
 }
 
 Repeater::~Repeater()
 {
     delete repeaterPixmap;
     delete collisionLine;
-    delete createBullet;
+    delete bulletTimer;
 }
 
 void Repeater::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -41,7 +42,7 @@ void Repeater::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidge
 
 QRectF Repeater::boundingRect() const
 {
-    return QRectF(0,0,50,50);   // Set boundingRect() to image size.
+    return QRectF(0,0,58,58);   // Set boundingRect() to image size.
 }
 
 void Repeater::advance(int phase)
@@ -49,35 +50,21 @@ void Repeater::advance(int phase)
     if (!phase) return;
 
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionLine);
-    for (int i = 0; i < (int)list.size(); i++)
+    for (int i = 0; i < list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
+        Zombie *item = dynamic_cast<Zombie *>(list[i]);
         if (item)
         {
-            if (createBullet->elapsed() >= this->rate*1000)
+            if (bulletTimer->elapsed() >= rate*1000)
             {
                 bullet = new Bullet(this);
                 scene()->addItem(bullet);
-                createBullet->restart();
+                bulletTimer->restart();
                 return;
             }
         }
     }
 
-    list = scene()->collidingItems(this);
-    for (int i = 0; i < (int)list.size(); i++)
-    {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
-        {
-            if (zombieAttack->elapsed() >= item->rate*1000)
-            {
-                this->life -= item->attack;
-                zombieAttack->restart();
-            }
-        }
-    }
-
-    if (this->life <= 0)
+    if (life <= 0)
         delete this;
 }

@@ -4,8 +4,9 @@ PotatoMine::PotatoMine()
 {
 }
 
-PotatoMine::PotatoMine(QPoint potatoMinePos)
+PotatoMine::PotatoMine(QPoint potatoMinePos) : exploded(0)
 {
+    cost = 25;
     life = 4;
     range = 1;
     damage = 90;
@@ -22,14 +23,14 @@ PotatoMine::PotatoMine(QPoint potatoMinePos)
     potatoMinePixmap = new QPixmap(":/Images/Potatomine.png");
     *potatoMinePixmap = potatoMinePixmap->scaledToWidth(50);
 
-    zombieBomb = new QTime;
-    zombieBomb->start();
+    bombTimer = new QTime;
+    bombTimer->start();
 }
 
 PotatoMine::~PotatoMine()
 {
     delete potatoMinePixmap;
-    delete zombieBomb;
+    delete bombTimer;
 }
 
 void PotatoMine::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -49,17 +50,18 @@ void PotatoMine::advance(int phase)
     QList<QGraphicsItem *> list = scene()->collidingItems(this);
     for (int i = 0; i < list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list[i]);
-        if (item)
+        Zombie *zombie = dynamic_cast<Zombie *>(list[i]);
+        if (zombie)
         {
-            if (zombieAttack->elapsed() >= rate*1000)
+            if (bombTimer->elapsed() >= rate*1000)
             {
-                delete item;
-                delete this;
+                exploded++;
+                zombie->life -= damage;
             }
         }
     }
 
-    if (life <= 0)
+    // If plant explodes or life reaches 0, plant dies.
+    if (exploded || life <= 0)
         delete this;
 }

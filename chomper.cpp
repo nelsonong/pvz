@@ -4,8 +4,9 @@ Chomper::Chomper()
 {
 }
 
-Chomper::Chomper(QPoint chomperPos) : rectangleLength(120)
+Chomper::Chomper(QPoint pos) : rectangleLength(120)
 {
+    cost = 150;
     life = 4;
     range = 1;
     damage = 150;
@@ -17,21 +18,22 @@ Chomper::Chomper(QPoint chomperPos) : rectangleLength(120)
     sun = 0;
     need = 0;
 
-    this->setPos(chomperPos);
+    this->setPos(pos);
 
     chomperPixmap = new QPixmap(":/Images/Chomper.png");
     *chomperPixmap = chomperPixmap->scaledToWidth(50);
-    collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), this->x() + 25, rectangleLength);
 
-    eatZombie = new QTime;
-    eatZombie->start();
+    collisionLine = new QGraphicsLineItem(this->x() + 25, this->y(), rectangleLength, this->y() + 25);
+
+    eatTimer = new QTime;
+    eatTimer->start();
 }
 
 Chomper::~Chomper()
 {
     delete chomperPixmap;
     delete collisionLine;
-    delete eatZombie;
+    delete eatTimer;
 }
 
 void Chomper::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -41,40 +43,29 @@ void Chomper::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 
 QRectF Chomper::boundingRect() const
 {
-    return QRectF(0,0,50,50);   // Set boundingRect() to image size.
+    return QRectF(0,0,50,50);   // Set bounding rect to image size.
 }
 
 void Chomper::advance(int phase)
 {
     if (!phase) return;
 
+    // If a zombie is found, delete that zombie.
     QList<QGraphicsItem *> list = scene()->collidingItems(collisionLine);
-    for (int i = 0; i < (int)list.size(); i++)
+    for (int i = 0; i < list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
+        Zombie *plant = dynamic_cast<Zombie *>(list[i]);
+        if (plant)
         {
-            if (eatZombie->elapsed() >= rate*1000)
+            if (eatTimer->elapsed() >= rate*1000)
             {
-                delete item;
+                plant->life -= damage;
+                return;
             }
         }
     }
 
-    list = scene()->collidingItems(this);
-    for (int i = 0; i < (int)list.size(); i++)
-    {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
-        {
-            if (zombieAttack->elapsed() >= item->rate*1000)
-            {
-                life -= item->attack;
-                zombieAttack->restart();
-            }
-        }
-    }
-
+    // If life goes under zero, plant is dead.
     if (life <= 0)
         delete this;
 }

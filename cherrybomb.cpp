@@ -4,32 +4,36 @@ CherryBomb::CherryBomb()
 {
 }
 
-CherryBomb::CherryBomb(QPoint cherryBombPos)
+CherryBomb::CherryBomb(QPoint pos) : gridWidth(60), gridHeight(70), exploded(0)
 {
-    life = 4;
+    cost = 150;
+    life = 9999;
     range = 1;
-    damage = 150;
-    rate = 42;
-    splash = 0;
+    damage = 90;
+    rate = 1;
+    splash = 3;
     slow = 0;
-    bomb = 0;
-    seeding = 7.5;
+    bomb = 1;
+    seeding = 50;
     sun = 0;
     need = 0;
 
-    this->setPos(cherryBombPos);
+    this->setPos(pos);
 
     cherryBombPixmap = new QPixmap(":/Images/Cherrybomb.png");
     *cherryBombPixmap = cherryBombPixmap->scaledToWidth(50);
 
-    zombieBomb = new QTime;
-    zombieBomb->start();
+    bombTimer = new QTime;
+    bombTimer->start();
+
+    collisionRect = new QGraphicsRectItem(this->x()-gridWidth, this->y()-gridHeight,3*gridWidth, 3*gridHeight);
 }
 
 CherryBomb::~CherryBomb()
 {
     delete cherryBombPixmap;
-    delete zombieBomb;
+    delete bombTimer;
+    delete collisionRect;
 }
 
 void CherryBomb::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
@@ -39,27 +43,32 @@ void CherryBomb::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWid
 
 QRectF CherryBomb::boundingRect() const
 {
-    return QRectF(0,0,50,50);   // Set boundingRect() to image size.
+    // Set bounding rect to top-left point and bottom-right point of 3x3 grid.
+    return QRectF(0, 0, cherryBombPixmap->width(), cherryBombPixmap->height());
 }
 
 void CherryBomb::advance(int phase)
 {
     if (!phase) return;
 
-    QList<QGraphicsItem *> list = scene()->collidingItems(this);
-    for (int i = 0; i < (int)list.size(); i++)
+    QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
+    for (int i = 0; i < list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list.at(i));
-        if (item)
+        Zombie *zombie = dynamic_cast<Zombie *>(list[i]);
+        if (zombie)
         {
-            if (zombieAttack->elapsed() >= rate*1000)
+            if (bombTimer->elapsed() >= rate*1000)
             {
-                delete item;
-                delete this;
+                exploded++;                 // True if exploded.
+                zombie->life -= damage;     // Destroy all zombies within its vicinity.
             }
         }
     }
 
-    if (life <= 0)
+    if (bombTimer->elapsed() >= rate*1000)
+        life -= 9999;
+
+    // If plant explodes or life reaches 0, plant dies.
+    if (exploded || life <= 0)
         delete this;
 }

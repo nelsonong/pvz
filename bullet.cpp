@@ -4,39 +4,29 @@ Bullet::Bullet()
 {
 }
 
-Bullet::Bullet(Plant *plant) : xPos(plant->x()), yPos(plant->y())
+Bullet::Bullet(Plant *plant) : xPos(plant->x()), yPos(plant->y()), speed(3), damage(plant->damage), slow(plant->slow)
 {
-    this->plant = plant;
-    this->setPos(plant->x(),plant->y());
-    bulletPixmap = QPixmap(":/Images/Bullet.png");
-    damage = plant->damage;
-
-    if (plant->slow == 1)
-        slow = 1;
+    this->setPos(plant->pos());
+    bulletPixmap = new QPixmap(":/Images/Bullet.png");
 }
 
 Bullet::~Bullet()
 {
-    delete collisionRect;
-}
-
-void Bullet::destroyBullet()
-{
-    delete this;
+    delete bulletPixmap;
 }
 
 void Bullet::move()
 {
     if (this->x() < 1000)        // Once increment has completely decelerated to 0, stop decelerating.
     {
-        xPos += 3;    // Initial increment gets decelerated from original random amount.
+        xPos += speed;    // Initial increment gets decelerated from original random amount.
         this->setPos(xPos,yPos);
     }
 }
 
 void Bullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    painter->drawPixmap(boundingRect(), bulletPixmap, boundingRect());
+    painter->drawPixmap(boundingRect(), *bulletPixmap, boundingRect());
 }
 
 QRectF Bullet::boundingRect() const
@@ -49,18 +39,17 @@ void Bullet::advance(int phase)
     if (!phase) return;
     move();
 
-    collisionRect = new QGraphicsRectItem(this->x(), this->y(), bulletPixmap.width(), bulletPixmap.height());
-    QList<QGraphicsItem *> list = scene()->collidingItems(collisionRect);
-    for (int i = 0; i < (int)list.size(); i++)
+    QList<QGraphicsItem *> list = scene()->collidingItems(this);
+    for (int i = 0; i < list.size(); i++)
     {
-        Zombie *item = dynamic_cast<Zombie *>(list[i]);
-        if (item)
+        Zombie *zombie = dynamic_cast<Zombie *>(list[i]);
+        if (zombie)
         {
-            item->life -= this->damage;
-            if (slow == 1 && item->slowed == 0)
+            zombie->life -= damage;
+            if (slow == 1 && zombie->slowed == 0)
             {
-                item->speed /= 2;
-                item->slowed++;
+                zombie->speed = zombie->speed/2.0;
+                zombie->slowed++;
             }
             delete this;
         }

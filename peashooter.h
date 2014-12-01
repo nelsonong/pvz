@@ -19,17 +19,18 @@ public:
     PeaShooter();
     PeaShooter(QPoint peaShooterPos);
     ~PeaShooter();
-    QPixmap *peaShooterPixmap;
-    int screenLength;
 
+private:
+    QPixmap *peaShooterPixmap;          // Holds image.
+    int screenLength;                   // Holds graphicsView length.
+    Bullet *bullet;                     // Bullet QGraphicsItem.
+    QTime *bulletTimer;                 // Shoot bullet after certain time.
+    QGraphicsLineItem *collisionLine;   // Monitors when zombie is in the same lane.
+
+    // Virtual QGraphicsItem functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
     QRectF boundingRect() const;
-    QGraphicsLineItem *collisionLine;
     void advance(int phase);
-
-    Bullet *bullet;
-    QTime *createBullet;
-    QTime *zombieAttack;
 };
 
 #endif // PEASHOOTER_H

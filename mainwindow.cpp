@@ -9,11 +9,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    qDebug() << "1";
     // Load players from text file in order of most to least recent.
     Player::loadPlayers();
 
-    qDebug() << "2";
     // Validate player file (unicode/alphanumerical).
     if (Player::validPlayerFile())
     {
@@ -24,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
         }
 
         // Set ui elements for most recent player.
-        ui->nameLabel->setText(Player::playerName(0));
+        ui->nameEdit->setText(Player::playerName(0));
         ui->levelLabel->setText(Player::playerLevel(0));
         ui->comboBox->setCurrentIndex(0);
     }
@@ -34,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
         Player::clearPlayers();
 
         // Set blank ui elements.
-        ui->nameLabel->setText("");
+        ui->nameEdit->setText("");
         ui->levelLabel->setText("");
 
         // Only enable new button.
@@ -97,28 +95,32 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     // Set ui elements for selected player.
-    ui->nameLabel->setText(Player::playerName(index));      // Set name to selected player.
-    ui->levelLabel->setText(Player::playerLevel(index));    // Set level to selected player.
+    ui->nameEdit->setText(Player::playerName(index));      // Set name to selected player.
+    ui->nameEdit->setText(Player::playerLevel(index));     // Set level to selected player.
 }
 
 void MainWindow::on_newButton_clicked()
 {
-    // Add player info.
-    QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");    // Get current date.
-    QString name = QInputDialog::getText(this, "Get Name", "What's your name? ", QLineEdit::Normal, "");
-    QString level = QString::number(1);         // Default: level 1.
-    Player::addPlayer(timestamp, name, level);  // Add player to playerList.
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Get Name", "Confirm new user?", QMessageBox::Ok|QMessageBox::Cancel);
+    if (reply == QMessageBox::Ok) {
+        // Add player info.
+        QString timestamp = QDateTime::currentDateTime().toString("yyyyMMdd");    // Get current date.
+        QString name = ui->nameEdit->text(); //QInputDialog::getText(this, "Get Name", "What's your name? ", QLineEdit::Normal, "");
+        QString level = QString::number(1);         // Default: level 1.
+        Player::addPlayer(timestamp, name, level);  // Add player to playerList.
 
-    // Change ui elements.
-    ui->comboBox->insertItem(0, name);  // Insert new name to beginning of combo box.
-    ui->comboBox->setCurrentIndex(0);   // Set combo box to name.
-    ui->nameLabel->setText(name);       // Set nameLabel to inputted name.
-    ui->levelLabel->setText(level);     // Set levelLabel to level.
+        // Change ui elements.
+        ui->comboBox->insertItem(0, name);  // Insert new name to beginning of combo box.
+        ui->comboBox->setCurrentIndex(0);   // Set combo box to name.
+        ui->nameEdit->setText(name);       // Set nameEdit to inputted name.
+        ui->levelLabel->setText(level);     // Set levelLabel to level.
 
-    // Enable buttons in case they were disabled before.
-    ui->startButton->setEnabled(true);
-    ui->deleteButton->setEnabled(true);
-    ui->restartButton->setEnabled(true);
+        // Enable buttons in case they were disabled before.
+        ui->startButton->setEnabled(true);
+        ui->deleteButton->setEnabled(true);
+        ui->restartButton->setEnabled(true);
+    }
 }
 
 void MainWindow::on_deleteButton_clicked()
@@ -131,12 +133,12 @@ void MainWindow::on_deleteButton_clicked()
     // Set ui elements for selected player.
     if (ui->comboBox->count() > 0)
     {
-        ui->nameLabel->setText(Player::playerName(ui->comboBox->currentIndex()));       // Set name to selected player.
+        ui->nameEdit->setText(Player::playerName(ui->comboBox->currentIndex()));       // Set name to selected player.
         ui->levelLabel->setText(Player::playerLevel(ui->comboBox->currentIndex()));     // Set level to selected player.
     }
     else
     {
-        ui->nameLabel->setText("");   // Delete name if last player.
+        ui->nameEdit->setText("");   // Delete name if last player.
         ui->levelLabel->setText("");  // Delete level if last player.
     }
 }
@@ -150,7 +152,7 @@ void MainWindow::on_startButton_clicked()
     ui->comboBox->removeItem(ui->comboBox->currentIndex()); // Remove selected item.
     ui->comboBox->insertItem(0, Player::playerName(0));     // Insert it back at the top.
     ui->comboBox->setCurrentIndex(0);                       // Set combo box to top.
-    ui->nameLabel->setText(Player::playerName(0));          // Set nameLabel to inputted name.
+    ui->nameEdit->setText(Player::playerName(0));          // Set nameEdit to inputted name.
     ui->levelLabel->setText(Player::playerLevel(0));        // Set levelLabel to level (0 because new player).
 
     // Enable buttons in case they were disabled before.

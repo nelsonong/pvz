@@ -10,7 +10,7 @@
 #include <QStringList>
 #include <QDateTime>
 #include <QDebug>
-#include <QInputDialog>
+#include <QMessageBox>
 #include <QSound>
 #include <QGraphicsScene>
 #include <QTimer>

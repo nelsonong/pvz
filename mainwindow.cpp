@@ -1,14 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-Player playerObject;
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), imageAdded(0)
 {
     ui->setupUi(this);
-
 
     // Set button icons.
     ui->peaShooterButton->setIcon(QIcon(QPixmap(":/Images/Peashooter.png")));
@@ -30,14 +27,24 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->chomperButton->setIconSize(QSize(30,30));
     ui->repeaterButton->setIconSize(QSize(35,30));
 
+    // Set toop-tip messages.
+    ui->peaShooterButton->setToolTip("Pea Shooter, Cost: 100");
+    ui->sunFlowerButton->setToolTip("Sun Flower, Cost: 50");
+    ui->cherryBombButton->setToolTip("Cherry Bomb, Cost: 150");
+    ui->wallNutButton->setToolTip("Wall Nut, Cost: 50");
+    ui->potatoMineButton->setToolTip("Potato Mine, Cost: 25");
+    ui->snowPeaButton->setToolTip("Snow Pea, Cost: 175");
+    ui->chomperButton->setToolTip("Chomper, Cost: 150");
+    ui->repeaterButton->setToolTip("Repeater, Cost: 200");
+
     // Validate player file for unicode and alphanumerical.
+    Player::orderPlayerList();
     if (Player::validPlayerFile())  // If player file is valid, set settings for most recent player.
     {
         for (int i = 0; i < Player::playerListSize(); i++)
         {
-          ui->comboBox->addItem(Player::playerName(i)); // Add existing players to comboBox.
+          ui->comboBox->addItem(Player::playerName(i));     // Add existing players to comboBox.
         }
-
         // Set ui elements for most recent player.
         ui->nameLabel->setText(Player::playerName(0));      // Set name to most recent player.
         ui->levelLabel->setText(Player::playerLevel(0));    // Set level to most recent player.

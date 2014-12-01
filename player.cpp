@@ -1,18 +1,15 @@
 #include "player.h"
 #include <QDebug>
 
+std::vector<QStringList> playerList;
+
 Player::Player()
 {
-    orderPlayerList();
-    //fillPlayerList();
 }
 
-static std::vector<QStringList> playerList;
-
-/*
 void Player::fillPlayerList()
 {
-    QFile save_file(":/CSVs/pvz_players.csv");
+    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1.csv");
     if (save_file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream text(&save_file);
@@ -25,11 +22,10 @@ void Player::fillPlayerList()
         save_file.close();
     }
 }
-*/
 
 void Player::orderPlayerList()
 {
-    QFile save_file(":/CSVs/pvz_players.csv");
+    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1.csv");
     if (save_file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream text(&save_file);
@@ -39,10 +35,8 @@ void Player::orderPlayerList()
             playerList.push_back(text.readLine().split(":")); // Fill playerList with info from pvz_player.csv.
         }
 
-        qDebug() << "before";
         if (playerList.size() > 0)
         {
-            qDebug() << "Greater than 0";
             for (int i = 0; i < playerList.size()-1; i++)
             {
                 QStringList max = playerList.at(i);
@@ -51,7 +45,6 @@ void Player::orderPlayerList()
                 {
                     if (max[0].toInt() < playerList.at(j)[0].toInt())
                     {
-                        qDebug() << max[0];
                         max = playerList.at(j);
                         maxIndex = j;
                     }
@@ -60,11 +53,6 @@ void Player::orderPlayerList()
                 QStringList temp = playerList.at(i);
                 playerList.at(i) = playerList.at(maxIndex);
                 playerList.at(maxIndex) = temp;
-            }
-
-            for(int i=0;i<playerList.size();i++)
-            {
-                qDebug()<<playerList.at(i)[0];
             }
             updatePlayersFile();
         }
@@ -81,10 +69,11 @@ void Player::clearPlayerList()
 bool Player::validPlayerFile()
 {
     if (playerList.empty())
+    {
         return 0;
+    }
 
-    qDebug() << "not empty";
-    for (int player = 0; player < playerList.size(); player++)
+    for (int player = 0; player < playerListSize(); player++)
     {
         for (int nameChar = 0; nameChar < playerName(player).size(); nameChar++)
         {
@@ -109,11 +98,11 @@ bool Player::validPlayerFile()
 
 void Player::addPlayer(QString timestamp, QString name, QString level)
 {
-    QStringList temp_player;
-    temp_player.append(timestamp);
-    temp_player.append(name);
-    temp_player.append(level);
-    playerList.insert(playerList.begin(), temp_player);
+    QStringList player;
+    player.append(timestamp);
+    player.append(name);
+    player.append(level);
+    playerList.insert(playerList.begin(), player);
     updatePlayersFile();
 }
 
@@ -152,13 +141,13 @@ int Player::playerListSize()
 
 void Player::updatePlayersFile()
 {
-    QFile save_file(":/CSVs/pvz_players.csv");
-    if (save_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append | QIODevice::Truncate))
+    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1.csv");
+    if (save_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
     {
         QTextStream text(&save_file);
 
-        // Rewrite pvz_players.csv.
-        for (int i = 0; i < playerList.size(); i++)
+        // Rewrite pvz_players.csv with player sent to bottom.
+        for (int i = 0; i < playerListSize(); i++)
         {
             text << playerDate(i) << ":" << playerName(i) << ":" << playerLevel(i) << "\n";
         }

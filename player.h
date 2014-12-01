@@ -12,7 +12,7 @@ class Player
 {
 public:
     Player();
-    //void fillPlayerList();                  // Fill playerList with text file data.
+    static void fillPlayerList();           // Fill playerList with text file data.
     static void orderPlayerList();          // Order text file from most to least recent and fill playerList.
     static void clearPlayerList();          // Clears text file.
     static bool validPlayerFile();          // Checks whether text file is valid or not.

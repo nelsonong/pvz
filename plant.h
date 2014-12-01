@@ -19,7 +19,7 @@ public:
     int splash;         // Amount of n x n squares to destroy.
     bool slow;          // If true, shoots bullets that slow zombies.
     bool bomb;          // If true, destroys itself when attacking zombie.
-    static int seeding; // Amount of time between seed plant.
+    double seeding;     // Amount of time between seed plant.
     bool sun;           // If true, produces sun.
     bool need;          // Needs another plant to be created.
 

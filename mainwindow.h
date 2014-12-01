@@ -117,7 +117,7 @@ private:
     QTimer *updateTimer;
     QTimer *peaShooterCooldownTimer;
     QTimer *sunFlowerCooldownTimer;
-    QTimer *cherryBombCoolDownTimer;
+    QTimer *cherryBombCooldownTimer;
     QTimer *wallNutCooldownTimer;
     QTimer *potatoMineCooldownTimer;
     QTimer *snowPeaCooldownTimer;

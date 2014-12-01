@@ -216,6 +216,16 @@ void MainWindow::on_startButton_clicked()
         regular = new Regular(gameScreen->grid[9][rand()%5]);
         scene->addItem(regular);
     }
+
+    // Timers to monitor cooldowns of plant buttons.
+    peaShooterCooldownTimer = new QTimer;
+    sunFlowerCooldownTimer = new QTimer;
+    cherryBombCooldownTimer = new QTimer;
+    wallNutCooldownTimer = new QTimer;
+    potatoMineCooldownTimer = new QTimer;
+    snowPeaCooldownTimer = new QTimer;
+    chomperCooldownTimer = new QTimer;
+    repeaterCooldownTimer = new QTimer;
 }
 
 void MainWindow::on_quitButton_clicked()
@@ -231,6 +241,8 @@ MainWindow::~MainWindow()
 void MainWindow::on_peaShooterButton_clicked()
 {
     plantClicked = "peashooter";
+
+    // Make all buttons except pea shooter flat.
     ui->peaShooterButton->setFlat(false);
     ui->sunFlowerButton->setFlat(true);
     ui->cherryBombButton->setFlat(true);
@@ -244,6 +256,8 @@ void MainWindow::on_peaShooterButton_clicked()
 void MainWindow::on_sunFlowerButton_clicked()
 {
     plantClicked = "sunflower";
+
+    // Make all buttons except sunflower flat.
     ui->sunFlowerButton->setFlat(false);
     ui->peaShooterButton->setFlat(true);
     ui->cherryBombButton->setFlat(true);
@@ -257,6 +271,8 @@ void MainWindow::on_sunFlowerButton_clicked()
 void MainWindow::on_cherryBombButton_clicked()
 {
     plantClicked = "cherrybomb";
+
+    // Make all buttons except cherry bomb flat.
     ui->cherryBombButton->setFlat(false);
     ui->peaShooterButton->setFlat(true);
     ui->sunFlowerButton->setFlat(true);
@@ -270,6 +286,8 @@ void MainWindow::on_cherryBombButton_clicked()
 void MainWindow::on_wallNutButton_clicked()
 {
     plantClicked = "wallnut";
+
+    // Make all buttons except wall nut flat.
     ui->wallNutButton->setFlat(false);
     ui->peaShooterButton->setFlat(true);
     ui->sunFlowerButton->setFlat(true);
@@ -283,6 +301,8 @@ void MainWindow::on_wallNutButton_clicked()
 void MainWindow::on_potatoMineButton_clicked()
 {
     plantClicked = "potatomine";
+
+    // Make all buttons except potato mine flat.
     ui->potatoMineButton->setFlat(false);
     ui->peaShooterButton->setFlat(true);
     ui->sunFlowerButton->setFlat(true);
@@ -296,6 +316,8 @@ void MainWindow::on_potatoMineButton_clicked()
 void MainWindow::on_snowPeaButton_clicked()
 {
     plantClicked = "snowpea";
+
+    // Make all buttons except snow pea flat.
     ui->snowPeaButton->setFlat(false);
     ui->peaShooterButton->setFlat(true);
     ui->sunFlowerButton->setFlat(true);
@@ -309,6 +331,8 @@ void MainWindow::on_snowPeaButton_clicked()
 void MainWindow::on_chomperButton_clicked()
 {
     plantClicked = "chomper";
+
+    // Make all buttons except chomper flat.
     ui->chomperButton->setFlat(false);
     ui->peaShooterButton->setFlat(true);
     ui->sunFlowerButton->setFlat(true);
@@ -322,6 +346,8 @@ void MainWindow::on_chomperButton_clicked()
 void MainWindow::on_repeaterButton_clicked()
 {
     plantClicked = "repeater";
+
+    // Make all buttons except repeater flat.
     ui->repeaterButton->setFlat(false);
     ui->peaShooterButton->setFlat(true);
     ui->sunFlowerButton->setFlat(true);
@@ -340,53 +366,78 @@ void MainWindow::createSun()
 
 void MainWindow::updateSunPoints()
 {
+    // If plant has been added to the scene, start cooldown timer and decrement sun points.
     if (plantClicked == "peashooter" && imageAdded)
     {
         sun->sunPoints -= 100;
         plantClicked = "0";
         imageAdded = 0;
+
+        peaShooterCooldownTimer->start(peaShooter->seeding*1000);
+        connect(peaShooterCooldownTimer, SIGNAL(timeout()), peaShooterCooldownTimer, SLOT(stop()));
     }
     else if (plantClicked == "sunflower" && imageAdded)
     {
         sun->sunPoints -= 50;
         plantClicked = "0";
         imageAdded = 0;
+
+        sunFlowerCooldownTimer->start(sunFlower->seeding*1000);
+        connect(sunFlowerCooldownTimer, SIGNAL(timeout()), sunFlowerCooldownTimer, SLOT(stop()));
     }
     else if (plantClicked == "cherrybomb" && imageAdded)
     {
         sun->sunPoints -= 150;
         plantClicked = "0";
         imageAdded = 0;
+
+        cherryBombCooldownTimer->start(cherryBomb->seeding*1000);
+        connect(cherryBombCooldownTimer, SIGNAL(timeout()), cherryBombCooldownTimer, SLOT(stop()));
     }
     else if (plantClicked == "wallnut" && imageAdded)
     {
         sun->sunPoints -= 50;
         plantClicked = "0";
         imageAdded = 0;
+
+        wallNutCooldownTimer->start(wallNut->seeding*1000);
+        connect(wallNutCooldownTimer, SIGNAL(timeout()), wallNutCooldownTimer, SLOT(stop()));
     }
     else if (plantClicked == "potatomine" && imageAdded)
     {
         sun->sunPoints -= 25;
         plantClicked = "0";
         imageAdded = 0;
+
+        potatoMineCooldownTimer->start(potatoMine->seeding*1000);
+        connect(potatoMineCooldownTimer, SIGNAL(timeout()), potatoMineCooldownTimer, SLOT(stop()));
     }
     else if (plantClicked == "snowpea" && imageAdded)
     {
         sun->sunPoints -= 175;
         plantClicked = "0";
         imageAdded = 0;
+
+        snowPeaCooldownTimer->start(snowPea->seeding*1000);
+        connect(snowPeaCooldownTimer, SIGNAL(timeout()), snowPeaCooldownTimer, SLOT(stop()));
     }
     else if (plantClicked == "chomper" && imageAdded)
     {
         sun->sunPoints -= 150;
         plantClicked = "0";
         imageAdded = 0;
+
+        chomperCooldownTimer->start(chomper->seeding*1000);
+        connect(chomperCooldownTimer, SIGNAL(timeout()), chomperCooldownTimer, SLOT(stop()));
     }
     else if (plantClicked == "repeater" && imageAdded)
     {
         sun->sunPoints -= 200;
         plantClicked = "0";
         imageAdded = 0;
+
+        repeaterCooldownTimer->start(repeater->seeding*1000);
+        connect(repeaterCooldownTimer, SIGNAL(timeout()), repeaterCooldownTimer, SLOT(stop()));
     }
 
     ui->sunPointsLabel->setText(QString::number(sun->sunPoints));
@@ -394,45 +445,87 @@ void MainWindow::updateSunPoints()
 
 void MainWindow::updateButtons()
 {
-    if (Sun::sunPoints < 100)
+    // If there aren't enough sun points or if plants are on cooldown, disable buttons.
+    if (Sun::sunPoints < 100 || peaShooterCooldownTimer->isActive())
         ui->peaShooterButton->setEnabled(false);
     else
         ui->peaShooterButton->setEnabled(true);
 
-    if (Sun::sunPoints < 50)
+    if (Sun::sunPoints < 50 || sunFlowerCooldownTimer->isActive())
         ui->sunFlowerButton->setEnabled(false);
     else
         ui->sunFlowerButton->setEnabled(true);
 
-    if (Sun::sunPoints < 150)
+    if (Sun::sunPoints < 150 || cherryBombCooldownTimer->isActive())
         ui->cherryBombButton->setEnabled(false);
     else
         ui->cherryBombButton->setEnabled(true);
 
-    if (Sun::sunPoints < 50)
+    if (Sun::sunPoints < 50 || wallNutCooldownTimer->isActive())
         ui->wallNutButton->setEnabled(false);
     else
         ui->wallNutButton->setEnabled(true);
 
-    if (Sun::sunPoints < 25)
+    if (Sun::sunPoints < 25 || potatoMineCooldownTimer->isActive())
         ui->potatoMineButton->setEnabled(false);
     else
         ui->potatoMineButton->setEnabled(true);
 
-    if (Sun::sunPoints < 175)
+    if (Sun::sunPoints < 175 || snowPeaCooldownTimer->isActive())
         ui->snowPeaButton->setEnabled(false);
     else
         ui->snowPeaButton->setEnabled(true);
 
-    if (Sun::sunPoints < 150)
+    if (Sun::sunPoints < 150 || chomperCooldownTimer->isActive())
         ui->chomperButton->setEnabled(false);
     else
         ui->chomperButton->setEnabled(true);
 
-    if (Sun::sunPoints < 200)
+    if (Sun::sunPoints < 200 || repeaterCooldownTimer->isActive())
         ui->repeaterButton->setEnabled(false);
     else
         ui->repeaterButton->setEnabled(true);
+
+    // While cooldown of buttons are running, set button text to remaining time.
+    if (peaShooterCooldownTimer->isActive())
+        ui->peaShooterButton->setText(QString::number(peaShooterCooldownTimer->remainingTime()/1000));
+    else
+        ui->peaShooterButton->setText("");
+
+    if (sunFlowerCooldownTimer->isActive())
+        ui->sunFlowerButton->setText(QString::number(sunFlowerCooldownTimer->remainingTime()/1000));
+    else
+        ui->sunFlowerButton->setText("");
+
+    if (cherryBombCooldownTimer->isActive())
+        ui->cherryBombButton->setText(QString::number(cherryBombCooldownTimer->remainingTime()/1000));
+    else
+        ui->cherryBombButton->setText("");
+
+    if (wallNutCooldownTimer->isActive())
+        ui->wallNutButton->setText(QString::number(wallNutCooldownTimer->remainingTime()/1000));
+    else
+        ui->wallNutButton->setText("");
+
+    if (potatoMineCooldownTimer->isActive())
+        ui->potatoMineButton->setText(QString::number(potatoMineCooldownTimer->remainingTime()/1000));
+    else
+        ui->potatoMineButton->setText("");
+
+    if (snowPeaCooldownTimer->isActive())
+        ui->snowPeaButton->setText(QString::number(snowPeaCooldownTimer->remainingTime()/1000));
+    else
+        ui->snowPeaButton->setText("");
+
+    if (chomperCooldownTimer->isActive())
+        ui->chomperButton->setText(QString::number(chomperCooldownTimer->remainingTime()/1000));
+    else
+        ui->chomperButton->setText("");
+
+    if (repeaterCooldownTimer->isActive())
+        ui->repeaterButton->setText(QString::number(repeaterCooldownTimer->remainingTime()/1000));
+    else
+        ui->repeaterButton->setText("");
 }
 
 void MainWindow::addImage()

@@ -62,7 +62,7 @@ bool Player::validPlayerFile()
         {
             if (!(playerLevel(player).at(levelChar)).isDigit())
                 return 0;
-            else if (playerLevel(player).toInt() < 0 || playerLevel(player).toInt() > 100)
+            else if (playerLevel(player).toInt() <= 0 || playerLevel(player).toInt() > 100)
                 return 0;
         }
     }
@@ -128,7 +128,8 @@ int Player::playerListSize()
 
 void Player::updatePlayersFile()
 {
-    QFile save_file(":/CSVs/pvz_players.csv");
+    QFile save_file(":/CSVs/pvz_players.csv");  // Program can read from csv from resource file, but can't write.
+                                                // Temporary solution is to use local file not in resources.
     if (save_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
     {
         QTextStream text(&save_file);

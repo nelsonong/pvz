@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-Player playerlist;
+Player playerList;
+Level levelList;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -9,10 +10,20 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    // Load levels from text file.
+    Level::loadLevels();
+
     // Load players from text file in order of most to least recent.
     Player::loadPlayers();
 
-    // Validate player file (unicode/alphanumerical).
+    // Validate level file (if it exists or readable).
+    if (!Level::validLevelFile())
+    {
+        QMessageBox::question(this, "Invalid file", "Invalid level file. Cannot run game.", QMessageBox::Ok);
+        close();
+    }
+
+    // Validate player file (alphanumerical).
     if (Player::validPlayerFile())
     {
         // If playerFile is valid, load most recent players into comboBox and labels.
@@ -22,7 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
         }
 
         // Set ui elements for most recent player.
-        ui->nameEdit->setText(Player::playerName(0));
+        ui->nameEdit->setText("");
         ui->levelLabel->setText(Player::playerLevel(0));
         ui->comboBox->setCurrentIndex(0);
     }
@@ -30,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     {
         // If file is invalid, discard current file.
         Player::clearPlayers();
+        QMessageBox::question(this, "Invalid file", "This is an invalid file. It has been discarded.", QMessageBox::Ok);
 
         // Set blank ui elements.
         ui->nameEdit->setText("");
@@ -95,8 +107,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
     // Set ui elements for selected player.
-    ui->nameEdit->setText(Player::playerName(index));      // Set name to selected player.
-    ui->nameEdit->setText(Player::playerLevel(index));     // Set level to selected player.
+    ui->levelLabel->setText(Player::playerLevel(index));     // Set level to selected player.
 }
 
 void MainWindow::on_newButton_clicked()
@@ -113,7 +124,6 @@ void MainWindow::on_newButton_clicked()
         // Change ui elements.
         ui->comboBox->insertItem(0, name);  // Insert new name to beginning of combo box.
         ui->comboBox->setCurrentIndex(0);   // Set combo box to name.
-        ui->nameEdit->setText(name);       // Set nameEdit to inputted name.
         ui->levelLabel->setText(level);     // Set levelLabel to level.
 
         // Enable buttons in case they were disabled before.
@@ -133,12 +143,10 @@ void MainWindow::on_deleteButton_clicked()
     // Set ui elements for selected player.
     if (ui->comboBox->count() > 0)
     {
-        ui->nameEdit->setText(Player::playerName(ui->comboBox->currentIndex()));       // Set name to selected player.
         ui->levelLabel->setText(Player::playerLevel(ui->comboBox->currentIndex()));     // Set level to selected player.
     }
     else
     {
-        ui->nameEdit->setText("");   // Delete name if last player.
         ui->levelLabel->setText("");  // Delete level if last player.
     }
 }
@@ -152,13 +160,14 @@ void MainWindow::on_startButton_clicked()
     ui->comboBox->removeItem(ui->comboBox->currentIndex()); // Remove selected item.
     ui->comboBox->insertItem(0, Player::playerName(0));     // Insert it back at the top.
     ui->comboBox->setCurrentIndex(0);                       // Set combo box to top.
-    ui->nameEdit->setText(Player::playerName(0));          // Set nameEdit to inputted name.
     ui->levelLabel->setText(Player::playerLevel(0));        // Set levelLabel to level (0 because new player).
 
     // Enable buttons in case they were disabled before.
     ui->startButton->setEnabled(false);
     ui->newButton->setEnabled(false);
     ui->deleteButton->setEnabled(false);
+    ui->restartButton->setEnabled(true);
+    ui->quitButton->setEnabled(true);
 
     // Enable all plant buttons.
     ui->peaShooterButton->setEnabled(true);
@@ -212,10 +221,39 @@ void MainWindow::on_startButton_clicked()
         scene->addItem(lawnMower);
     }
 
-    for (int i = 0; i < 3; i++)
+    // Start zombie creation sequence from levels file.
+    Level::loadLevels();
+    Level::level = Player::playerLevel(ui->comboBox->currentIndex()).toInt();
+    zombieStartTimer = new QTimer;
+    zombieStartTimer->start(((Level::start(Level::level)).toDouble())*1000);
+    connect(zombieStartTimer, SIGNAL(timeout()), this, SLOT(callCreateZombies()));
+
+    // Set brown spots if level 1 or 2.
+    if (Level::level == 1)
     {
-        regular = new Regular(gameScreen->grid[9][rand()%5]);
-        scene->addItem(regular);
+        rect1 = new QGraphicsRectItem(gameScreen->grid[1][0].x(), gameScreen->grid[1][0].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][2].y() - gameScreen->grid[1][0].y());
+        rect1->setBrush(* new QBrush(QColor(205,133,63,100)));
+        rect2 = new QGraphicsRectItem(gameScreen->grid[1][3].x(), gameScreen->grid[1][3].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][2].y() - gameScreen->grid[1][0].y());
+        rect2->setBrush(* new QBrush(QColor(205,133,63,100)));
+        scene->addItem(rect1);
+        scene->addItem(rect2);
+    }
+    else if (Level::level == 2)
+    {
+        rect3 = new QGraphicsRectItem(gameScreen->grid[1][0].x(), gameScreen->grid[1][0].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][1].y() - gameScreen->grid[1][0].y());
+        rect3->setBrush(* new QBrush(QColor(205,133,63,100)));
+        rect4 = new QGraphicsRectItem(gameScreen->grid[1][4].x(), gameScreen->grid[1][4].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][1].y() - gameScreen->grid[1][0].y());
+        rect4->setBrush(* new QBrush(QColor(205,133,63,100)));
+        scene->addItem(rect3);
+        scene->addItem(rect4);
     }
 
     // Timers to monitor cooldowns of plant buttons.
@@ -619,4 +657,45 @@ void MainWindow::addImage()
     ui->snowPeaButton->setFlat(true);
     ui->chomperButton->setFlat(true);
     ui->repeaterButton->setFlat(true);
+}
+
+void MainWindow::createZombies()
+{
+    Level::level = Player::playerLevel(ui->comboBox->currentIndex()).toInt();   // User's level.
+
+    if (zombieSpawnTimer->interval() == 0)
+        zombieSpawnTimer->stop();
+    else
+    {
+        zombieSpawnTimer->setInterval(zombieSpawnTimer->interval() - Level::decrement(Level::level).toDouble()*1000); // Decrements interval.
+    }
+
+    if (Level::sequencePosition < Level::sequenceSize(Level::level))
+    {
+        Level::sequencePosition;
+        Level::zombieType = Level::sequence(Level::level).at(Level::sequencePosition).toInt(); // Returns type of zombie.
+        Level::sequencePosition++;
+
+        if (Level::zombieType == 1)
+        {
+            regular = new Regular(gameScreen->grid[10][Level::rows(Level::level)]);
+            scene->addItem(regular);
+        }
+        else if (Level::zombieType == 2)
+        {
+            flag = new Flag(gameScreen->grid[10][Level::rows(Level::level)]);
+            scene->addItem(flag);
+        }
+    }
+}
+
+void MainWindow::callCreateZombies()
+{
+    zombieStartTimer->stop();
+
+    Level::level = Player::playerLevel(ui->comboBox->currentIndex()).toInt();
+    zombieSpawnTimer = new QTimer;
+    zombieSpawnTimer->start((Level::interval(Level::level).toDouble())*1000);
+
+    connect(zombieSpawnTimer, SIGNAL(timeout()), this, SLOT(createZombies()));
 }

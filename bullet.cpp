@@ -52,6 +52,7 @@ void Bullet::advance(int phase)
                 zombie->slowed++;
             }
             delete this;
+            return;
         }
     }
 }

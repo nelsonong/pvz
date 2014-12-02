@@ -12,6 +12,7 @@
 #include "plant.h"
 #include "peashooter.h"
 #include "lawnmower.h"
+#include "level.h"
 
 class GameScreen : public QGraphicsView
 {

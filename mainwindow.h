@@ -17,6 +17,7 @@
 #include <QGraphicsPixmapItem>
 
 #include "player.h"
+#include "level.h"
 #include "gamescreen.h"
 #include "sun.h"
 #include "peashooter.h"
@@ -84,6 +85,10 @@ private slots:
 
     void addImage();            // Add plants.
 
+    void callCreateZombies();   // Calls zombie create function (creates zombie at specified interval).
+
+    void createZombies();       // Creates zombies whenever called.
+
 private:
     // UI objects.
     Ui::MainWindow *ui;
@@ -123,11 +128,19 @@ private:
     QTimer *snowPeaCooldownTimer;
     QTimer *chomperCooldownTimer;
     QTimer *repeaterCooldownTimer;
+    QTimer *zombieStartTimer;
+    QTimer *zombieSpawnTimer;
 
     // Boolean checkers.
     QString plantClicked;
     bool buttonClicked;
     bool imageAdded;
+
+    // Brown rectangles.
+    QGraphicsRectItem *rect1;
+    QGraphicsRectItem *rect2;
+    QGraphicsRectItem *rect3;
+    QGraphicsRectItem *rect4;
 };
 
 #endif // MAINWINDOW_H

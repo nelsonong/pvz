@@ -19,6 +19,7 @@
         <file>Bullet.png</file>
         <file>Regular.png</file>
         <file>Lawnmower.png</file>
+        <file>Attacking.png</file>
     </qresource>
     <qresource prefix="/CSVs">
         <file>pvz_levels.csv</file>

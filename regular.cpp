@@ -10,7 +10,8 @@ Regular::Regular(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
     life = 10;
     attack = 1;
     rate = 0.5;
-    speed = 1.0;
+    speed = 0.8;
+    //slowed = 0;
 
     this->setPos(xPos, yPos);
     regularPixmap = new QPixmap(":/Images/Regular.png");

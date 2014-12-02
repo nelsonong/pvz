@@ -62,6 +62,12 @@ void GameScreen::mousePressEvent(QMouseEvent *e)
 {
     QGraphicsView::mousePressEvent(e);
     getGridPoint(e);
+
+    // If level 1 or 2, don't activate addImage.
+    if (Level::level == 1 && (e->y() < grid[1][2].y() || e->y() > grid[1][3].y()))
+        return;
+    if (Level::level == 2 && (e->y() < grid[1][1].y() || e->y() > grid[1][4].y()))
+        return;
     click();
 }
 

@@ -1,4 +1,5 @@
 #include "conehead.h"
+#include <QColor>
 
 Conehead::Conehead()
 {
@@ -39,6 +40,7 @@ void Conehead::move()
             Plant *plant = dynamic_cast<Plant *>(list[i]);
             if (plant)
             {
+                coneheadPixmap->fill(QColor(255,0,0,200));
                 if (attackTimer->elapsed() >= rate*1000)
                 {
                     plant->life -= attack;

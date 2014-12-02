@@ -25,6 +25,7 @@ private:
     double xPos;                   // Holds x-position.
     double yPos;                   // Holds y-position.
     void move();                // Moves zombie until collision with plants.
+    bool attacked;
 
     // Virtual derived functions.
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);

@@ -8,7 +8,7 @@ Player::Player()
 
 void Player::loadPlayers()
 {
-    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1.csv");
+    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1 (1).csv");
     if (save_file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         QTextStream text(&save_file);
@@ -45,17 +45,15 @@ void Player::clearPlayers()
 bool Player::validPlayerFile()
 {
     if (playerList.empty())
-    {
         return 0;
-    }
 
     for (int player = 0; player < playerListSize(); player++)
     {
         for (int nameChar = 0; nameChar < playerName(player).size(); nameChar++)
         {
-            if (!playerName(player).at(nameChar).isLetterOrNumber())
+            /*if (!playerName(player).at(nameChar).isLetterOrNumber())
                 return 0;
-            else if (playerName(player).size() > 10)
+            else */if (playerName(player).size() > 10)
                 return 0;
         }
     }
@@ -131,7 +129,7 @@ int Player::playerListSize()
 
 void Player::updatePlayersFile()
 {
-    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1.csv");
+    QFile save_file("C:/Users/Nelson/Downloads/pvz_players-test-2c1 (1).csv");
     if (save_file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
     {
         QTextStream text(&save_file);

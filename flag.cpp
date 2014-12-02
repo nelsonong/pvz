@@ -9,7 +9,7 @@ Flag::Flag(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
     life = 10;
     attack = 1;
     rate = 0.5;
-    speed = 0.3;
+    speed = 1.0;
     slowed = 0;
 
     this->setPos(startPos);

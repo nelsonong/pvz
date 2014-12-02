@@ -9,7 +9,7 @@ Buckethead::Buckethead(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
     life = 65;
     attack = 1;
     rate = 0.5;
-    speed = 0.3;
+    speed = 0.8;
     slowed = 0;
 
     this->setPos(startPos);
@@ -81,5 +81,8 @@ void Buckethead::advance(int phase)
 
     // When life goes to 0, zombie dies.
     if (life <= 0)
+    {
+        Zombie::zombiesKilled++;
         delete this;
+    }
 }

@@ -73,5 +73,8 @@ void Regular::advance(int phase)
 
     // When life gets to 0, zombie dies.
     if (life <= 0)
+    {
+        Zombie::zombiesKilled++;
         delete this;
+    }
 }

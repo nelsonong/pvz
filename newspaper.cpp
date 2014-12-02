@@ -9,7 +9,7 @@ Newspaper::Newspaper(QPoint startPos) : xPos(startPos.x()), yPos(startPos.y())
     this->life = 16;
     this->attack = 1;
     this->rate = 0.5;
-    this->speed = 0.3;
+    this->speed = 0.8;
     this->slowed = 0;
 
     this->setPos(startPos);
@@ -82,5 +82,8 @@ void Newspaper::advance(int phase)
 
     // When life gets to 0, zombie dies.
     if (life <= 0)
+    {
+        Zombie::zombiesKilled++;
         delete this;
+    }
 }

@@ -18,6 +18,7 @@ public:
     double speed;               // Speed, subjective to advanceTimer.
     bool slowed;                // If slowed, speed /= 2.
     static bool brainsEaten;    // If true, end game.
+    static int zombiesKilled;   // If == size of sequence, game won.
     QTime *attackTimer;         // Attack plants at specified interval.
 
     // Virtual QGraphicsItem functions.

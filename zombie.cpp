@@ -1,6 +1,7 @@
 #include "zombie.h"
 
 bool Zombie::brainsEaten = false;
+int Zombie::zombiesKilled = 0;
 
 Zombie::Zombie()
 {

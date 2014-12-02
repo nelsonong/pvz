@@ -74,5 +74,8 @@ void Flag::advance(int phase)
 
     // If life gets to 0, zombie dies.
     if (life <= 0)
+    {
+        Zombie::zombiesKilled++;
         delete this;
+    }
 }

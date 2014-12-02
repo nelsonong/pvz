@@ -153,7 +153,7 @@ void MainWindow::on_deleteButton_clicked()
 
 void MainWindow::on_startButton_clicked()
 {
-    Player::makePlayerMostRecent(ui->comboBox->currentIndex());   // Move selected player in pvz_players.csv to the top (most recent).
+    Player::makePlayerMostRecent(ui->comboBox->currentIndex(), QDateTime::currentDateTime().toString("yyyyMMdd"));   // Move selected player in pvz_players.csv to the top (most recent).
 
     // Set ui elements to selected player.
     ui->comboBox->blockSignals(true);
@@ -228,33 +228,7 @@ void MainWindow::on_startButton_clicked()
     zombieStartTimer->start(((Level::start(Level::level)).toDouble())*1000);
     connect(zombieStartTimer, SIGNAL(timeout()), this, SLOT(callCreateZombies()));
 
-    // Set brown spots if level 1 or 2.
-    if (Level::level == 1)
-    {
-        rect1 = new QGraphicsRectItem(gameScreen->grid[1][0].x(), gameScreen->grid[1][0].y(),
-                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
-                gameScreen->grid[1][2].y() - gameScreen->grid[1][0].y());
-        rect1->setBrush(* new QBrush(QColor(205,133,63,100)));
-        rect2 = new QGraphicsRectItem(gameScreen->grid[1][3].x(), gameScreen->grid[1][3].y(),
-                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
-                gameScreen->grid[1][2].y() - gameScreen->grid[1][0].y());
-        rect2->setBrush(* new QBrush(QColor(205,133,63,100)));
-        scene->addItem(rect1);
-        scene->addItem(rect2);
-    }
-    else if (Level::level == 2)
-    {
-        rect3 = new QGraphicsRectItem(gameScreen->grid[1][0].x(), gameScreen->grid[1][0].y(),
-                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
-                gameScreen->grid[1][1].y() - gameScreen->grid[1][0].y());
-        rect3->setBrush(* new QBrush(QColor(205,133,63,100)));
-        rect4 = new QGraphicsRectItem(gameScreen->grid[1][4].x(), gameScreen->grid[1][4].y(),
-                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
-                gameScreen->grid[1][1].y() - gameScreen->grid[1][0].y());
-        rect4->setBrush(* new QBrush(QColor(205,133,63,100)));
-        scene->addItem(rect3);
-        scene->addItem(rect4);
-    }
+    addRectsToScene();
 
     // Timers to monitor cooldowns of plant buttons.
     peaShooterCooldownTimer = new QTimer;
@@ -297,6 +271,19 @@ void MainWindow::on_quitButton_clicked()
 
 MainWindow::~MainWindow()
 {
+    delete scene;
+    delete gameScreen;
+    delete advanceTimer;
+    delete createSunTimer;
+    delete updateTimer;
+    delete peaShooterCooldownTimer;
+    delete sunFlowerCooldownTimer;
+    delete cherryBombCooldownTimer;
+    delete wallNutCooldownTimer;
+    delete potatoMineCooldownTimer;
+    delete snowPeaCooldownTimer;
+    delete chomperCooldownTimer;
+    delete repeaterCooldownTimer;
     delete ui;
 }
 
@@ -502,6 +489,51 @@ void MainWindow::updateSunPoints()
         connect(repeaterCooldownTimer, SIGNAL(timeout()), repeaterCooldownTimer, SLOT(stop()));
     }
 
+    // If your brains have been eaten, you can try again.
+    if (Zombie::brainsEaten == 1)
+    {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Lose", "You have lost, want to play again?", QMessageBox::Ok|QMessageBox::Cancel);
+        if (reply == QMessageBox::Ok)
+        {
+            deletePointers();
+            Zombie::zombiesKilled = 0;
+            Level::sequencePosition = 0;
+            Sun::sunPoints = 0;
+            on_startButton_clicked();
+        }
+        else
+        {
+            deletePointers();
+            Zombie::zombiesKilled = 0;
+            Level::sequencePosition = 0;
+            Sun::sunPoints = 0;
+
+            // Enable buttons in case they were disabled before.
+            ui->newButton->setEnabled(true);
+            ui->deleteButton->setEnabled(true);
+            ui->startButton->setEnabled(true);
+            ui->restartButton->setEnabled(false);
+            ui->quitButton->setEnabled(false);
+        }
+    }
+
+    // If you've killed all zombies, move on to next level.
+    if (Zombie::zombiesKilled == Level::sequenceSize(Level::level))
+    {
+        QMessageBox::question(this, "Win", "Congratulations on passing this level! Get ready for the next one.", QMessageBox::Ok);
+
+        deletePointers();
+
+        Zombie::zombiesKilled = 0;
+        Level::level++;
+        Level::sequencePosition = 0;
+        Sun::sunPoints = 0;
+        ui->levelLabel->setText(QString::number(Level::level));
+        Player::updateLevel(QString::number(Level::level));
+        on_startButton_clicked();
+    }
+
     ui->sunPointsLabel->setText(QString::number(sun->sunPoints));
 }
 
@@ -686,7 +718,72 @@ void MainWindow::createZombies()
             flag = new Flag(gameScreen->grid[10][Level::rows(Level::level)]);
             scene->addItem(flag);
         }
+        else if (Level::zombieType == 3)
+        {
+            conehead = new Conehead(gameScreen->grid[10][Level::rows(Level::level)]);
+            scene->addItem(conehead);
+        }
+        else if (Level::zombieType == 4)
+        {
+            buckethead = new Buckethead(gameScreen->grid[10][Level::rows(Level::level)]);
+            scene->addItem(buckethead);
+        }
+        else if (Level::zombieType == 5)
+        {
+            newspaper = new Newspaper(gameScreen->grid[10][Level::rows(Level::level)]);
+            scene->addItem(newspaper);
+        }
     }
+}
+
+void MainWindow::addRectsToScene()
+{
+    // Set brown spots if level 1 or 2.
+    if (Level::level == 1)
+    {
+        rect1 = new QGraphicsRectItem(gameScreen->grid[1][0].x(), gameScreen->grid[1][0].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][2].y() - gameScreen->grid[1][0].y());
+        rect1->setBrush(* new QBrush(QColor(205,133,63,100)));
+        rect2 = new QGraphicsRectItem(gameScreen->grid[1][3].x(), gameScreen->grid[1][3].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][2].y() - gameScreen->grid[1][0].y());
+        rect2->setBrush(* new QBrush(QColor(205,133,63,100)));
+        scene->addItem(rect1);
+        scene->addItem(rect2);
+    }
+    else if (Level::level == 2)
+    {
+        rect3 = new QGraphicsRectItem(gameScreen->grid[1][0].x(), gameScreen->grid[1][0].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][1].y() - gameScreen->grid[1][0].y());
+        rect3->setBrush(* new QBrush(QColor(205,133,63,100)));
+        rect4 = new QGraphicsRectItem(gameScreen->grid[1][4].x(), gameScreen->grid[1][4].y(),
+                gameScreen->grid[10][0].x() - gameScreen->grid[1][0].x(),
+                gameScreen->grid[1][1].y() - gameScreen->grid[1][0].y());
+        rect4->setBrush(* new QBrush(QColor(205,133,63,100)));
+        scene->addItem(rect3);
+        scene->addItem(rect4);
+    }
+}
+
+void MainWindow::deletePointers()
+{
+    delete scene;
+    delete gameScreen;
+    delete advanceTimer;
+    delete createSunTimer;
+    delete updateTimer;
+    delete peaShooterCooldownTimer;
+    delete sunFlowerCooldownTimer;
+    delete cherryBombCooldownTimer;
+    delete wallNutCooldownTimer;
+    delete potatoMineCooldownTimer;
+    delete snowPeaCooldownTimer;
+    delete chomperCooldownTimer;
+    delete repeaterCooldownTimer;
+    delete zombieSpawnTimer;
+    delete zombieStartTimer;
 }
 
 void MainWindow::callCreateZombies()

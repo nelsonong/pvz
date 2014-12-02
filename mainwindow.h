@@ -108,7 +108,7 @@ private:
     // Zombie objects.
     Regular *regular;
     Flag *flag;
-    Conehead *conhead;
+    Conehead *conehead;
     Buckethead *buckethead;
     Newspaper *newspaper;
 
@@ -141,6 +141,9 @@ private:
     QGraphicsRectItem *rect2;
     QGraphicsRectItem *rect3;
     QGraphicsRectItem *rect4;
+    void addRectsToScene();
+
+    void deletePointers();
 };
 
 #endif // MAINWINDOW_H

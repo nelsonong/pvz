@@ -41,6 +41,7 @@ void LawnMower::advance(int phase)
         if (item)
         {
             zombieCollide++;    // Zombie collides with lawn mower.
+            Zombie::zombiesKilled++;
             delete item;
         }
     }

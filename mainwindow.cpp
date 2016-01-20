@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-Player playerList;
-Level levelList;
+//Player playerList;
+//Level levelList;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),

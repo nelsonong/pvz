@@ -19,23 +19,24 @@
 #include "player.h"
 #include "level.h"
 #include "gamescreen.h"
-#include "sun.h"
-#include "peashooter.h"
-#include "sunflower.h"
-#include "cherrybomb.h"
-#include "wallnut.h"
-#include "potatomine.h"
-#include "snowpea.h"
-#include "chomper.h"
-#include "repeater.h"
 
-#include "regular.h"
-#include "flag.h"
-#include "conehead.h"
-#include "buckethead.h"
-#include "newspaper.h"
+#include "npc/plants/peashooter.h"
+#include "npc/plants/sunflower.h"
+#include "npc/plants/cherrybomb.h"
+#include "npc/plants/wallnut.h"
+#include "npc/plants/potatomine.h"
+#include "npc/plants/snowpea.h"
+#include "npc/plants/chomper.h"
+#include "npc/plants/repeater.h"
 
-#include "lawnmower.h"
+#include "npc/zombies/regular.h"
+#include "npc/zombies/flag.h"
+#include "npc/zombies/conehead.h"
+#include "npc/zombies/buckethead.h"
+#include "npc/zombies/newspaper.h"
+
+#include "npc/misc/sun.h"
+#include "npc/misc/lawnmower.h"
 
 namespace Ui {
 class MainWindow;
@@ -112,7 +113,7 @@ private:
     Buckethead *buckethead;
     Newspaper *newspaper;
 
-    // Micaellanious objects.
+    // Miscellaneous objects.
     Sun *sun;
     LawnMower *lawnMower;
 

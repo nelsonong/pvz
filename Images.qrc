@@ -1,4 +1,4 @@
 <RCC>
-    <qresource prefix="/Images"/>
-    <qresource prefix="/Music"/>
+    <qresource prefix="/images"/>
+    <qresource prefix="/music"/>
 </RCC>

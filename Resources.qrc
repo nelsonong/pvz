@@ -1,6 +1,6 @@
 <RCC>
-    <qresource prefix="/Music"/>
-    <qresource prefix="/Images">
+    <qresource prefix="/music"/>
+    <qresource prefix="/images">
         <file>Cherrybomb.png</file>
         <file>Chomper.png</file>
         <file>Peashooter.png</file>
@@ -21,7 +21,7 @@
         <file>Lawnmower.png</file>
         <file>Attacking.png</file>
     </qresource>
-    <qresource prefix="/CSVs">
+    <qresource prefix="/userdata">
         <file>pvz_levels.csv</file>
         <file>pvz_players.csv</file>
     </qresource>
